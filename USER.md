@@ -1,0 +1,17 @@
+# USER.md - About Your Human
+
+_Learn about the person you're helping. Update this as you go._
+
+- **Name:**
+- **What to call them:**
+- **Pronouns:** _(optional)_
+- **Timezone:**
+- **Notes:** Prefer to use only OpenAI models for all tasks (set on 2026-03-09). Prefer communication in Slovak (reconfirmed on 2026-03-15).
+
+## Context
+
+_(What do they care about? What projects are they working on? What annoys them? What makes them laugh? Build this over time.)_
+
+---
+
+The more you know, the better you can help. But remember — you're learning about a person, not building a dossier. Respect the difference.
