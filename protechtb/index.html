@@ -46,7 +46,9 @@
     .drawer a{display:block;padding:12px 10px;border-radius:12px;color:var(--text);text-decoration:none;border:1px solid transparent;margin-bottom:8px}
     .drawer a:hover,.drawer a.active{border-color:var(--line);background:rgba(255,255,255,.03)}
 
-    .view{display:none;padding:58px 0}.view.active{display:block}
+    .view{display:block;padding:58px 0}
+    body.js .view{display:none}
+    body.js .view.active{display:block}
     .tag{display:inline-block;border:1px solid rgba(217,182,108,.35);border-radius:999px;padding:6px 12px;color:var(--gold);background:rgba(217,182,108,.09);font-size:.82rem;letter-spacing:.04em}
     h1{margin:16px 0 14px;line-height:1.06;font-size:clamp(2rem,5vw,3.7rem);letter-spacing:-.02em;max-width:960px}
     h2{margin:0 0 10px;font-size:clamp(1.45rem,2.8vw,2.3rem);letter-spacing:-.01em}
@@ -115,99 +117,99 @@
 
   <main class="container">
     <section class="view" id="view-home">
-      <div class="tag" data-i18n="tag"></div>
-      <h1 data-i18n="heroTitle"></h1>
-      <p class="lead" data-i18n="heroLead"></p>
+      <div class="tag" data-i18n="tag">LUXURY DARK • SMART IT SYSTEMS</div>
+      <h1 data-i18n="heroTitle">Navrhujeme a dodávame IT systémy, ktoré fungujú dlhodobo.</h1>
+      <p class="lead" data-i18n="heroLead">Sme partner pre výkon, automatizáciu a stabilitu: PC, Home Assistant, NAS a dlhodobá IT starostlivosť.</p>
       <div class="cta">
-        <a class="btn primary" href="#services" data-i18n="ctaServices"></a>
-        <a class="btn" href="#gallery" data-i18n="ctaGallery"></a>
+        <a class="btn primary" href="#services" data-i18n="ctaServices">Naše služby</a>
+        <a class="btn" href="#gallery" data-i18n="ctaGallery">Prejsť do galérie</a>
       </div>
     </section>
 
     <section class="view" id="view-services">
-      <h2 data-i18n="servicesTitle"></h2>
-      <p class="sub" data-i18n="servicesLead"></p>
+      <h2 data-i18n="servicesTitle">Podpisové služby</h2>
+      <p class="sub" data-i18n="servicesLead">Ponúkame jasný model: čo klient potrebuje → čo navrhneme → aký výsledok doručíme.</p>
       <div class="grid2">
-        <article class="card"><h3>PC Build & Performance</h3><p data-i18n="svc1p"></p><div class="meta" data-i18n="svc1m"></div></article>
-        <article class="card"><h3>Home Assistant & Smart Home</h3><p data-i18n="svc2p"></p><div class="meta" data-i18n="svc2m"></div></article>
-        <article class="card"><h3>NAS & Backup Reliability</h3><p data-i18n="svc3p"></p><div class="meta" data-i18n="svc3m"></div></article>
-        <article class="card"><h3>IT Care & Integrations</h3><p data-i18n="svc4p"></p><div class="meta" data-i18n="svc4m"></div></article>
+        <article class="card"><h3>PC Build & Performance</h3><p data-i18n="svc1p">Navrhujeme, skladáme a optimalizujeme PC/workstation pre office, gaming aj creator workflow.</p><div class="meta" data-i18n="svc1m">Výsledok: tichý, stabilný a výkonný systém s plánom ďalších upgradov.</div></article>
+        <article class="card"><h3>Home Assistant & Smart Home</h3><p data-i18n="svc2p">Implementujeme Home Assistant, integrácie a automatizácie pre komfort a kontrolu domácnosti.</p><div class="meta" data-i18n="svc2m">Výsledok: všetko dôležité v jednom dashboarde a menej manuálnych úkonov.</div></article>
+        <article class="card"><h3>NAS & Backup Reliability</h3><p data-i18n="svc3p">Navrhujeme NAS architektúru, 3-2-1 zálohy, monitoring a test obnovy dát.</p><div class="meta" data-i18n="svc3m">Výsledok: bezpečné dáta a jasný recovery postup.</div></article>
+        <article class="card"><h3>IT Care & Integrations</h3><p data-i18n="svc4p">Zabezpečujeme priebežnú správu, diagnostiku a optimalizáciu celého IT prostredia.</p><div class="meta" data-i18n="svc4m">Výsledok: menej výpadkov, viac predvídateľnosti.</div></article>
       </div>
     </section>
 
     <section class="view" id="view-gallery">
-      <h2 data-i18n="galleryTitle"></h2>
-      <p class="sub" data-i18n="galleryLead"></p>
+      <h2 data-i18n="galleryTitle">Interaktívna galéria realizácií</h2>
+      <p class="sub" data-i18n="galleryLead">Každú realizáciu viete rozkliknúť a pozrieť detail: cieľ klienta, návrh, dopad a ďalší postup.</p>
 
       <div class="gallery-grid">
         <details class="project" open>
-          <summary><span data-i18n="p1title"></span><span>▾</span></summary>
+          <summary><span data-i18n="p1title">Realizácia A — Performance Office Setup</span><span>▾</span></summary>
           <div class="project-body">
-            <p class="sub" data-i18n="p1sub"></p>
+            <p class="sub" data-i18n="p1sub">Modernizácia pracovných staníc pre menší tím.</p>
             <div class="pics">
               <img src="https://images.pexels.com/photos/704730/pexels-photo-704730.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="PC build" />
               <img src="https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Workstation" />
               <img src="https://images.pexels.com/photos/1779487/pexels-photo-1779487.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Cable management" />
             </div>
             <div class="triplet">
-              <div class="mini"><b data-i18n="want"></b><span data-i18n="p1want"></span></div>
-              <div class="mini"><b data-i18n="solution"></b><span data-i18n="p1solution"></span></div>
-              <div class="mini"><b data-i18n="impact"></b><span data-i18n="p1impact"></span></div>
+              <div class="mini"><b data-i18n="want">Klient chcel</b><span data-i18n="p1want">zrýchliť workflow, odstrániť sekanie pri multitaskingu, znížiť hluk.</span></div>
+              <div class="mini"><b data-i18n="solution">Navrhli sme</b><span data-i18n="p1solution">nové workstation buildy, airflow tuning, SSD migrácia, stabilitné testy.</span></div>
+              <div class="mini"><b data-i18n="impact">Zlepšenie</b><span data-i18n="p1impact">+42% rýchlosť exportov, nižšia hlučnosť, plynulý multitasking.</span></div>
             </div>
-            <div class="next-step" data-i18n="p1next"></div>
+            <div class="next-step" data-i18n="p1next">Ďalší podpis: kvartálny performance health-check + preventívny servis.</div>
           </div>
         </details>
 
         <details class="project">
-          <summary><span data-i18n="p2title"></span><span>▾</span></summary>
+          <summary><span data-i18n="p2title">Realizácia B — Home Assistant Smart Home</span><span>▾</span></summary>
           <div class="project-body">
-            <p class="sub" data-i18n="p2sub"></p>
+            <p class="sub" data-i18n="p2sub">Centralizácia smart domácnosti do jedného systému.</p>
             <div class="pics">
               <img src="https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=1200&q=80" alt="Home Assistant dashboard" />
               <img src="https://images.pexels.com/photos/442576/pexels-photo-442576.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Smart home sensors" />
               <img src="https://images.pexels.com/photos/356036/pexels-photo-356036.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Automation setup" />
             </div>
             <div class="triplet">
-              <div class="mini"><b data-i18n="want"></b><span data-i18n="p2want"></span></div>
-              <div class="mini"><b data-i18n="solution"></b><span data-i18n="p2solution"></span></div>
-              <div class="mini"><b data-i18n="impact"></b><span data-i18n="p2impact"></span></div>
+              <div class="mini"><b data-i18n="want">Klient chcel</b><span data-i18n="p2want">ovládať všetko z jednej appky a mať spoľahlivé automatizácie.</span></div>
+              <div class="mini"><b data-i18n="solution">Navrhli sme</b><span data-i18n="p2solution">Home Assistant core, dashboardy podľa zón, automatizácie scén a alerty.</span></div>
+              <div class="mini"><b data-i18n="impact">Zlepšenie</b><span data-i18n="p2impact">menej ručného ovládania, vyšší komfort a rýchla diagnostika problémov.</span></div>
             </div>
-            <div class="next-step" data-i18n="p2next"></div>
+            <div class="next-step" data-i18n="p2next">Ďalší podpis: mesačný update automatizácií + rozšírenie nových zariadení.</div>
           </div>
         </details>
 
         <details class="project">
-          <summary><span data-i18n="p3title"></span><span>▾</span></summary>
+          <summary><span data-i18n="p3title">Realizácia C — NAS &amp; Data Protection</span><span>▾</span></summary>
           <div class="project-body">
-            <p class="sub" data-i18n="p3sub"></p>
+            <p class="sub" data-i18n="p3sub">Bezpečné ukladanie a zálohovanie pre domácnosť a malý biznis.</p>
             <div class="pics">
               <img src="https://images.pexels.com/photos/325229/pexels-photo-325229.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Server rack" />
               <img src="https://images.unsplash.com/photo-1597852074816-d933c7d2b988?auto=format&fit=crop&w=1200&q=80" alt="NAS" />
               <img src="https://images.pexels.com/photos/270404/pexels-photo-270404.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Datacenter" />
             </div>
             <div class="triplet">
-              <div class="mini"><b data-i18n="want"></b><span data-i18n="p3want"></span></div>
-              <div class="mini"><b data-i18n="solution"></b><span data-i18n="p3solution"></span></div>
-              <div class="mini"><b data-i18n="impact"></b><span data-i18n="p3impact"></span></div>
+              <div class="mini"><b data-i18n="want">Klient chcel</b><span data-i18n="p3want">ochrániť dáta pred stratou a mať jednoduchú obnovu.</span></div>
+              <div class="mini"><b data-i18n="solution">Navrhli sme</b><span data-i18n="p3solution">NAS setup, 3-2-1 backup, offsite sync, pravidelný recovery test.</span></div>
+              <div class="mini"><b data-i18n="impact">Zlepšenie</b><span data-i18n="p3impact">výrazne nižšie riziko straty dát, pripravený postup obnovy.</span></div>
             </div>
-            <div class="next-step" data-i18n="p3next"></div>
+            <div class="next-step" data-i18n="p3next">Ďalší podpis: monitoring + pravidelný audit backup politiky.</div>
           </div>
         </details>
       </div>
     </section>
 
     <section class="view" id="view-cases">
-      <h2 data-i18n="casesTitle"></h2>
+      <h2 data-i18n="casesTitle">Vybrané úspešné realizácie</h2>
       <div class="case-list">
-        <article class="case"><b data-i18n="c1t"></b><p data-i18n="c1"></p></article>
-        <article class="case"><b data-i18n="c2t"></b><p data-i18n="c2"></p></article>
-        <article class="case"><b data-i18n="c3t"></b><p data-i18n="c3"></p></article>
+        <article class="case"><b data-i18n="c1t">Case #01 — Smart Home centralizácia</b><p data-i18n="c1">14 zariadení v 5 appkách sme zjednotili do jedného dashboardu a 11 stabilných automatizácií.</p></article>
+        <article class="case"><b data-i18n="c2t">Case #02 — NAS bezpečnosť</b><p data-i18n="c2">Nasadili sme 3-2-1 architektúru a recovery testy; klient má dnes plne riadené zálohy.</p></article>
+        <article class="case"><b data-i18n="c3t">Case #03 — Office performance</b><p data-i18n="c3">Po hardvérovom a systémovom tuningu tím pracuje rýchlejšie a s nižším počtom výpadkov.</p></article>
       </div>
     </section>
 
     <section class="view" id="view-contact">
-      <h2 data-i18n="contactTitle"></h2>
-      <p class="sub" data-i18n="contactLead"></p>
+      <h2 data-i18n="contactTitle">Kontakt</h2>
+      <p class="sub" data-i18n="contactLead">Kontaktné údaje doplníme po finalizácii brandingu. Systém je pripravený na nasadenie.</p>
     </section>
   </main>
 
@@ -216,6 +218,7 @@
   </footer>
 
   <script>
+    document.body.classList.add('js');
     const i18n = {
       sk: {
         menu:['Hlavná stránka','Služby','Galéria','Realizácie','Kontakt'],
