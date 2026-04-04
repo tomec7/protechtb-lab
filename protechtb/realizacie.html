@@ -4,78 +4,105 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>protechtb — Realizácie</title>
-  <link rel="stylesheet" href="assets/site.css" />
+  <link rel="stylesheet" href="assets/pro.css" />
 </head>
 <body>
-  <div id="sk"></div><div id="en"></div>
-  <input id="menu-toggle" type="checkbox" />
-  <aside class="drawer">
-    <div class="close-row"><label class="close" for="menu-toggle">✕</label></div>
-    <h4 data-lang="sk">Menu</h4><h4 data-lang="en">Menu</h4>
-    <a href="index.html" data-lang="sk">Hlavná stránka</a><a href="index.html" data-lang="en">Home</a>
-    <a href="gallery.html" data-lang="sk">Galéria</a><a href="gallery.html" data-lang="en">Gallery</a>
-    <a href="realizacie.html" data-lang="sk">Realizácie</a><a href="realizacie.html" data-lang="en">Case Studies</a>
-  </aside>
-  <label class="overlay" for="menu-toggle"></label>
-
-  <header>
-    <div class="container nav">
-      <div class="nav-left">
-        <label class="burger" for="menu-toggle" aria-label="menu"><i></i></label>
-        <div class="brand">pro<span>techtb</span></div>
-      </div>
-      <div class="lang"><a id="skBtn" href="#sk">SK</a><a id="enBtn" href="#en">EN</a></div>
+<header class="site-header">
+  <div class="container nav">
+    <a href="index.html" class="brand-wrap" id="brandHome">
+      <img class="brand-logo" src="assets/logo-protechtb-v2-emblem.svg" alt="protechtb logo" />
+      <div class="brand-text">pro<span>techtb</span></div>
+    </a>
+    <div class="controls">
+      <button id="themeBtn" class="btn" type="button">🌙</button>
+      <button id="mobileMenuBtn" class="btn" type="button">☰</button>
+      <nav id="mainNav" class="main-nav"><a href="index.html">Hlavná</a><a href="o-nas.html">O nás</a><a href="sluzby.html">Služby</a><a href="realizacie.html">Realizácie</a><a href="cennik.html">Cenník</a><a href="faq.html">FAQ</a><a href="kontakt.html">Kontakt</a></nav>
     </div>
-  </header>
+  </div>
+</header>
 
-  <main class="container">
-    <section class="hero">
-      <div class="tag" data-lang="sk">ÚSPEŠNÉ REALIZÁCIE</div>
-      <div class="tag" data-lang="en">SUCCESSFUL CASE STUDIES</div>
-      <h1 data-lang="sk">Vybrané projekty</h1>
-      <h1 data-lang="en">Selected Projects</h1>
-      <p class="lead" data-lang="sk">Ukážky výsledkov vo formáte problém → riešenie → dopad.</p>
-      <p class="lead" data-lang="en">Examples in format problem → solution → impact.</p>
-    </section>
+<main class="container">
+  <section class="hero">
+    <span class="tag">PROTECHTB • SMART IT SYSTEMS</span>
+    <h1>Realizácie</h1>
+    <p class="lead">Reálne typy projektov s jasným popisom: požiadavka zákazníka, návrh riešenia, dopad a ďalší odporúčaný krok.</p>
+  </section>
+  
+<section>
+  <h2>Realizácia A — Performance Office Setup</h2>
+  <details class="project" open>
+    <summary>Detail realizácie</summary>
+    <div class="pics">
+      <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80" alt="pc" />
+      <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80" alt="ws" />
+      <img src="https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?auto=format&fit=crop&w=1200&q=80" alt="office" />
+    </div>
+    <div class="three">
+      <div class="mini"><b>Požiadavka zákazníka</b>Vyšší výkon a menej hluku.</div>
+      <div class="mini"><b>Navrhli sme</b>Nové workstation buildy a tuning airflow.</div>
+      <div class="mini"><b>Zlepšenie</b>Rýchlejší workflow, stabilný chod.</div>
+    </div>
+    <div class="next">Do budúcna navrhujeme: kvartálny performance health-check.</div>
+  </details>
+</section>
 
-    <section>
-      <div class="case-list">
-        <article class="case">
-          <b data-lang="sk">Realizácia #01 — Smart Home centralizácia</b>
-          <b data-lang="en">Case #01 — Smart Home centralization</b>
-          <p data-lang="sk"><strong>Problém:</strong> 14 zariadení v 5 aplikáciách, žiadne stabilné automatizácie.</p>
-          <p data-lang="sk"><strong>Riešenie:</strong> Home Assistant setup, jednotný dashboard, 11 automatizácií (svetlá, klimatizácia, notifikácie).</p>
-          <p data-lang="sk"><strong>Dopad:</strong> menej manuálnych zásahov, vyšší komfort, rýchlejšia diagnostika.</p>
-          <p data-lang="en"><strong>Problem:</strong> 14 devices across 5 apps, no stable automations.</p>
-          <p data-lang="en"><strong>Solution:</strong> Home Assistant setup, unified dashboard, 11 automations (lights, climate, notifications).</p>
-          <p data-lang="en"><strong>Impact:</strong> fewer manual operations, better comfort, faster troubleshooting.</p>
-        </article>
+<section>
+  <h2>Realizácia B — Home Assistant Smart Home</h2>
+  <details class="project" open>
+    <summary>Detail realizácie</summary>
+    <div class="pics">
+      <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80" alt="ha" />
+      <img src="https://images.unsplash.com/photo-1597852074816-d933c7d2b988?auto=format&fit=crop&w=1200&q=80" alt="devices" />
+      <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80" alt="net" />
+    </div>
+    <div class="three">
+      <div class="mini"><b>Požiadavka zákazníka</b>Jednoduché ovládanie všetkého z jednej appky.</div>
+      <div class="mini"><b>Navrhli sme</b>Dashboard podľa zón + automatizácie scén.</div>
+      <div class="mini"><b>Zlepšenie</b>Menej manuálnych úkonov, viac pohodlia.</div>
+    </div>
+    <div class="next">Do budúcna navrhujeme: mesačný update automatizácií.</div>
+  </details>
+</section>
 
-        <article class="case">
-          <b data-lang="sk">Realizácia #02 — NAS + bezpečnosť dát</b>
-          <b data-lang="en">Case #02 — NAS + data safety</b>
-          <p data-lang="sk"><strong>Problém:</strong> dôležité dokumenty len na notebooku a mobile.</p>
-          <p data-lang="sk"><strong>Riešenie:</strong> NAS, 3-2-1 backup stratégia, automatické denné zálohy, test obnovy dát.</p>
-          <p data-lang="sk"><strong>Dopad:</strong> výrazne nižšie riziko straty dát a jasný recovery postup.</p>
-          <p data-lang="en"><strong>Problem:</strong> critical files stored only on laptop and phone.</p>
-          <p data-lang="en"><strong>Solution:</strong> NAS, 3-2-1 backup strategy, daily automatic backups, recovery test.</p>
-          <p data-lang="en"><strong>Impact:</strong> significantly lower data-loss risk and clear recovery process.</p>
-        </article>
+<section>
+  <h2>Realizácia C — NAS riešenie na mieru</h2>
+  <details class="project" open>
+    <summary>Detail realizácie</summary>
+    <div class="pics">
+      <img src="https://images.unsplash.com/photo-1597852074816-d933c7d2b988?auto=format&fit=crop&w=1200&q=80" alt="nas" />
+      <img src="https://images.unsplash.com/photo-1556075798-4825dfaaf498?auto=format&fit=crop&w=1200&q=80" alt="server" />
+      <img src="https://images.pexels.com/photos/325229/pexels-photo-325229.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="backup" />
+    </div>
+    <div class="three">
+      <div class="mini"><b>Požiadavka zákazníka</b>Spoľahlivé centrálne úložisko pre domácnosť/firmu.</div>
+      <div class="mini"><b>Navrhli sme</b>NAS architektúru, RAID, automatické zálohy, vzdialený prístup.</div>
+      <div class="mini"><b>Zlepšenie</b>Bezpečné dáta a rýchla obnova pri incidente.</div>
+    </div>
+    <div class="next">Do budúcna navrhujeme: kapacitný monitoring a backup audit.</div>
+  </details>
+</section>
 
-        <article class="case">
-          <b data-lang="sk">Realizácia #03 — PC performance upgrade</b>
-          <b data-lang="en">Case #03 — PC performance upgrade</b>
-          <p data-lang="sk"><strong>Problém:</strong> nestabilita pri multitaskingu, hlučný a prehrievajúci sa systém.</p>
-          <p data-lang="sk"><strong>Riešenie:</strong> upgrade komponentov, airflow redesign, BIOS a systémový tuning.</p>
-          <p data-lang="sk"><strong>Dopad:</strong> tichší chod, stabilný výkon, lepší používateľský komfort.</p>
-          <p data-lang="en"><strong>Problem:</strong> multitasking instability, noisy and hot system.</p>
-          <p data-lang="en"><strong>Solution:</strong> component upgrades, airflow redesign, BIOS and system tuning.</p>
-          <p data-lang="en"><strong>Impact:</strong> quieter operation, stable performance, better user experience.</p>
-        </article>
-      </div>
-    </section>
-  </main>
+<section>
+  <h2>Realizácia D — Kamerové a bezpečnostné systémy</h2>
+  <details class="project" open>
+    <summary>Detail realizácie</summary>
+    <div class="pics">
+      <img src="https://images.unsplash.com/photo-1557324232-b8917d3c3dcb?auto=format&fit=crop&w=1200&q=80" alt="cctv" />
+      <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80" alt="security" />
+      <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1200&q=80" alt="alarm" />
+    </div>
+    <div class="three">
+      <div class="mini"><b>Požiadavka zákazníka</b>Zvýšiť bezpečnosť a mať jasné notifikácie.</div>
+      <div class="mini"><b>Navrhli sme</b>CCTV zóny, alarm scenáre a vzdialený dohľad.</div>
+      <div class="mini"><b>Zlepšenie</b>Rýchle reakcie a lepšia kontrola nad objektom.</div>
+    </div>
+    <div class="next">Do budúcna navrhujeme: servisné kontroly a rozšírenie pokrytia.</div>
+  </details>
+</section>
 
-  <footer><div class="container">© 2026 protechtb</div></footer>
+</main>
+
+<footer><div class="container">© 2026 protechtb</div></footer>
+<script src="assets/pro.js"></script>
 </body>
 </html>

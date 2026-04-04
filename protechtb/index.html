@@ -3,493 +3,55 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>protechtb</title>
-  <meta name="description" content="protechtb — PC, Home Assistant, NAS a IT správa pre domácnosti a firmy." />
-  <style>
-    :root{
-      --bg:#0b101a; --bg2:#131b2b; --card:#182338; --line:#2b3956;
-      --text:#eef3ff; --muted:#a8b3cc; --gold:#d7b064;
-      --ok-bg:#173626; --ok-line:#317b56; --ok-text:#c5f0da;
-      --max:1120px;
-    }
-    body.light{
-      --bg:#f3f6fc; --bg2:#ffffff; --card:#ffffff; --line:#d6deec;
-      --text:#142033; --muted:#55627e; --gold:#a97928;
-      --ok-bg:#e8f8ef; --ok-line:#89c6a2; --ok-text:#1f5f3f;
-    }
-
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;scroll-behavior:smooth}
-    body{
-      font-family:Segoe UI,system-ui,sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(900px 430px at 95% -10%, rgba(215,176,100,.16), transparent 58%),
-        radial-gradient(860px 450px at -6% 8%, rgba(92,122,214,.13), transparent 55%),
-        var(--bg);
-      line-height:1.6;
-    }
-    .container{max-width:var(--max);margin:0 auto;padding:0 16px}
-
-    header{
-      position:sticky;top:0;z-index:30;
-      background:color-mix(in oklab,var(--bg) 88%, transparent);
-      border-bottom:1px solid var(--line);
-      backdrop-filter:blur(10px);
-    }
-    .nav{min-height:68px;display:flex;justify-content:space-between;align-items:center}
-    .left{display:flex;align-items:center;gap:12px}
-    .brand{font-weight:800;letter-spacing:.08em;text-decoration:none;color:var(--text)}
-    .brand span{color:var(--gold)}
-
-    .btn{border:1px solid var(--line);background:var(--bg2);color:var(--text);padding:8px 11px;border-radius:10px;cursor:pointer;transition:transform .2s ease, box-shadow .25s ease, background-color .2s ease}
-    .btn:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(0,0,0,.2)}
-    .btn.primary{background:linear-gradient(180deg,#f0d39a,#c3923f);border-color:#d1a355;color:#161006;font-weight:800;box-shadow:0 8px 20px rgba(195,146,63,.28)}
-    .btn.primary:hover{filter:brightness(1.04)}
-    .controls{display:flex;align-items:center;gap:8px}
-    .seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--bg2)}
-    .seg button{border:0;background:transparent;color:var(--muted);padding:8px 10px;cursor:pointer;font-weight:700}
-    .seg button.active{background:linear-gradient(180deg,#edcf8f,#be9142);color:#151008}
-
-    .drawer{position:fixed;left:-320px;top:0;bottom:0;width:300px;background:var(--bg2);border-right:1px solid var(--line);z-index:40;transition:.22s;padding:16px}
-    .drawer.open{left:0}
-    .drawer h4{margin:8px 8px 14px;color:var(--gold);font-size:.85rem;letter-spacing:.06em;text-transform:uppercase}
-    .drawer a{display:block;color:var(--text);text-decoration:none;padding:10px;border-radius:10px;margin-bottom:8px;border:1px solid transparent}
-    .drawer a:hover,.drawer a.active{border-color:var(--line);background:rgba(255,255,255,.04)}
-    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.42);z-index:35;opacity:0;pointer-events:none;transition:.2s}
-    .overlay.show{opacity:1;pointer-events:auto}
-
-    section{padding:40px 0;border-bottom:1px solid color-mix(in oklab,var(--line) 60%, transparent)}
-    h1{font-size:clamp(2rem,5vw,3.25rem);line-height:1.08;margin:16px 0 12px}
-    h2{margin:0 0 8px}
-    .tag{display:inline-block;border:1px solid color-mix(in oklab,var(--gold) 60%, transparent);color:var(--gold);padding:4px 10px;border-radius:999px;font-size:.8rem;position:relative;overflow:hidden}
-    .tag::after{content:"";position:absolute;inset:0;transform:translateX(-130%);background:linear-gradient(110deg,transparent 0%, rgba(255,255,255,.16) 45%, transparent 90%);animation:tagSweep 4.5s ease-in-out infinite}
-    .muted{color:var(--muted)}
-
-    .hero-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-    .logo-mark{width:220px;max-width:58vw;height:auto;display:block}
-
-    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;transition:transform .25s ease, box-shadow .3s ease, border-color .25s ease}
-    .card:hover{transform:translateY(-2px);box-shadow:0 16px 32px rgba(0,0,0,.18);border-color:color-mix(in oklab,var(--gold) 35%, var(--line))}
-    .price{font-size:1.35rem;font-weight:800;color:var(--gold);margin:6px 0}
-    .list{margin:0;padding-left:18px;color:var(--muted)}
-
-    details.case{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin:10px 0;transition:border-color .25s ease, box-shadow .25s ease}
-    details.case[open]{border-color:color-mix(in oklab,var(--gold) 40%, var(--line));box-shadow:0 10px 24px rgba(0,0,0,.16)}
-    details.case summary{cursor:pointer;font-weight:700}
-    .pics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px}
-    .pics img{width:100%;height:190px;object-fit:cover;border-radius:10px;border:1px solid var(--line);filter:saturate(.88) contrast(1.04) brightness(.94)}
-    .three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px}
-    .mini{background:color-mix(in oklab,var(--card) 88%, transparent);border:1px solid var(--line);border-radius:10px;padding:10px}
-    .mini b{display:block;color:var(--gold);margin-bottom:4px}
-    .next{margin-top:10px;border:1px solid var(--ok-line);background:var(--ok-bg);color:var(--ok-text);border-radius:10px;padding:10px}
-
-    .faq details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0}
-    .faq summary{cursor:pointer;font-weight:700}
-    .faq p{margin:8px 0 4px;color:var(--muted)}
-
-    .hero-cta{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}
-
-    .contact-form{margin-top:14px;display:grid;gap:10px;max-width:760px}
-    .contact-form label{font-weight:600;color:var(--text)}
-    .contact-form input,.contact-form textarea{
-      width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);
-      background:var(--bg2);color:var(--text);font:inherit
-    }
-    .contact-form textarea{min-height:120px;resize:vertical}
-
-    footer{padding:20px 0;color:var(--muted)}
-
-    /* Reveal animations */
-    .fx{opacity:0;transform:translateY(14px);transition:opacity .55s ease, transform .55s ease}
-    .fx.in{opacity:1;transform:none}
-
-    @keyframes tagSweep{
-      0%, 55% { transform:translateX(-130%); }
-      100% { transform:translateX(130%); }
-    }
-
-    @media (prefers-reduced-motion: reduce){
-      *{animation:none !important;transition:none !important}
-      .fx{opacity:1;transform:none}
-    }
-
-    @media (max-width:860px){.grid,.pics,.three{grid-template-columns:1fr}}
-  </style>
+  <title>protechtb — Hlavná stránka</title>
+  <link rel="stylesheet" href="assets/pro.css" />
 </head>
 <body>
-  <aside id="drawer" class="drawer">
-    <h4 data-i18n="menu">Menu</h4>
-    <a href="#home" data-route="home" data-i18n="navHome">Hlavná stránka</a>
-    <a href="#about" data-route="about" data-i18n="navAbout">O nás</a>
-    <a href="#services" data-route="services" data-i18n="navServices">Služby</a>
-    <a href="#packages" data-route="packages" data-i18n="navPackages">Balíky a ceny</a>
-    <a href="#gallery" data-route="gallery" data-i18n="navGallery">Galéria</a>
-    <a href="#cases" data-route="cases" data-i18n="navCases">Realizácie</a>
-    <a href="#faq" data-route="faq" data-i18n="navFaq">FAQ</a>
-    <a href="#contact" data-route="contact" data-i18n="navContact">Kontakt</a>
-  </aside>
-  <div id="overlay" class="overlay"></div>
-
-  <header>
-    <div class="container nav">
-      <div class="left">
-        <button id="burgerBtn" class="btn" type="button">☰</button>
-        <a href="#home" class="brand" id="brandHome">pro<span>techtb</span></a>
-      </div>
-      <div class="controls">
-        <button id="themeBtn" class="btn" type="button">🌙</button>
-        <div class="seg">
-          <button id="skBtn" class="active" type="button">SK</button>
-          <button id="enBtn" type="button">EN</button>
-        </div>
-      </div>
+<header class="site-header">
+  <div class="container nav">
+    <a href="index.html" class="brand-wrap" id="brandHome">
+      <img class="brand-logo" src="assets/logo-protechtb-v2-emblem.svg" alt="protechtb logo" />
+      <div class="brand-text">pro<span>techtb</span></div>
+    </a>
+    <div class="controls">
+      <button id="themeBtn" class="btn" type="button">🌙</button>
+      <button id="mobileMenuBtn" class="btn" type="button">☰</button>
+      <nav id="mainNav" class="main-nav"><a href="index.html">Hlavná</a><a href="o-nas.html">O nás</a><a href="sluzby.html">Služby</a><a href="realizacie.html">Realizácie</a><a href="cennik.html">Cenník</a><a href="faq.html">FAQ</a><a href="kontakt.html">Kontakt</a></nav>
     </div>
-  </header>
+  </div>
+</header>
 
-  <main class="container">
-    <section id="home">
-      <div class="hero-head">
-        <img class="logo-mark" src="assets/logo-protechtb-v2-emblem.svg" alt="protechtb logo" />
-        <span class="tag" data-i18n="tag">PROTECHTB • SMART IT SYSTEMS</span>
-      </div>
-      <h1 data-i18n="heroTitle">Navrhujeme IT riešenia, ktoré sú stabilné, bezpečné a dlhodobo udržateľné.</h1>
-      <p class="muted" data-i18n="heroLead">Ponúkame PC buildy, Home Assistant, NAS infraštruktúru a IT správu pre domácnosti aj firmy.</p>
-      <div class="hero-cta">
-        <a class="btn primary" href="#contact" data-i18n="contactCta">Kontaktujte nás</a>
-      </div>
-    </section>
+<main class="container">
+  <section class="hero">
+    <span class="tag">PROTECHTB • SMART IT SYSTEMS</span>
+    <h1>Navrhujeme a prepájame technológie do jedného spoľahlivého systému.</h1>
+    <p class="lead">Profesionálne IT riešenia pre domácnosti aj firmy, s dôrazom na výkon, bezpečnosť a zrozumiteľnosť pre každého zákazníka.</p>
+  </section>
+  
+<section>
+  <h2>Slogan</h2>
+  <div class="card"><b>Prepájame technológie do jedného spoľahlivého systému.</b></div>
+</section>
 
-    <section id="about">
-      <h2 data-i18n="aboutTitle">O nás</h2>
-      <div class="grid">
-        <div class="card">
-          <b data-i18n="aboutWhoTitle">Kto sme</b>
-          <p class="muted" data-i18n="aboutWho">Sme tím orientovaný na IT infraštruktúru, automatizáciu a dlhodobú spoľahlivosť systémov.</p>
-        </div>
-        <div class="card">
-          <b data-i18n="aboutExpTitle">Skúsenosti</b>
-          <p class="muted" data-i18n="aboutExp">Máme dlhoročné praktické skúsenosti s PC zostavami, Home Assistant, NAS riešeniami a prepojením zariadení.</p>
-        </div>
-        <div class="card">
-          <b data-i18n="aboutApproachTitle">Ako pracujeme</b>
-          <p class="muted" data-i18n="aboutApproach">Každé riešenie navrhujeme individuálne podľa cieľov zákazníka, rozpočtu a budúceho rozvoja.</p>
-        </div>
-        <div class="card">
-          <b data-i18n="aboutValueTitle">Dlhodobá hodnota</b>
-          <p class="muted" data-i18n="aboutValue">Nestaviame jednorazové setupy — navrhujeme systémy, ktoré sa dajú bezpečne škálovať a servisovať.</p>
-        </div>
-      </div>
-    </section>
+<section>
+  <h2>Čo robíme</h2>
+  <div class="grid">
+    <div class="card"><h3>PC Build & Performance</h3><p class="muted">Výkonné a stabilné zostavy pre domácnosti aj firmy.</p><a class="btn" href="sluzby.html#pc">Detail služby</a></div>
+    <div class="card"><h3>Home Assistant & Smart Home</h3><p class="muted">Automatizácie a dashboardy pre jednoduché ovládanie.</p><a class="btn" href="sluzby.html#ha">Detail služby</a></div>
+    <div class="card"><h3>NAS & Backup</h3><p class="muted">NAS (Network Attached Storage) = centrálne a bezpečné úložisko dát.</p><a class="btn" href="sluzby.html#nas">Detail služby</a></div>
+    <div class="card"><h3>Multi‑Hub Integrácie</h3><p class="muted">Prepájanie Google Home, Apple Home a ďalších hubov.</p><a class="btn" href="sluzby.html#multi">Detail služby</a></div>
+  </div>
+</section>
 
-    <section id="services">
-      <h2 data-i18n="servicesTitle">Služby</h2>
-      <div class="grid">
-        <div class="card"><b>PC Build & Performance</b><p class="muted" data-i18n="svc1">Skladáme a optimalizujeme výkonné zostavy podľa rozpočtu a cieľa.</p></div>
-        <div class="card"><b>Home Assistant & Smart Home</b><p class="muted" data-i18n="svc2">Integrujeme zariadenia, tvoríme dashboardy a automatizácie.</p></div>
-        <div class="card"><b>NAS & Backup</b><p class="muted" data-i18n="svc3">Navrhujeme bezpečné úložisko a zálohovaciu stratégiu 3-2-1. NAS (Network Attached Storage) je domáci/firemný server na centrálne ukladanie dát.</p></div>
-        <div class="card"><b>IT Care</b><p class="muted" data-i18n="svc4">Dlhodobá správa, monitoring a preventívny servis.</p></div>
-        <div class="card"><b>Multi‑Hub Integrácie</b><p class="muted" data-i18n="svc5">Prepájame zariadenia a značky naprieč ekosystémami (Google Home, Apple Home a ďalšie huby) do jedného funkčného systému.</p></div>
-      </div>
-    </section>
+<section>
+  <h2>Kontaktujte nás</h2>
+  <p class="muted">Pošlite nám dopyt a pripravíme riešenie na mieru.</p>
+  <a class="btn primary" href="kontakt.html">Prejsť na dopytový formulár</a>
+</section>
 
-    <section id="packages">
-      <h2 data-i18n="packagesTitle">Balíky a ceny</h2>
-      <p class="muted" data-i18n="packagesLead">Transparentné balíky pre rýchly štart. Finálna cena sa upravuje podľa rozsahu.</p>
-      <div class="grid">
-        <div class="card">
-          <b data-i18n="pkg1Title">Smart Start</b>
-          <div class="price" data-i18n="pkg1Price">od 299 €</div>
-          <ul class="list">
-            <li data-i18n="pkg1a">Audit prostredia a cieľov</li>
-            <li data-i18n="pkg1b">Setup do 5 zariadení</li>
-            <li data-i18n="pkg1c">Základný dashboard + 2 automatizácie</li>
-          </ul>
-        </div>
-        <div class="card">
-          <b data-i18n="pkg2Title">NAS Safe Home</b>
-          <div class="price" data-i18n="pkg2Price">od 349 €</div>
-          <ul class="list">
-            <li data-i18n="pkg2a">NAS deploy + používateľské účty</li>
-            <li data-i18n="pkg2b">Automatické zálohy mobil/PC</li>
-            <li data-i18n="pkg2c">Recovery test + monitoring</li>
-          </ul>
-        </div>
-        <div class="card">
-          <b data-i18n="pkg3Title">IT Care Monthly</b>
-          <div class="price" data-i18n="pkg3Price">49–99 €/mes</div>
-          <ul class="list">
-            <li data-i18n="pkg3a">Priebežná správa systému</li>
-            <li data-i18n="pkg3b">Remote podpora a zásahy</li>
-            <li data-i18n="pkg3c">Mesačný health-check a odporúčania</li>
-          </ul>
-        </div>
-      </div>
-    </section>
+</main>
 
-    <section id="gallery">
-      <h2 data-i18n="galleryTitle">Galéria (rozklikávacie realizácie)</h2>
-
-      <details class="case" open>
-        <summary data-i18n="p1t">Realizácia A — Performance Office Setup</summary>
-        <div class="pics">
-          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80" alt="PC build"/>
-          <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80" alt="Workstation"/>
-          <img src="https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?auto=format&fit=crop&w=1200&q=80" alt="Office setup"/>
-        </div>
-        <div class="three">
-          <div class="mini"><b data-i18n="want">Požiadavka zákazníka</b><span data-i18n="p1w">zrýchliť workflow, znížiť hlučnosť a odstrániť lag.</span></div>
-          <div class="mini"><b data-i18n="proposed">Navrhli sme</b><span data-i18n="p1p">nové workstation buildy, airflow tuning a SSD migráciu.</span></div>
-          <div class="mini"><b data-i18n="impact">Zlepšenie</b><span data-i18n="p1i">stabilnejší výkon a rýchlejšia práca tímu.</span></div>
-        </div>
-        <div class="next" data-i18n="p1n">Do budúcna navrhujeme: kvartálny performance health-check + preventívny servis.</div>
-      </details>
-
-      <details class="case" open>
-        <summary data-i18n="p2t">Realizácia B — Home Assistant Smart Home</summary>
-        <div class="pics">
-          <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80" alt="Dashboard"/>
-          <img src="https://images.unsplash.com/photo-1597852074816-d933c7d2b988?auto=format&fit=crop&w=1200&q=80" alt="Devices"/>
-          <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80" alt="Network"/>
-        </div>
-        <div class="three">
-          <div class="mini"><b data-i18n="want">Požiadavka zákazníka</b><span data-i18n="p2w">ovládať všetko z jednej appky a mať stabilné automatizácie.</span></div>
-          <div class="mini"><b data-i18n="proposed">Navrhli sme</b><span data-i18n="p2p">Home Assistant core, dashboardy podľa zón, notifikácie a scenáre.</span></div>
-          <div class="mini"><b data-i18n="impact">Zlepšenie</b><span data-i18n="p2i">menej manuálnych zásahov a vyšší komfort.</span></div>
-        </div>
-        <div class="next" data-i18n="p2n">Do budúcna navrhujeme: mesačný update automatizácií + rozšírenie zariadení.</div>
-      </details>
-
-      <details class="case" open>
-        <summary data-i18n="p3t">Realizácia C — NAS riešenie na mieru</summary>
-        <div class="pics">
-          <img src="https://images.unsplash.com/photo-1597852074816-d933c7d2b988?auto=format&fit=crop&w=1200&q=80" alt="NAS server"/>
-          <img src="https://images.unsplash.com/photo-1556075798-4825dfaaf498?auto=format&fit=crop&w=1200&q=80" alt="Server room"/>
-          <img src="https://images.pexels.com/photos/325229/pexels-photo-325229.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Backup workflow"/>
-        </div>
-        <div class="three">
-          <div class="mini"><b data-i18n="want">Požiadavka zákazníka</b><span data-i18n="p3w">kompletne sprevádzkovať NAS podľa potrieb domácnosti/firmy so stabilným výkonom.</span></div>
-          <div class="mini"><b data-i18n="proposed">Navrhli sme</b><span data-i18n="p3p">individuálnu architektúru, RAID, zdieľanie práv, automatické zálohy a vzdialený prístup.</span></div>
-          <div class="mini"><b data-i18n="impact">Zlepšenie</b><span data-i18n="p3i">jednotná správa dát, vyššia bezpečnosť a rýchla obnova pri probléme.</span></div>
-        </div>
-        <div class="next" data-i18n="p3n">Do budúcna navrhujeme: monitoring kapacity, pravidelný backup audit a plán rozšírenia.</div>
-      </details>
-
-      <details class="case" open>
-        <summary data-i18n="p4t">Realizácia D — Kamerové a bezpečnostné systémy</summary>
-        <div class="pics">
-          <img src="https://images.unsplash.com/photo-1557324232-b8917d3c3dcb?auto=format&fit=crop&w=1200&q=80" alt="CCTV camera"/>
-          <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=80" alt="Security monitoring"/>
-          <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1200&q=80" alt="Alarm panel"/>
-        </div>
-        <div class="three">
-          <div class="mini"><b data-i18n="want">Požiadavka zákazníka</b><span data-i18n="p4w">bezpečnostný systém na mieru s dohľadom, alarmami a jasnými notifikáciami.</span></div>
-          <div class="mini"><b data-i18n="proposed">Navrhli sme</b><span data-i18n="p4p">CCTV rozloženie podľa zón, alarm scenáre, mobilné alerty a vzdialený prístup.</span></div>
-          <div class="mini"><b data-i18n="impact">Zlepšenie</b><span data-i18n="p4i">vyššia bezpečnosť objektu, rýchle reakcie a lepší prehľad o udalostiach.</span></div>
-        </div>
-        <div class="next" data-i18n="p4n">Do budúcna navrhujeme: servisné kontroly kamier, test alarmov a rozšírenie pokrytia.</div>
-      </details>
-    </section>
-
-    <section id="cases">
-      <h2 data-i18n="casesTitle">Vybrané úspešné realizácie</h2>
-      <div class="card"><b data-i18n="c1t">Smart Home centralizácia</b><p class="muted" data-i18n="c1">14 zariadení v 5 appkách sme zjednotili do jedného dashboardu.</p></div>
-      <div class="card"><b data-i18n="c2t">NAS bezpečnosť</b><p class="muted" data-i18n="c2">Nasadili sme 3-2-1 architektúru, monitoring a recovery testy.</p></div>
-      <div class="card"><b data-i18n="c3t">Modernizácia kancelárskej infraštruktúry</b><p class="muted" data-i18n="c3">Zjednotili sme zariadenia, sieť a prístupové pravidlá do jedného stabilného prostredia.</p></div>
-      <div class="card"><b data-i18n="c4t">Optimalizácia pracovných staníc</b><p class="muted" data-i18n="c4">Po upgrade hardvéru a tuningu systému sa výrazne skrátil čas exportov a renderu.</p></div>
-      <div class="card"><b data-i18n="c5t">Kompletné NAS riešenie na mieru</b><p class="muted" data-i18n="c5">Sprevádzkovali sme NAS presne podľa požiadaviek domácnosti/firmy: výkon, jednotná správa, bezpečné zdieľanie a automatické zálohy.</p></div>
-      <div class="card"><b data-i18n="c6t">Kamerové a bezpečnostné systémy na mieru</b><p class="muted" data-i18n="c6">Navrhli a nasadili sme kamerový systém, alarmy a bezpečnostné scenáre s notifikáciami a vzdialeným dohľadom.</p></div>
-    </section>
-
-    <section id="faq" class="faq">
-      <h2 data-i18n="faqTitle">FAQ — Často kladené otázky</h2>
-
-      <details open><summary data-i18n="faq1q">1) Robíte skôr domácnosti alebo firmy?</summary><p data-i18n="faq1a">Oboje. Návrh riešenia vždy prispôsobujeme rozsahu projektu, rozpočtu a očakávanému rastu.</p></details>
-      <details open><summary data-i18n="faq2q">2) Čo všetko viete prepojiť v smart domácnosti?</summary><p data-i18n="faq2a">Integrujeme zariadenia naprieč ekosystémami (Home Assistant, Google Home, Apple Home a ďalšie huby) do jednotného systému.</p></details>
-      <details open><summary data-i18n="faq3q">3) Robíte aj návrh hardvéru alebo len software?</summary><p data-i18n="faq3a">Robíme oboje: návrh hardvéru aj konfiguráciu softvéru, vrátane testovania stability a bezpečnosti.</p></details>
-      <details open><summary data-i18n="faq4q">4) Ako dlho trvá realizácia?</summary><p data-i18n="faq4a">Podľa rozsahu. Menšie setupy zvyčajne 1–3 dni, komplexnejšie riešenia 1–3 týždne.</p></details>
-      <details open><summary data-i18n="faq5q">5) Viete nastaviť NAS aj pre úplného začiatočníka?</summary><p data-i18n="faq5a">Áno. Všetko nastavíme, vysvetlíme a odovzdáme s jednoduchým návodom na bežné používanie.</p></details>
-      <details open><summary data-i18n="faq6q">6) Riešite aj zálohy a obnovu dát?</summary><p data-i18n="faq6a">Áno. Nastavujeme 3-2-1 zálohovanie a testujeme reálnu obnovu dát, nie len teóriu.</p></details>
-      <details open><summary data-i18n="faq7q">7) Ako riešite bezpečnosť kamier a alarmov?</summary><p data-i18n="faq7a">Navrhujeme bezpečnostné zóny, prístupy, notifikácie a pravidelnú kontrolu funkčnosti systému.</p></details>
-      <details open><summary data-i18n="faq8q">8) Ponúkate aj dlhodobú správu po nasadení?</summary><p data-i18n="faq8a">Áno. Máme mesačný model IT Care: monitoring, aktualizácie, preventívny servis a podporu.</p></details>
-      <details open><summary data-i18n="faq9q">9) Viete riešenie rozšíriť do budúcna?</summary><p data-i18n="faq9a">Áno, riešenia navrhujeme modulárne, aby sa dali bezpečne škálovať bez zbytočných migrácií.</p></details>
-      <details open><summary data-i18n="faq10q">10) Ako začneme spoluprácu?</summary><p data-i18n="faq10a">Pošlete dopyt, urobíme krátky audit, navrhneme riešenie a po odsúhlasení ideme do realizácie.</p></details>
-    </section>
-
-    <section id="contact">
-      <h2 data-i18n="contactTitle">Kontakt</h2>
-      <p class="muted" data-i18n="contactLead">Napíšte nám, čo potrebujete vyriešiť. Odpovieme s návrhom riešenia a ďalším postupom.</p>
-      <form class="contact-form" action="mailto:hello@protechtb.com" method="post" enctype="text/plain">
-        <label data-i18n="formNameLabel">Meno</label>
-        <input name="name" type="text" data-i18n-ph="formNamePh" placeholder="Vaše meno" required />
-
-        <label data-i18n="formEmailLabel">Email</label>
-        <input name="email" type="email" data-i18n-ph="formEmailPh" placeholder="vas@email.com" required />
-
-        <label data-i18n="formMsgLabel">Dopyt</label>
-        <textarea name="message" data-i18n-ph="formMsgPh" placeholder="Stručne popíšte, čo potrebujete." required></textarea>
-
-        <button class="btn" type="submit" data-i18n="formSend">Odoslať dopyt</button>
-      </form>
-    </section>
-  </main>
-
-  <footer><div class="container">© 2026 protechtb</div></footer>
-
-  <script>
-    const dict = {
-      sk: {
-        menu:'Menu', navHome:'Hlavná stránka', navAbout:'O nás', navServices:'Služby', navPackages:'Balíky a ceny', navGallery:'Galéria', navCases:'Realizácie', navFaq:'FAQ', navContact:'Kontakt',
-        tag:'PROTECHTB • SMART IT SYSTEMS',
-        heroTitle:'Navrhujeme IT riešenia, ktoré sú stabilné, bezpečné a dlhodobo udržateľné.',
-        heroLead:'Ponúkame PC buildy, Home Assistant, NAS infraštruktúru, prepájanie zariadení naprieč platformami (Google Home, Apple Home a ďalšie huby) a IT správu pre domácnosti aj firmy.',
-        contactCta:'Kontaktujte nás',
-        aboutTitle:'O nás',
-        aboutWhoTitle:'Kto sme', aboutWho:'Sme tím orientovaný na IT infraštruktúru, automatizáciu a dlhodobú spoľahlivosť systémov.',
-        aboutExpTitle:'Skúsenosti', aboutExp:'Máme dlhoročné praktické skúsenosti s PC zostavami, Home Assistant, NAS riešeniami a prepojením zariadení.',
-        aboutApproachTitle:'Ako pracujeme', aboutApproach:'Každé riešenie navrhujeme individuálne podľa cieľov zákazníka, rozpočtu a budúceho rozvoja.',
-        aboutValueTitle:'Dlhodobá hodnota', aboutValue:'Nestaviame jednorazové setupy — navrhujeme systémy, ktoré sa dajú bezpečne škálovať a servisovať.',
-        servicesTitle:'Služby', svc1:'Skladáme a optimalizujeme výkonné zostavy podľa rozpočtu a cieľa.', svc2:'Integrujeme zariadenia, tvoríme dashboardy a automatizácie.', svc3:'Navrhujeme bezpečné úložisko a zálohovaciu stratégiu 3-2-1. NAS (Network Attached Storage) je domáci/firemný server na centrálne ukladanie dát.', svc4:'Dlhodobá správa, monitoring a preventívny servis.', svc5:'Prepájame zariadenia a značky naprieč ekosystémami (Google Home, Apple Home a ďalšie huby) do jedného funkčného systému.',
-        packagesTitle:'Balíky a ceny', packagesLead:'Transparentné balíky pre rýchly štart. Finálna cena sa upravuje podľa rozsahu.',
-        pkg1Title:'Smart Start', pkg1Price:'od 299 €', pkg1a:'Audit prostredia a cieľov', pkg1b:'Setup do 5 zariadení', pkg1c:'Základný dashboard + 2 automatizácie',
-        pkg2Title:'NAS Safe Home', pkg2Price:'od 349 €', pkg2a:'NAS deploy + používateľské účty', pkg2b:'Automatické zálohy mobil/PC', pkg2c:'Recovery test + monitoring',
-        pkg3Title:'IT Care Monthly', pkg3Price:'49–99 €/mes', pkg3a:'Priebežná správa systému', pkg3b:'Remote podpora a zásahy', pkg3c:'Mesačný health-check a odporúčania',
-        galleryTitle:'Galéria (rozklikávacie realizácie)',
-        p1t:'Realizácia A — Performance Office Setup', p1w:'zrýchliť workflow, znížiť hlučnosť a odstrániť lag.', p1p:'nové workstation buildy, airflow tuning a SSD migráciu.', p1i:'stabilnejší výkon a rýchlejšia práca tímu.', p1n:'Do budúcna navrhujeme: kvartálny performance health-check + preventívny servis.',
-        p2t:'Realizácia B — Home Assistant Smart Home', p2w:'ovládať všetko z jednej appky a mať stabilné automatizácie.', p2p:'Home Assistant core, dashboardy podľa zón, notifikácie a scenáre.', p2i:'menej manuálnych zásahov a vyšší komfort.', p2n:'Do budúcna navrhujeme: mesačný update automatizácií + rozšírenie zariadení.',
-        p3t:'Realizácia C — NAS riešenie na mieru', p3w:'kompletne sprevádzkovať NAS podľa potrieb domácnosti/firmy so stabilným výkonom.', p3p:'individuálnu architektúru NAS (Network Attached Storage), RAID, zdieľanie práv, automatické zálohy a vzdialený prístup.', p3i:'jednotná správa dát, vyššia bezpečnosť a rýchla obnova pri probléme.', p3n:'Do budúcna navrhujeme: monitoring kapacity, pravidelný backup audit a plán rozšírenia.',
-        p4t:'Realizácia D — Kamerové a bezpečnostné systémy', p4w:'bezpečnostný systém na mieru s dohľadom, alarmami a jasnými notifikáciami.', p4p:'CCTV rozloženie podľa zón, alarm scenáre, mobilné alerty a vzdialený prístup.', p4i:'vyššia bezpečnosť objektu, rýchle reakcie a lepší prehľad o udalostiach.', p4n:'Do budúcna navrhujeme: servisné kontroly kamier, test alarmov a rozšírenie pokrytia.',
-        want:'Požiadavka zákazníka', proposed:'Navrhli sme', impact:'Zlepšenie',
-        casesTitle:'Vybrané úspešné realizácie', c1t:'Smart Home centralizácia', c1:'14 zariadení v 5 appkách sme zjednotili do jedného dashboardu.', c2t:'NAS bezpečnosť', c2:'Nasadili sme 3-2-1 architektúru, monitoring a recovery testy.', c3t:'Modernizácia kancelárskej infraštruktúry', c3:'Zjednotili sme zariadenia, sieť a prístupové pravidlá do jedného stabilného prostredia.', c4t:'Optimalizácia pracovných staníc', c4:'Po upgrade hardvéru a tuningu systému sa výrazne skrátil čas exportov a renderu.', c5t:'Kompletné NAS riešenie na mieru', c5:'Sprevádzkovali sme NAS presne podľa požiadaviek domácnosti/firmy: výkon, jednotná správa, bezpečné zdieľanie a automatické zálohy.', c6t:'Kamerové a bezpečnostné systémy na mieru', c6:'Navrhli a nasadili sme kamerový systém, alarmy a bezpečnostné scenáre s notifikáciami a vzdialeným dohľadom.',
-        contactTitle:'Kontakt', contactLead:'Napíšte nám, čo potrebujete vyriešiť. Odpovieme s návrhom riešenia a ďalším postupom.',
-        faqTitle:'FAQ — Často kladené otázky',
-        faq1q:'1) Robíte skôr domácnosti alebo firmy?', faq1a:'Oboje. Návrh riešenia vždy prispôsobujeme rozsahu projektu, rozpočtu a očakávanému rastu.',
-        faq2q:'2) Čo všetko viete prepojiť v smart domácnosti?', faq2a:'Integrujeme zariadenia naprieč ekosystémami (Home Assistant, Google Home, Apple Home a ďalšie huby) do jednotného systému.',
-        faq3q:'3) Robíte aj návrh hardvéru alebo len software?', faq3a:'Robíme oboje: návrh hardvéru aj konfiguráciu softvéru, vrátane testovania stability a bezpečnosti.',
-        faq4q:'4) Ako dlho trvá realizácia?', faq4a:'Podľa rozsahu. Menšie setupy zvyčajne 1–3 dni, komplexnejšie riešenia 1–3 týždne.',
-        faq5q:'5) Viete nastaviť NAS aj pre úplného začiatočníka?', faq5a:'Áno. Všetko nastavíme, vysvetlíme a odovzdáme s jednoduchým návodom na bežné používanie.',
-        faq6q:'6) Riešite aj zálohy a obnovu dát?', faq6a:'Áno. Nastavujeme 3-2-1 zálohovanie a testujeme reálnu obnovu dát, nie len teóriu.',
-        faq7q:'7) Ako riešite bezpečnosť kamier a alarmov?', faq7a:'Navrhujeme bezpečnostné zóny, prístupy, notifikácie a pravidelnú kontrolu funkčnosti systému.',
-        faq8q:'8) Ponúkate aj dlhodobú správu po nasadení?', faq8a:'Áno. Máme mesačný model IT Care: monitoring, aktualizácie, preventívny servis a podporu.',
-        faq9q:'9) Viete riešenie rozšíriť do budúcna?', faq9a:'Áno, riešenia navrhujeme modulárne, aby sa dali bezpečne škálovať bez zbytočných migrácií.',
-        faq10q:'10) Ako začneme spoluprácu?', faq10a:'Pošlete dopyt, urobíme krátky audit, navrhneme riešenie a po odsúhlasení ideme do realizácie.',
-        formNameLabel:'Meno', formNamePh:'Vaše meno',
-        formEmailLabel:'Email', formEmailPh:'vas@email.com',
-        formMsgLabel:'Dopyt', formMsgPh:'Stručne popíšte, čo potrebujete.',
-        formSend:'Odoslať dopyt'
-      },
-      en: {
-        menu:'Menu', navHome:'Home', navAbout:'About us', navServices:'Services', navPackages:'Packages & pricing', navGallery:'Gallery', navCases:'Case studies', navFaq:'FAQ', navContact:'Contact',
-        tag:'PROTECHTB • SMART IT SYSTEMS',
-        heroTitle:'We design IT solutions that are stable, secure, and built for long-term reliability.',
-        heroLead:'We deliver PC builds, Home Assistant, NAS infrastructure, cross-platform device integration (Google Home, Apple Home and other hubs), and ongoing IT care for homes and businesses.',
-        contactCta:'Contact us',
-        aboutTitle:'About us',
-        aboutWhoTitle:'Who we are', aboutWho:'We are a team focused on IT infrastructure, automation and long-term system reliability.',
-        aboutExpTitle:'Experience', aboutExp:'We have long-term hands-on experience with PC builds, Home Assistant, NAS solutions and device integrations.',
-        aboutApproachTitle:'How we work', aboutApproach:'Every solution is designed individually based on customer goals, budget and future growth.',
-        aboutValueTitle:'Long-term value', aboutValue:'We do not build one-off setups — we design systems that scale safely and stay maintainable.',
-        servicesTitle:'Services', svc1:'We build and optimize high-performance systems by budget and goal.', svc2:'We integrate devices, build dashboards and automations.', svc3:'We design secure storage and a 3-2-1 backup strategy. NAS (Network Attached Storage) is a home/business server for centralized data storage.', svc4:'Ongoing management, monitoring and preventive service.', svc5:'We connect devices and brands across ecosystems (Google Home, Apple Home and other hubs) into one reliable system.',
-        packagesTitle:'Packages & pricing', packagesLead:'Transparent starter packages. Final pricing is adjusted by scope.',
-        pkg1Title:'Smart Start', pkg1Price:'from €299', pkg1a:'Environment and goal audit', pkg1b:'Setup for up to 5 devices', pkg1c:'Base dashboard + 2 automations',
-        pkg2Title:'NAS Safe Home', pkg2Price:'from €349', pkg2a:'NAS deploy + user accounts', pkg2b:'Automatic mobile/PC backups', pkg2c:'Recovery test + monitoring',
-        pkg3Title:'IT Care Monthly', pkg3Price:'€49–99/mo', pkg3a:'Ongoing system operations', pkg3b:'Remote support and interventions', pkg3c:'Monthly health-check and recommendations',
-        galleryTitle:'Gallery (expandable projects)',
-        p1t:'Project A — Performance Office Setup', p1w:'faster workflow, lower noise and no lag.', p1p:'new workstation builds, airflow tuning and SSD migration.', p1i:'more stable performance and faster team workflow.', p1n:'For the future, we recommend: quarterly performance health-check + preventive service.',
-        p2t:'Project B — Home Assistant Smart Home', p2w:'control everything from one app with stable automations.', p2p:'Home Assistant core, zone dashboards, alerts and scenarios.', p2i:'fewer manual actions and higher comfort.', p2n:'For the future, we recommend: monthly automation updates + device expansion.',
-        p3t:'Project C — Tailored NAS deployment', p3w:'fully operational NAS tailored to home/business requirements with stable performance.', p3p:'custom NAS (Network Attached Storage) architecture, RAID setup, access rights, automated backups and remote access.', p3i:'unified data management, stronger security and fast recovery when needed.', p3n:'For the future, we recommend: capacity monitoring, recurring backup audits and expansion planning.',
-        p4t:'Project D — CCTV and security systems', p4w:'a custom security setup with monitoring, alarms and clear notifications.', p4p:'zone-based CCTV layout, alarm scenarios, mobile alerts and remote access.', p4i:'higher site security, faster reactions and better visibility over events.', p4n:'For the future, we recommend: camera maintenance checks, alarm testing and coverage expansion.',
-        want:'Customer requirement', proposed:'We proposed', impact:'Improvement',
-        casesTitle:'Selected successful case studies', c1t:'Smart Home centralization', c1:'14 devices in 5 apps unified into one dashboard.', c2t:'NAS data safety', c2:'We deployed 3-2-1 architecture, monitoring and recovery tests.', c3t:'Office infrastructure modernization', c3:'We unified devices, network and access policy into one stable environment.', c4t:'Workstation optimization', c4:'After hardware upgrades and system tuning, export and render times dropped significantly.', c5t:'Complete NAS deployment tailored to needs', c5:'We delivered NAS setup tailored to home/business requirements: performance, unified management, secure sharing and automated backups.', c6t:'Custom CCTV and security systems', c6:'We designed and deployed CCTV, alarms and security scenarios with alerts and remote monitoring.',
-        contactTitle:'Contact', contactLead:'Tell us what you need to solve. We will reply with a proposed solution and next steps.',
-        faqTitle:'FAQ — Frequently asked questions',
-        faq1q:'1) Do you work more with homes or businesses?', faq1a:'Both. We tailor every solution to project scope, budget and expected growth.',
-        faq2q:'2) What can you integrate in a smart home?', faq2a:'We integrate devices across ecosystems (Home Assistant, Google Home, Apple Home and other hubs) into one unified system.',
-        faq3q:'3) Do you design hardware too, or only software?', faq3a:'Both: hardware architecture and software configuration, including stability and security testing.',
-        faq4q:'4) How long does implementation take?', faq4a:'Depending on scope. Smaller setups usually 1–3 days, larger projects 1–3 weeks.',
-        faq5q:'5) Can you set up NAS for complete beginners?', faq5a:'Yes. We configure everything and provide a simple guide for everyday usage.',
-        faq6q:'6) Do you handle backups and data recovery?', faq6a:'Yes. We implement 3-2-1 backups and test real recovery scenarios, not just theory.',
-        faq7q:'7) How do you approach CCTV and alarm security?', faq7a:'We design security zones, access rules, alerts and recurring system checks.',
-        faq8q:'8) Do you offer ongoing support after deployment?', faq8a:'Yes. Our IT Care monthly model includes monitoring, updates, preventive service and support.',
-        faq9q:'9) Can the solution be expanded later?', faq9a:'Yes. We design modular systems that scale safely without unnecessary migrations.',
-        faq10q:'10) How do we start?', faq10a:'Send us an inquiry, we run a short audit, propose the solution and start implementation after approval.',
-        formNameLabel:'Name', formNamePh:'Your name',
-        formEmailLabel:'Email', formEmailPh:'your@email.com',
-        formMsgLabel:'Inquiry', formMsgPh:'Briefly describe what you need.',
-        formSend:'Send inquiry'
-      }
-    };
-
-    const drawer = document.getElementById('drawer');
-    const overlay = document.getElementById('overlay');
-    const burger = document.getElementById('burgerBtn');
-    burger.addEventListener('click', () => { drawer.classList.add('open'); overlay.classList.add('show'); });
-    overlay.addEventListener('click', () => { drawer.classList.remove('open'); overlay.classList.remove('show'); });
-    const closeMenu = () => { drawer.classList.remove('open'); overlay.classList.remove('show'); };
-    document.querySelectorAll('#drawer a').forEach(a => {
-      a.addEventListener('click', closeMenu);
-      a.addEventListener('touchend', closeMenu, {passive:true});
-    });
-    const brandHome = document.getElementById('brandHome');
-    brandHome.addEventListener('click', closeMenu);
-    brandHome.addEventListener('touchend', closeMenu, {passive:true});
-
-    const skBtn = document.getElementById('skBtn');
-    const enBtn = document.getElementById('enBtn');
-    const themeBtn = document.getElementById('themeBtn');
-
-    function setLang(lang){
-      document.documentElement.lang = lang;
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const k = el.dataset.i18n;
-        if (dict[lang][k]) el.textContent = dict[lang][k];
-      });
-      document.querySelectorAll('[data-i18n-ph]').forEach(el => {
-        const k = el.dataset.i18nPh;
-        if (dict[lang][k]) el.setAttribute('placeholder', dict[lang][k]);
-      });
-      skBtn.classList.toggle('active', lang === 'sk');
-      enBtn.classList.toggle('active', lang === 'en');
-      try { localStorage.setItem('protechtb-lang', lang); } catch(e) {}
-    }
-
-    function setTheme(mode){
-      const light = mode === 'light';
-      document.body.classList.toggle('light', light);
-      themeBtn.textContent = light ? '☀️' : '🌙';
-      try { localStorage.setItem('protechtb-theme', mode); } catch(e) {}
-    }
-
-    let lang = 'sk';
-    let theme = 'dark';
-    try { lang = localStorage.getItem('protechtb-lang') || 'sk'; } catch(e) {}
-    try { theme = localStorage.getItem('protechtb-theme') || 'dark'; } catch(e) {}
-
-    setLang(lang);
-    setTheme(theme);
-
-    skBtn.addEventListener('click', () => setLang('sk'));
-    enBtn.addEventListener('click', () => setLang('en'));
-    themeBtn.addEventListener('click', () => setTheme(document.body.classList.contains('light') ? 'dark' : 'light'));
-
-    // Scroll reveal (professional subtle motion)
-    const fxTargets = document.querySelectorAll('section, .card, details.case');
-    fxTargets.forEach((el, i) => {
-      el.classList.add('fx');
-      el.style.transitionDelay = `${Math.min(i * 25, 220)}ms`;
-    });
-
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('in');
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.14, rootMargin: '0px 0px -8% 0px' });
-
-    fxTargets.forEach(el => io.observe(el));
-  </script>
+<footer><div class="container">© 2026 protechtb</div></footer>
+<script src="assets/pro.js"></script>
 </body>
 </html>
