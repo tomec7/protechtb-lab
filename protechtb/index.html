@@ -2,19 +2,19 @@
 <html lang="sk">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>protechtb — Smart IT Solutions</title>
-  <meta name="description" content="protechtb: PC zostavy, Home Assistant, NAS a smart domácnosť. Profesionálne IT riešenia pre domácnosti a malé firmy." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>protechtb — Luxury IT Systems</title>
+  <meta name="description" content="protechtb: PC, NAS, Home Assistant a smart domácnosť. Profesionálne IT riešenia pre náročných klientov." />
   <style>
     :root {
-      --bg: #08090d;
-      --bg-2: #0f1118;
-      --card: rgba(255,255,255,0.04);
-      --line: rgba(255,255,255,0.12);
-      --text: #f2f4f8;
-      --muted: #a0a8bb;
-      --gold: #d7b56d;
-      --gold-soft: rgba(215,181,109,0.2);
+      --bg: #07080b;
+      --bg-soft: #0f1219;
+      --card: rgba(255,255,255,.04);
+      --line: rgba(255,255,255,.12);
+      --text: #f3f5f8;
+      --muted: #a9b0c0;
+      --gold: #d9b66c;
+      --gold-2: #b78834;
       --max: 1180px;
       --radius: 18px;
     }
@@ -25,187 +25,183 @@
       font-family: "Segoe UI", "SF Pro Text", system-ui, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(900px 500px at 90% -10%, rgba(215,181,109,.12), transparent 60%),
-        radial-gradient(700px 400px at -10% 10%, rgba(98,128,255,.08), transparent 55%),
+        radial-gradient(900px 420px at 90% -10%, rgba(217,182,108,.18), transparent 60%),
+        radial-gradient(900px 460px at -8% 4%, rgba(106,138,235,.10), transparent 58%),
         var(--bg);
-      line-height: 1.6;
+      line-height: 1.62;
     }
 
     .container { max-width: var(--max); margin: 0 auto; padding: 0 20px; }
 
     header {
-      position: sticky; top: 0; z-index: 50;
-      backdrop-filter: blur(10px);
-      background: rgba(8,9,13,.7);
+      position: sticky; top: 0; z-index: 20;
+      background: rgba(7,8,11,.78);
       border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(10px);
     }
-
     .nav {
-      display: flex; align-items: center; justify-content: space-between;
       min-height: 72px;
+      display: flex; justify-content: space-between; align-items: center;
     }
-
-    .brand { font-size: 1.1rem; letter-spacing: .08em; font-weight: 700; }
+    .brand {
+      font-weight: 800;
+      letter-spacing: .08em;
+      font-size: 1.02rem;
+      text-transform: lowercase;
+    }
     .brand span { color: var(--gold); }
 
-    .nav-right { display: flex; gap: 12px; align-items: center; }
+    .lang {
+      display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden;
+      background: var(--bg-soft);
+    }
+    .lang button {
+      border: 0; background: transparent; color: var(--muted);
+      padding: 8px 13px; cursor: pointer; font-weight: 700;
+    }
+    .lang button.active { background: linear-gradient(180deg, var(--gold), var(--gold-2)); color: #17120a; }
 
-    .lang-switch {
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      overflow: hidden;
-      display: inline-flex;
-      background: var(--bg-2);
-    }
-    .lang-switch button {
-      padding: 8px 12px;
-      border: 0;
-      background: transparent;
-      color: var(--muted);
-      cursor: pointer;
-      font-weight: 600;
-    }
-    .lang-switch button.active {
-      color: #111;
-      background: var(--gold);
-    }
-
-    .btn {
+    .hero { padding: 92px 0 56px; }
+    .tag {
       display: inline-block;
-      padding: 12px 18px;
-      border-radius: 12px;
-      text-decoration: none;
-      color: var(--text);
-      border: 1px solid var(--line);
-      transition: .2s ease;
-    }
-    .btn:hover { transform: translateY(-1px); border-color: var(--gold); }
-    .btn.primary {
-      background: linear-gradient(180deg, #e8c67c, #c89f4a);
-      color: #15120b;
-      border-color: transparent;
-      font-weight: 700;
-    }
-
-    .hero { padding: 92px 0 64px; }
-    .kicker {
-      display: inline-flex;
-      gap: 8px;
-      align-items: center;
-      font-size: .82rem;
+      border: 1px solid rgba(217,182,108,.35);
       color: var(--gold);
-      border: 1px solid var(--gold-soft);
-      padding: 6px 12px;
+      background: rgba(217,182,108,.08);
       border-radius: 999px;
-      background: rgba(215,181,109,.08);
+      padding: 6px 12px;
+      font-size: .82rem;
+      letter-spacing: .04em;
     }
 
     h1 {
-      font-size: clamp(2rem, 5vw, 4rem);
-      line-height: 1.08;
-      margin: 18px 0 16px;
+      margin: 18px 0 14px;
+      line-height: 1.06;
+      font-size: clamp(2rem, 5vw, 3.9rem);
       letter-spacing: -.02em;
+      max-width: 980px;
     }
 
-    .lead {
-      color: var(--muted);
-      max-width: 820px;
-      font-size: clamp(1rem, 1.6vw, 1.2rem);
-    }
+    .lead { color: var(--muted); max-width: 860px; font-size: clamp(1rem, 1.8vw, 1.18rem); }
 
-    .hero-cta { margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap; }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 16px;
-      margin-top: 36px;
-    }
-
-    .metric {
-      grid-column: span 4;
-      background: var(--card);
+    .cta { margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn {
+      text-decoration: none;
       border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 18px;
+      color: var(--text);
+      padding: 12px 18px;
+      border-radius: 12px;
+      display: inline-block;
+      font-weight: 600;
     }
-    .metric b { font-size: 1.3rem; }
-    .metric p { margin: 4px 0 0; color: var(--muted); }
+    .btn.primary {
+      color: #17120a;
+      border: 0;
+      background: linear-gradient(180deg, #ebcb86, #be9142);
+      font-weight: 800;
+    }
+
+    .split {
+      margin-top: 34px;
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+    }
+    .pill {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      background: var(--card);
+      color: #d9deea;
+      font-size: .95rem;
+    }
 
     section { padding: 64px 0; }
-    h2 { font-size: clamp(1.5rem, 2.8vw, 2.4rem); margin: 0 0 10px; }
+    h2 {
+      margin: 0 0 10px;
+      font-size: clamp(1.45rem, 2.8vw, 2.35rem);
+      letter-spacing: -.01em;
+    }
     .section-lead { color: var(--muted); max-width: 760px; }
 
+    .signature {
+      margin-top: 24px;
+      border: 1px solid rgba(217,182,108,.3);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(217,182,108,.10), rgba(255,255,255,.02));
+      padding: 22px;
+    }
+
     .services {
+      margin-top: 22px;
       display: grid;
       grid-template-columns: repeat(2, minmax(0,1fr));
       gap: 16px;
-      margin-top: 24px;
     }
 
     .service {
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.025));
       border: 1px solid var(--line);
       border-radius: var(--radius);
       padding: 20px;
+      background: var(--card);
+    }
+    .service h3 { margin: 0 0 8px; }
+    .service p { margin: 0 0 12px; color: var(--muted); }
+
+    .meta {
+      display: grid; gap: 8px;
+      border-top: 1px dashed rgba(255,255,255,.16);
+      padding-top: 12px;
+      font-size: .93rem;
+      color: #cfd5e1;
     }
 
-    .service h3 { margin: 0 0 6px; }
-    .service p { margin: 0 0 10px; color: var(--muted); }
-
-    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-    .chip {
-      font-size: .78rem;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 5px 10px;
-      color: #d3d7e2;
-      background: rgba(255,255,255,.03);
-    }
-
-    .packages {
+    .packs {
+      margin-top: 24px;
       display: grid;
       grid-template-columns: repeat(3, minmax(0,1fr));
       gap: 16px;
-      margin-top: 24px;
     }
 
     .pack {
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      padding: 22px;
+      padding: 20px;
       background: var(--card);
     }
-
-    .pack.featured {
-      border-color: var(--gold);
-      box-shadow: 0 0 0 1px rgba(215,181,109,.22), 0 20px 40px rgba(0,0,0,.28);
-    }
-
-    .price { font-size: 1.6rem; font-weight: 800; margin: 6px 0 10px; }
+    .pack.featured { border-color: var(--gold); box-shadow: 0 0 0 1px rgba(217,182,108,.2), 0 18px 42px rgba(0,0,0,.35); }
+    .price { font-size: 1.6rem; font-weight: 800; margin: 7px 0 10px; }
     ul { margin: 0; padding-left: 18px; color: var(--muted); }
+
+    .process {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 12px;
+    }
+    .step {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      background: rgba(255,255,255,.02);
+      color: #d4daea;
+      font-size: .95rem;
+    }
+    .step b { color: var(--gold); }
 
     .contact {
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      padding: 26px;
+      padding: 24px;
       background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
     }
 
-    footer { padding: 26px 0 40px; color: #8b93a7; font-size: .92rem; }
+    footer { padding: 26px 0 44px; color: #8f98ac; font-size: .92rem; }
 
     [data-lang] { display: none; }
     [data-lang].show { display: block; }
 
-    @media (max-width: 940px) {
-      .metric { grid-column: span 12; }
-      .services { grid-template-columns: 1fr; }
-      .packages { grid-template-columns: 1fr; }
+    @media (max-width: 980px) {
+      .split, .services, .packs, .process { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -213,147 +209,187 @@
   <header>
     <div class="container nav">
       <div class="brand">pro<span>techtb</span></div>
-      <div class="nav-right">
-        <div class="lang-switch" aria-label="Language switch">
-          <button id="skBtn" class="active">SK</button>
-          <button id="enBtn">EN</button>
-        </div>
-        <a href="#contact" class="btn">Kontakt</a>
+      <div class="lang" aria-label="language switch">
+        <button id="skBtn" class="active">SK</button>
+        <button id="enBtn">EN</button>
       </div>
     </div>
   </header>
 
   <main class="container">
-    <section class="hero">
-      <div class="kicker" data-lang="sk">LUXURY DARK IT SOLUTIONS</div>
-      <div class="kicker" data-lang="en">LUXURY DARK IT SOLUTIONS</div>
+    <section class="hero" id="top">
+      <div class="tag" data-lang="sk">LUXURY DARK • SMART IT SYSTEMS</div>
+      <div class="tag" data-lang="en">LUXURY DARK • SMART IT SYSTEMS</div>
 
-      <h1 data-lang="sk">Profesionálne IT riešenia pre domácnosť aj biznis.</h1>
-      <h1 data-lang="en">Professional IT solutions for home and business.</h1>
+      <h1 data-lang="sk">Navrhujem a dodávam IT infraštruktúru, ktorá je stabilná, bezpečná a elegantná.</h1>
+      <h1 data-lang="en">I design and deliver IT infrastructure that is stable, secure, and elegant.</h1>
 
-      <p class="lead" data-lang="sk">
-        Pomáham klientom nastaviť spoľahlivú infraštruktúru: výkonné PC, bezpečný NAS, smart domácnosť na Home Assistant a dlhodobú IT správu bez chaosu.
-      </p>
-      <p class="lead" data-lang="en">
-        I help clients build reliable infrastructure: high-performance PCs, secure NAS, Home Assistant smart home systems, and long-term IT operations without chaos.
-      </p>
+      <p class="lead" data-lang="sk">protechtb je zamerané na PC výkon, smart domácnosť cez Home Assistant, NAS a dlhodobú správu. Žiadne generické IT. Len riešenia, ktoré fungujú v praxi.</p>
+      <p class="lead" data-lang="en">protechtb focuses on PC performance, Home Assistant smart home systems, NAS, and long-term operations. No generic IT. Only practical systems that work.</p>
 
-      <div class="hero-cta">
-        <a href="#services" class="btn primary" data-lang="sk">Pozrieť služby</a>
-        <a href="#services" class="btn primary" data-lang="en">View services</a>
-        <a href="#packages" class="btn" data-lang="sk">Balíky</a>
-        <a href="#packages" class="btn" data-lang="en">Packages</a>
+      <div class="cta">
+        <a class="btn primary" href="#services" data-lang="sk">Čo ponúkam</a>
+        <a class="btn primary" href="#services" data-lang="en">What I offer</a>
+        <a class="btn" href="#packages" data-lang="sk">Balíky</a>
+        <a class="btn" href="#packages" data-lang="en">Packages</a>
       </div>
 
-      <div class="grid">
-        <div class="metric">
-          <b data-lang="sk">PC & Workstation</b><b data-lang="en">PC & Workstation</b>
-          <p data-lang="sk">Skladanie, upgrade, výkon, stabilita.</p><p data-lang="en">Builds, upgrades, performance, stability.</p>
-        </div>
-        <div class="metric">
-          <b data-lang="sk">Home Assistant</b><b data-lang="en">Home Assistant</b>
-          <p data-lang="sk">Automatizácie, dashboardy, integrácie zariadení.</p><p data-lang="en">Automations, dashboards, device integrations.</p>
-        </div>
-        <div class="metric">
-          <b data-lang="sk">NAS & Backup</b><b data-lang="en">NAS & Backup</b>
-          <p data-lang="sk">Bezpečné dáta, 3-2-1 zálohy, monitoring.</p><p data-lang="en">Safe data, 3-2-1 backups, monitoring.</p>
-        </div>
+      <div class="split">
+        <div class="pill" data-lang="sk">⚡ Výkon: PC buildy a optimalizácia</div>
+        <div class="pill" data-lang="sk">🏠 Smart Home: Home Assistant + automatizácie</div>
+        <div class="pill" data-lang="sk">🛡️ Bezpečnosť dát: NAS + zálohy + monitoring</div>
+
+        <div class="pill" data-lang="en">⚡ Performance: PC builds and optimization</div>
+        <div class="pill" data-lang="en">🏠 Smart Home: Home Assistant + automations</div>
+        <div class="pill" data-lang="en">🛡️ Data safety: NAS + backups + monitoring</div>
       </div>
     </section>
 
     <section id="services">
-      <h2 data-lang="sk">Služby</h2>
-      <h2 data-lang="en">Services</h2>
-      <p class="section-lead" data-lang="sk">Každá služba má vlastnú podsekciu s jasným výsledkom a dopadom.</p>
-      <p class="section-lead" data-lang="en">Each service has its own subsection with a clear outcome and impact.</p>
+      <h2 data-lang="sk">Podpisové služby</h2>
+      <h2 data-lang="en">Signature Services</h2>
+      <p class="section-lead" data-lang="sk">Každá služba je postavená ako samostatný výsledok — jasný scope, jasný výstup, jasná hodnota.</p>
+      <p class="section-lead" data-lang="en">Each service is structured as a standalone outcome — clear scope, clear deliverable, clear value.</p>
+
+      <div class="signature">
+        <strong data-lang="sk">Core positioning:</strong>
+        <strong data-lang="en">Core positioning:</strong>
+        <span data-lang="sk">„Od spoľahlivého PC po inteligentný domov a bezpečné dáta — všetko prepojené do jedného funkčného systému.“</span>
+        <span data-lang="en">“From reliable PC setups to intelligent homes and secure data — all connected into one working system.”</span>
+      </div>
 
       <div class="services">
-        <article class="service" id="pc-service">
-          <h3 data-lang="sk">1) PC Build & Performance</h3>
-          <h3 data-lang="en">1) PC Build & Performance</h3>
-          <p data-lang="sk">Návrh a skladanie PC podľa rozpočtu a účelu (office, gaming, creator). Tuning výkonu, teplôt a stability.</p>
-          <p data-lang="en">Custom PC design and builds by budget and use-case (office, gaming, creator). Performance, thermals and stability tuning.</p>
-          <div class="chips"><span class="chip">HW Design</span><span class="chip">BIOS Tuning</span><span class="chip">Upgrade Plan</span></div>
+        <article class="service" id="pc-performance">
+          <h3 data-lang="sk">1) PC Build & Performance Engineering</h3>
+          <h3 data-lang="en">1) PC Build & Performance Engineering</h3>
+          <p data-lang="sk">Návrh, skladanie a ladenie PC/workstation podľa účelu: office, gaming, creator, domácnosť.</p>
+          <p data-lang="en">Design, build and tuning of custom PC/workstations by use-case: office, gaming, creator, home.</p>
+          <div class="meta">
+            <div data-lang="sk"><b>Pre koho:</b> klienti, ktorí chcú stabilný výkon bez trial-and-error.</div>
+            <div data-lang="sk"><b>Výsledok:</b> tichý a spoľahlivý systém, jasný upgrade plán.</div>
+            <div data-lang="sk"><b>Dodanie:</b> návrh komponentov, build, BIOS/OS tuning, test stability.</div>
+
+            <div data-lang="en"><b>For who:</b> clients who need stable performance without trial-and-error.</div>
+            <div data-lang="en"><b>Outcome:</b> quiet and reliable system with a clear upgrade path.</div>
+            <div data-lang="en"><b>Delivery:</b> parts architecture, build, BIOS/OS tuning, stress-tested setup.</div>
+          </div>
         </article>
 
-        <article class="service" id="ha-service">
-          <h3 data-lang="sk">2) Home Assistant & Smart Home</h3>
-          <h3 data-lang="en">2) Home Assistant & Smart Home</h3>
-          <p data-lang="sk">Kompletné nastavenie smart domácnosti: integrácie, automatizácie, dashboardy a scenáre pre každodenný komfort.</p>
-          <p data-lang="en">Complete smart home setup: integrations, automations, dashboards, and practical day-to-day scenarios.</p>
-          <div class="chips"><span class="chip">Automations</span><span class="chip">Dashboards</span><span class="chip">Device Sync</span></div>
+        <article class="service" id="home-assistant">
+          <h3 data-lang="sk">2) Home Assistant & Smart Home Automation</h3>
+          <h3 data-lang="en">2) Home Assistant & Smart Home Automation</h3>
+          <p data-lang="sk">Integrácie zariadení, automatizácie, dashboardy a scenáre, ktoré šetria čas a znižujú chaos.</p>
+          <p data-lang="en">Device integrations, automations, dashboards and practical scenarios that save time and reduce chaos.</p>
+          <div class="meta">
+            <div data-lang="sk"><b>Pre koho:</b> domácnosti a power users so smart zariadeniami.</div>
+            <div data-lang="sk"><b>Výsledok:</b> centralizované ovládanie, stabilné automatizácie.</div>
+            <div data-lang="sk"><b>Dodanie:</b> setup, integrácie, dashboard, test, odovzdanie know-how.</div>
+
+            <div data-lang="en"><b>For who:</b> households and power users with smart devices.</div>
+            <div data-lang="en"><b>Outcome:</b> centralized control with stable automations.</div>
+            <div data-lang="en"><b>Delivery:</b> setup, integrations, dashboard, testing, handover.</div>
+          </div>
         </article>
 
-        <article class="service" id="nas-service">
-          <h3 data-lang="sk">3) NAS & Data Safety</h3>
-          <h3 data-lang="en">3) NAS & Data Safety</h3>
-          <p data-lang="sk">NAS návrh a setup pre domácnosť aj malú firmu. Zálohovanie, vzdialený prístup, monitoring a obnova dát.</p>
-          <p data-lang="en">NAS design and deployment for home and small business. Backups, remote access, monitoring, and recovery.</p>
-          <div class="chips"><span class="chip">3-2-1 Backup</span><span class="chip">Remote Access</span><span class="chip">Monitoring</span></div>
+        <article class="service" id="nas-backup">
+          <h3 data-lang="sk">3) NAS & Backup Reliability</h3>
+          <h3 data-lang="en">3) NAS & Backup Reliability</h3>
+          <p data-lang="sk">Návrh a nasadenie NAS riešenia s dôrazom na bezpečnosť dát, obnovu a monitoring.</p>
+          <p data-lang="en">NAS design and deployment focused on data safety, recovery, and monitoring.</p>
+          <div class="meta">
+            <div data-lang="sk"><b>Pre koho:</b> domácnosti, tvorcovia, malé firmy.</div>
+            <div data-lang="sk"><b>Výsledok:</b> funkčný backup systém (3-2-1) a pokoj pri strate dát.</div>
+            <div data-lang="sk"><b>Dodanie:</b> NAS setup, backup jobs, remote access, recovery test.</div>
+
+            <div data-lang="en"><b>For who:</b> homes, creators, small businesses.</div>
+            <div data-lang="en"><b>Outcome:</b> working 3-2-1 backup system and data-loss resilience.</div>
+            <div data-lang="en"><b>Delivery:</b> NAS setup, backup jobs, remote access, recovery testing.</div>
+          </div>
         </article>
 
-        <article class="service" id="care-service">
-          <h3 data-lang="sk">4) IT Care & Integrácie</h3>
-          <h3 data-lang="en">4) IT Care & Integrations</h3>
-          <p data-lang="sk">Dlhodobá správa a podpora: aktualizácie, diagnostika, optimalizácie a prepojenie zariadení do jedného funkčného celku.</p>
-          <p data-lang="en">Ongoing IT management: updates, diagnostics, optimization, and connecting devices into one reliable ecosystem.</p>
-          <div class="chips"><span class="chip">Maintenance</span><span class="chip">Remote Support</span><span class="chip">Optimization</span></div>
+        <article class="service" id="it-care">
+          <h3 data-lang="sk">4) IT Care & Device Integration</h3>
+          <h3 data-lang="en">4) IT Care & Device Integration</h3>
+          <p data-lang="sk">Priebežná správa, aktualizácie, diagnostika a prepájanie zariadení do jedného spoľahlivého ekosystému.</p>
+          <p data-lang="en">Ongoing maintenance, updates, diagnostics, and connecting devices into one reliable ecosystem.</p>
+          <div class="meta">
+            <div data-lang="sk"><b>Pre koho:</b> klienti, ktorí chcú mať IT „pod kontrolou“ bez riešenia detailov.</div>
+            <div data-lang="sk"><b>Výsledok:</b> menej výpadkov, menej improvizácie, viac predvídateľnosti.</div>
+            <div data-lang="sk"><b>Dodanie:</b> mesačný support model + preventívne zásahy.</div>
+
+            <div data-lang="en"><b>For who:</b> clients who want IT under control without handling every detail.</div>
+            <div data-lang="en"><b>Outcome:</b> fewer outages, less firefighting, more predictability.</div>
+            <div data-lang="en"><b>Delivery:</b> monthly support model + preventive interventions.</div>
+          </div>
         </article>
       </div>
     </section>
 
     <section id="packages">
-      <h2 data-lang="sk">Balíky</h2>
-      <h2 data-lang="en">Packages</h2>
-      <p class="section-lead" data-lang="sk">Začni službou, neskôr produkt. Toto je tvoj ideálny vstup na trh.</p>
-      <p class="section-lead" data-lang="en">Start with services, then grow into product. This is your ideal market entry.</p>
+      <h2 data-lang="sk">Balíky služieb</h2>
+      <h2 data-lang="en">Service Packages</h2>
+      <p class="section-lead" data-lang="sk">Štartuj rýchlo cez produktizované balíky. Potom rozširuj podľa potreby.</p>
+      <p class="section-lead" data-lang="en">Start fast with productized packages, then expand as needed.</p>
 
-      <div class="packages">
+      <div class="packs">
         <article class="pack">
           <h3 data-lang="sk">Smart Start</h3><h3 data-lang="en">Smart Start</h3>
           <div class="price" data-lang="sk">od 299 €</div><div class="price" data-lang="en">from €299</div>
-          <ul data-lang="sk"><li>Audit potrieb</li><li>Nastavenie do 5 zariadení</li><li>Základný dashboard</li></ul>
-          <ul data-lang="en"><li>Needs audit</li><li>Setup for up to 5 devices</li><li>Basic dashboard</li></ul>
+          <ul data-lang="sk"><li>Audit prostredia</li><li>Setup do 5 zariadení</li><li>Základný dashboard + 2 automations</li></ul>
+          <ul data-lang="en"><li>Environment audit</li><li>Setup up to 5 devices</li><li>Base dashboard + 2 automations</li></ul>
         </article>
 
         <article class="pack featured">
           <h3 data-lang="sk">NAS Safe Home</h3><h3 data-lang="en">NAS Safe Home</h3>
           <div class="price" data-lang="sk">od 349 €</div><div class="price" data-lang="en">from €349</div>
-          <ul data-lang="sk"><li>NAS setup + používateľské účty</li><li>Automatické zálohy mobil/PC</li><li>Obnova dát + monitoring</li></ul>
-          <ul data-lang="en"><li>NAS setup + user accounts</li><li>Automatic mobile/PC backups</li><li>Recovery + monitoring</li></ul>
+          <ul data-lang="sk"><li>NAS deploy + účty</li><li>Automatické zálohy mobil/PC</li><li>Recovery test + monitoring</li></ul>
+          <ul data-lang="en"><li>NAS deploy + accounts</li><li>Automatic mobile/PC backups</li><li>Recovery testing + monitoring</li></ul>
         </article>
 
         <article class="pack">
           <h3 data-lang="sk">IT Care Monthly</h3><h3 data-lang="en">IT Care Monthly</h3>
           <div class="price" data-lang="sk">49–99 €/mes</div><div class="price" data-lang="en">€49–99/mo</div>
-          <ul data-lang="sk"><li>Priebežná správa</li><li>Remote zásahy</li><li>Prevencia výpadkov</li></ul>
-          <ul data-lang="en"><li>Ongoing operations</li><li>Remote interventions</li><li>Downtime prevention</li></ul>
+          <ul data-lang="sk"><li>Priebežná správa systému</li><li>Remote support</li><li>Mesačný health-check</li></ul>
+          <ul data-lang="en"><li>Ongoing system operations</li><li>Remote support</li><li>Monthly health-check</li></ul>
         </article>
+      </div>
+    </section>
+
+    <section id="process">
+      <h2 data-lang="sk">Ako prebieha spolupráca</h2>
+      <h2 data-lang="en">How we work</h2>
+      <div class="process">
+        <div class="step" data-lang="sk"><b>01</b><br/>Krátky audit a cieľ projektu.</div>
+        <div class="step" data-lang="sk"><b>02</b><br/>Návrh riešenia + rozsah + cena.</div>
+        <div class="step" data-lang="sk"><b>03</b><br/>Implementácia a test spoľahlivosti.</div>
+        <div class="step" data-lang="sk"><b>04</b><br/>Odovzdanie + voliteľný support.</div>
+
+        <div class="step" data-lang="en"><b>01</b><br/>Quick audit and project goal.</div>
+        <div class="step" data-lang="en"><b>02</b><br/>Solution design + scope + pricing.</div>
+        <div class="step" data-lang="en"><b>03</b><br/>Implementation and reliability testing.</div>
+        <div class="step" data-lang="en"><b>04</b><br/>Handover + optional support.</div>
       </div>
     </section>
 
     <section id="contact">
       <div class="contact">
-        <div>
-          <h2 data-lang="sk">Poďme to spustiť.</h2>
-          <h2 data-lang="en">Let’s launch your setup.</h2>
-          <p class="section-lead" data-lang="sk">Napíš mi, čo potrebuješ vyriešiť ako prvé — PC, NAS alebo smart domácnosť.</p>
-          <p class="section-lead" data-lang="en">Tell me what to solve first — PC, NAS or smart home.</p>
-        </div>
-        <a class="btn primary" href="mailto:hello@protechtb.com">hello@protechtb.com</a>
+        <h2 data-lang="sk">Kontakt doplníme po finálnom brandingu.</h2>
+        <h2 data-lang="en">Contact details will be added after final branding.</h2>
+        <p class="section-lead" data-lang="sk">Stránka je pripravená na okamžité nasadenie. Ďalší krok: logo, kontakty, reálne referencie.</p>
+        <p class="section-lead" data-lang="en">This website is deployment-ready. Next step: logo, contacts, real references.</p>
       </div>
     </section>
   </main>
 
   <footer>
-    <div class="container">© <span id="year"></span> protechtb — Smart IT Solutions</div>
+    <div class="container">© <span id="year"></span> protechtb</div>
   </footer>
 
   <script>
     const skBtn = document.getElementById('skBtn');
     const enBtn = document.getElementById('enBtn');
-    const yearEl = document.getElementById('year');
-    yearEl.textContent = new Date().getFullYear();
+    const year = document.getElementById('year');
+    year.textContent = new Date().getFullYear();
 
     function setLang(lang) {
       document.documentElement.lang = lang;
