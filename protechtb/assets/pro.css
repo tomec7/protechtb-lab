@@ -30,7 +30,11 @@ a{color:inherit}
 .site-header{position:sticky;top:0;z-index:30;background:color-mix(in oklab,var(--bg) 88%, transparent);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
 .nav{min-height:70px;display:flex;justify-content:space-between;align-items:center;gap:12px}
 .brand-wrap{display:flex;align-items:center;gap:12px;text-decoration:none}
-.brand-logo{height:58px;width:auto;display:block}
+.brand-logo{height:66px;width:auto;display:block;transition:transform .25s ease, filter .25s ease;filter:drop-shadow(0 6px 12px rgba(0,0,0,.18))}
+.brand-wrap:hover .brand-logo{transform:translateY(-1px) scale(1.01)}
+.logo-light{display:none}
+body.light .logo-dark{display:none}
+body.light .logo-light{display:block;filter:drop-shadow(0 6px 12px rgba(37,50,76,.12))}
 
 .controls{display:flex;align-items:center;gap:8px}
 .btn{border:1px solid var(--line);background:var(--bg2);color:var(--text);padding:8px 11px;border-radius:10px;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .2s ease, box-shadow .25s ease, background .25s ease}
