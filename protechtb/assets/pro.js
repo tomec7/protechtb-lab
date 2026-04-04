@@ -26,4 +26,21 @@
     const href = a.getAttribute('href');
     if (href === path) a.classList.add('active');
   });
+
+  const targets = document.querySelectorAll('section, .card, .project, .faq details, .visual-grid img');
+  targets.forEach((el, i) => {
+    el.classList.add('reveal');
+    el.style.transitionDelay = `${Math.min(i * 18, 200)}ms`;
+  });
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.14, rootMargin: '0px 0px -8% 0px' });
+
+  targets.forEach(el => io.observe(el));
 })();
