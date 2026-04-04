@@ -42,7 +42,8 @@
     .brand{font-weight:800;letter-spacing:.08em;text-decoration:none;color:var(--text)}
     .brand span{color:var(--gold)}
 
-    .btn{border:1px solid var(--line);background:var(--bg2);color:var(--text);padding:8px 11px;border-radius:10px;cursor:pointer}
+    .btn{border:1px solid var(--line);background:var(--bg2);color:var(--text);padding:8px 11px;border-radius:10px;cursor:pointer;transition:transform .2s ease, box-shadow .25s ease, background-color .2s ease}
+    .btn:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(0,0,0,.2)}
     .btn.primary{background:linear-gradient(180deg,#f0d39a,#c3923f);border-color:#d1a355;color:#161006;font-weight:800;box-shadow:0 8px 20px rgba(195,146,63,.28)}
     .btn.primary:hover{filter:brightness(1.04)}
     .controls{display:flex;align-items:center;gap:8px}
@@ -61,18 +62,21 @@
     section{padding:40px 0;border-bottom:1px solid color-mix(in oklab,var(--line) 60%, transparent)}
     h1{font-size:clamp(2rem,5vw,3.25rem);line-height:1.08;margin:16px 0 12px}
     h2{margin:0 0 8px}
-    .tag{display:inline-block;border:1px solid color-mix(in oklab,var(--gold) 60%, transparent);color:var(--gold);padding:4px 10px;border-radius:999px;font-size:.8rem}
+    .tag{display:inline-block;border:1px solid color-mix(in oklab,var(--gold) 60%, transparent);color:var(--gold);padding:4px 10px;border-radius:999px;font-size:.8rem;position:relative;overflow:hidden}
+    .tag::after{content:"";position:absolute;inset:0;transform:translateX(-130%);background:linear-gradient(110deg,transparent 0%, rgba(255,255,255,.16) 45%, transparent 90%);animation:tagSweep 4.5s ease-in-out infinite}
     .muted{color:var(--muted)}
 
     .hero-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
     .logo-mark{width:220px;max-width:58vw;height:auto;display:block}
 
     .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;transition:transform .25s ease, box-shadow .3s ease, border-color .25s ease}
+    .card:hover{transform:translateY(-2px);box-shadow:0 16px 32px rgba(0,0,0,.18);border-color:color-mix(in oklab,var(--gold) 35%, var(--line))}
     .price{font-size:1.35rem;font-weight:800;color:var(--gold);margin:6px 0}
     .list{margin:0;padding-left:18px;color:var(--muted)}
 
-    details.case{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin:10px 0}
+    details.case{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin:10px 0;transition:border-color .25s ease, box-shadow .25s ease}
+    details.case[open]{border-color:color-mix(in oklab,var(--gold) 40%, var(--line));box-shadow:0 10px 24px rgba(0,0,0,.16)}
     details.case summary{cursor:pointer;font-weight:700}
     .pics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px}
     .pics img{width:100%;height:190px;object-fit:cover;border-radius:10px;border:1px solid var(--line);filter:saturate(.88) contrast(1.04) brightness(.94)}
@@ -92,6 +96,21 @@
     .contact-form textarea{min-height:120px;resize:vertical}
 
     footer{padding:20px 0;color:var(--muted)}
+
+    /* Reveal animations */
+    .fx{opacity:0;transform:translateY(14px);transition:opacity .55s ease, transform .55s ease}
+    .fx.in{opacity:1;transform:none}
+
+    @keyframes tagSweep{
+      0%, 55% { transform:translateX(-130%); }
+      100% { transform:translateX(130%); }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{animation:none !important;transition:none !important}
+      .fx{opacity:1;transform:none}
+    }
+
     @media (max-width:860px){.grid,.pics,.three{grid-template-columns:1fr}}
   </style>
 </head>
@@ -411,6 +430,25 @@
     skBtn.addEventListener('click', () => setLang('sk'));
     enBtn.addEventListener('click', () => setLang('en'));
     themeBtn.addEventListener('click', () => setTheme(document.body.classList.contains('light') ? 'dark' : 'light'));
+
+    // Scroll reveal (professional subtle motion)
+    const fxTargets = document.querySelectorAll('section, .card, details.case');
+    fxTargets.forEach((el, i) => {
+      el.classList.add('fx');
+      el.style.transitionDelay = `${Math.min(i * 25, 220)}ms`;
+    });
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.14, rootMargin: '0px 0px -8% 0px' });
+
+    fxTargets.forEach(el => io.observe(el));
+  })();
   </script>
 </body>
 </html>
