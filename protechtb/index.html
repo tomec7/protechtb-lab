@@ -79,6 +79,16 @@
     .mini b{display:block;color:var(--gold);margin-bottom:4px}
     .next{margin-top:10px;border:1px solid var(--ok-line);background:var(--ok-bg);color:var(--ok-text);border-radius:10px;padding:10px}
 
+    .hero-cta{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}
+
+    .contact-form{margin-top:14px;display:grid;gap:10px;max-width:760px}
+    .contact-form label{font-weight:600;color:var(--text)}
+    .contact-form input,.contact-form textarea{
+      width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);
+      background:var(--bg2);color:var(--text);font:inherit
+    }
+    .contact-form textarea{min-height:120px;resize:vertical}
+
     footer{padding:20px 0;color:var(--muted)}
     @media (max-width:860px){.grid,.pics,.three{grid-template-columns:1fr}}
   </style>
@@ -120,6 +130,9 @@
       </div>
       <h1 data-i18n="heroTitle">Navrhujeme IT riešenia, ktoré sú stabilné, bezpečné a dlhodobo udržateľné.</h1>
       <p class="muted" data-i18n="heroLead">Ponúkame PC buildy, Home Assistant, NAS infraštruktúru a IT správu pre domácnosti aj firmy.</p>
+      <div class="hero-cta">
+        <a class="btn" href="#contact" data-i18n="contactCta">Kontaktujte nás</a>
+      </div>
     </section>
 
     <section id="about">
@@ -230,7 +243,19 @@
 
     <section id="contact">
       <h2 data-i18n="contactTitle">Kontakt</h2>
-      <p class="muted" data-i18n="contactLead">Kontaktné údaje doplníme po finalizácii brandingu.</p>
+      <p class="muted" data-i18n="contactLead">Napíšte nám, čo potrebujete vyriešiť. Odpovieme s návrhom riešenia a ďalším postupom.</p>
+      <form class="contact-form" action="mailto:hello@protechtb.com" method="post" enctype="text/plain">
+        <label data-i18n="formNameLabel">Meno</label>
+        <input name="name" type="text" data-i18n-ph="formNamePh" placeholder="Vaše meno" required />
+
+        <label data-i18n="formEmailLabel">Email</label>
+        <input name="email" type="email" data-i18n-ph="formEmailPh" placeholder="vas@email.com" required />
+
+        <label data-i18n="formMsgLabel">Dopyt</label>
+        <textarea name="message" data-i18n-ph="formMsgPh" placeholder="Stručne popíšte, čo potrebujete." required></textarea>
+
+        <button class="btn" type="submit" data-i18n="formSend">Odoslať dopyt</button>
+      </form>
     </section>
   </main>
 
@@ -243,6 +268,7 @@
         tag:'PROTECHTB • SMART IT SYSTEMS',
         heroTitle:'Navrhujeme IT riešenia, ktoré sú stabilné, bezpečné a dlhodobo udržateľné.',
         heroLead:'Ponúkame PC buildy, Home Assistant, NAS infraštruktúru a IT správu pre domácnosti aj firmy.',
+        contactCta:'Kontaktujte nás',
         aboutTitle:'O nás',
         aboutWhoTitle:'Kto sme', aboutWho:'Sme tím orientovaný na IT infraštruktúru, automatizáciu a dlhodobú spoľahlivosť systémov.',
         aboutExpTitle:'Skúsenosti', aboutExp:'Máme dlhoročné praktické skúsenosti s PC zostavami, Home Assistant, NAS riešeniami a prepojením zariadení.',
@@ -258,13 +284,18 @@
         p2t:'Realizácia B — Home Assistant Smart Home', p2w:'ovládať všetko z jednej appky a mať stabilné automatizácie.', p2p:'Home Assistant core, dashboardy podľa zón, notifikácie a scenáre.', p2i:'menej manuálnych zásahov a vyšší komfort.', p2n:'Do budúcna navrhujeme: mesačný update automatizácií + rozšírenie zariadení.',
         want:'Požiadavka zákazníka', proposed:'Navrhli sme', impact:'Zlepšenie',
         casesTitle:'Vybrané úspešné realizácie', c1t:'Smart Home centralizácia', c1:'14 zariadení v 5 appkách sme zjednotili do jedného dashboardu.', c2t:'NAS bezpečnosť', c2:'Nasadili sme 3-2-1 architektúru, monitoring a recovery testy.',
-        contactTitle:'Kontakt', contactLead:'Kontaktné údaje doplníme po finalizácii brandingu.'
+        contactTitle:'Kontakt', contactLead:'Napíšte nám, čo potrebujete vyriešiť. Odpovieme s návrhom riešenia a ďalším postupom.',
+        formNameLabel:'Meno', formNamePh:'Vaše meno',
+        formEmailLabel:'Email', formEmailPh:'vas@email.com',
+        formMsgLabel:'Dopyt', formMsgPh:'Stručne popíšte, čo potrebujete.',
+        formSend:'Odoslať dopyt'
       },
       en: {
         menu:'Menu', navHome:'Home', navAbout:'About us', navServices:'Services', navPackages:'Packages & pricing', navGallery:'Gallery', navCases:'Case studies', navContact:'Contact',
         tag:'PROTECHTB • SMART IT SYSTEMS',
         heroTitle:'We design IT solutions that are stable, secure, and built for long-term reliability.',
         heroLead:'We deliver PC builds, Home Assistant, NAS infrastructure and ongoing IT care for homes and businesses.',
+        contactCta:'Contact us',
         aboutTitle:'About us',
         aboutWhoTitle:'Who we are', aboutWho:'We are a team focused on IT infrastructure, automation and long-term system reliability.',
         aboutExpTitle:'Experience', aboutExp:'We have long-term hands-on experience with PC builds, Home Assistant, NAS solutions and device integrations.',
@@ -280,7 +311,11 @@
         p2t:'Project B — Home Assistant Smart Home', p2w:'control everything from one app with stable automations.', p2p:'Home Assistant core, zone dashboards, alerts and scenarios.', p2i:'fewer manual actions and higher comfort.', p2n:'For the future, we recommend: monthly automation updates + device expansion.',
         want:'Customer requirement', proposed:'We proposed', impact:'Improvement',
         casesTitle:'Selected successful case studies', c1t:'Smart Home centralization', c1:'14 devices in 5 apps unified into one dashboard.', c2t:'NAS data safety', c2:'We deployed 3-2-1 architecture, monitoring and recovery tests.',
-        contactTitle:'Contact', contactLead:'Contact details will be added after branding finalization.'
+        contactTitle:'Contact', contactLead:'Tell us what you need to solve. We will reply with a proposed solution and next steps.',
+        formNameLabel:'Name', formNamePh:'Your name',
+        formEmailLabel:'Email', formEmailPh:'your@email.com',
+        formMsgLabel:'Inquiry', formMsgPh:'Briefly describe what you need.',
+        formSend:'Send inquiry'
       }
     };
 
@@ -304,6 +339,10 @@
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const k = el.dataset.i18n;
         if (dict[lang][k]) el.textContent = dict[lang][k];
+      });
+      document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+        const k = el.dataset.i18nPh;
+        if (dict[lang][k]) el.setAttribute('placeholder', dict[lang][k]);
       });
       skBtn.classList.toggle('active', lang === 'sk');
       enBtn.classList.toggle('active', lang === 'en');
