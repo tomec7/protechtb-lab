@@ -43,6 +43,8 @@
     .brand span{color:var(--gold)}
 
     .btn{border:1px solid var(--line);background:var(--bg2);color:var(--text);padding:8px 11px;border-radius:10px;cursor:pointer}
+    .btn.primary{background:linear-gradient(180deg,#f0d39a,#c3923f);border-color:#d1a355;color:#161006;font-weight:800;box-shadow:0 8px 20px rgba(195,146,63,.28)}
+    .btn.primary:hover{filter:brightness(1.04)}
     .controls{display:flex;align-items:center;gap:8px}
     .seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--bg2)}
     .seg button{border:0;background:transparent;color:var(--muted);padding:8px 10px;cursor:pointer;font-weight:700}
@@ -131,7 +133,7 @@
       <h1 data-i18n="heroTitle">Navrhujeme IT riešenia, ktoré sú stabilné, bezpečné a dlhodobo udržateľné.</h1>
       <p class="muted" data-i18n="heroLead">Ponúkame PC buildy, Home Assistant, NAS infraštruktúru a IT správu pre domácnosti aj firmy.</p>
       <div class="hero-cta">
-        <a class="btn" href="#contact" data-i18n="contactCta">Kontaktujte nás</a>
+        <a class="btn primary" href="#contact" data-i18n="contactCta">Kontaktujte nás</a>
       </div>
     </section>
 
@@ -239,6 +241,8 @@
       <h2 data-i18n="casesTitle">Vybrané úspešné realizácie</h2>
       <div class="card"><b data-i18n="c1t">Smart Home centralizácia</b><p class="muted" data-i18n="c1">14 zariadení v 5 appkách sme zjednotili do jedného dashboardu.</p></div>
       <div class="card"><b data-i18n="c2t">NAS bezpečnosť</b><p class="muted" data-i18n="c2">Nasadili sme 3-2-1 architektúru, monitoring a recovery testy.</p></div>
+      <div class="card"><b data-i18n="c3t">Modernizácia kancelárskej infraštruktúry</b><p class="muted" data-i18n="c3">Zjednotili sme zariadenia, sieť a prístupové pravidlá do jedného stabilného prostredia.</p></div>
+      <div class="card"><b data-i18n="c4t">Optimalizácia pracovných staníc</b><p class="muted" data-i18n="c4">Po upgrade hardvéru a tuningu systému sa výrazne skrátil čas exportov a renderu.</p></div>
     </section>
 
     <section id="contact">
@@ -283,7 +287,7 @@
         p1t:'Realizácia A — Performance Office Setup', p1w:'zrýchliť workflow, znížiť hlučnosť a odstrániť lag.', p1p:'nové workstation buildy, airflow tuning a SSD migráciu.', p1i:'stabilnejší výkon a rýchlejšia práca tímu.', p1n:'Do budúcna navrhujeme: kvartálny performance health-check + preventívny servis.',
         p2t:'Realizácia B — Home Assistant Smart Home', p2w:'ovládať všetko z jednej appky a mať stabilné automatizácie.', p2p:'Home Assistant core, dashboardy podľa zón, notifikácie a scenáre.', p2i:'menej manuálnych zásahov a vyšší komfort.', p2n:'Do budúcna navrhujeme: mesačný update automatizácií + rozšírenie zariadení.',
         want:'Požiadavka zákazníka', proposed:'Navrhli sme', impact:'Zlepšenie',
-        casesTitle:'Vybrané úspešné realizácie', c1t:'Smart Home centralizácia', c1:'14 zariadení v 5 appkách sme zjednotili do jedného dashboardu.', c2t:'NAS bezpečnosť', c2:'Nasadili sme 3-2-1 architektúru, monitoring a recovery testy.',
+        casesTitle:'Vybrané úspešné realizácie', c1t:'Smart Home centralizácia', c1:'14 zariadení v 5 appkách sme zjednotili do jedného dashboardu.', c2t:'NAS bezpečnosť', c2:'Nasadili sme 3-2-1 architektúru, monitoring a recovery testy.', c3t:'Modernizácia kancelárskej infraštruktúry', c3:'Zjednotili sme zariadenia, sieť a prístupové pravidlá do jedného stabilného prostredia.', c4t:'Optimalizácia pracovných staníc', c4:'Po upgrade hardvéru a tuningu systému sa výrazne skrátil čas exportov a renderu.',
         contactTitle:'Kontakt', contactLead:'Napíšte nám, čo potrebujete vyriešiť. Odpovieme s návrhom riešenia a ďalším postupom.',
         formNameLabel:'Meno', formNamePh:'Vaše meno',
         formEmailLabel:'Email', formEmailPh:'vas@email.com',
@@ -310,7 +314,7 @@
         p1t:'Project A — Performance Office Setup', p1w:'faster workflow, lower noise and no lag.', p1p:'new workstation builds, airflow tuning and SSD migration.', p1i:'more stable performance and faster team workflow.', p1n:'For the future, we recommend: quarterly performance health-check + preventive service.',
         p2t:'Project B — Home Assistant Smart Home', p2w:'control everything from one app with stable automations.', p2p:'Home Assistant core, zone dashboards, alerts and scenarios.', p2i:'fewer manual actions and higher comfort.', p2n:'For the future, we recommend: monthly automation updates + device expansion.',
         want:'Customer requirement', proposed:'We proposed', impact:'Improvement',
-        casesTitle:'Selected successful case studies', c1t:'Smart Home centralization', c1:'14 devices in 5 apps unified into one dashboard.', c2t:'NAS data safety', c2:'We deployed 3-2-1 architecture, monitoring and recovery tests.',
+        casesTitle:'Selected successful case studies', c1t:'Smart Home centralization', c1:'14 devices in 5 apps unified into one dashboard.', c2t:'NAS data safety', c2:'We deployed 3-2-1 architecture, monitoring and recovery tests.', c3t:'Office infrastructure modernization', c3:'We unified devices, network and access policy into one stable environment.', c4t:'Workstation optimization', c4:'After hardware upgrades and system tuning, export and render times dropped significantly.',
         contactTitle:'Contact', contactLead:'Tell us what you need to solve. We will reply with a proposed solution and next steps.',
         formNameLabel:'Name', formNamePh:'Your name',
         formEmailLabel:'Email', formEmailPh:'your@email.com',
