@@ -38,15 +38,25 @@ html { scroll-behavior: smooth; }
 [data-lang="en"] { display: none; }
 
 /* language radio toggle (works without JS) */
+#lang-sk:checked ~ .drawer [data-lang="sk"],
+#lang-sk:checked ~ header [data-lang="sk"],
+#lang-sk:checked ~ main [data-lang="sk"],
+#lang-sk:checked ~ footer [data-lang="sk"] { display: block !important; }
+
+#lang-sk:checked ~ .drawer [data-lang="en"],
+#lang-sk:checked ~ header [data-lang="en"],
+#lang-sk:checked ~ main [data-lang="en"],
+#lang-sk:checked ~ footer [data-lang="en"] { display: none !important; }
+
 #lang-en:checked ~ .drawer [data-lang="sk"],
 #lang-en:checked ~ header [data-lang="sk"],
 #lang-en:checked ~ main [data-lang="sk"],
-#lang-en:checked ~ footer [data-lang="sk"] { display: none; }
+#lang-en:checked ~ footer [data-lang="sk"] { display: none !important; }
 
 #lang-en:checked ~ .drawer [data-lang="en"],
 #lang-en:checked ~ header [data-lang="en"],
 #lang-en:checked ~ main [data-lang="en"],
-#lang-en:checked ~ footer [data-lang="en"] { display: block; }
+#lang-en:checked ~ footer [data-lang="en"] { display: block !important; }
 
 /* Header + burger */
 header {
@@ -244,19 +254,34 @@ footer { border-top:1px solid var(--line); padding: 24px 0 36px; color:#8f98ac; 
 
       <div class="gallery">
         <figure>
-          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80" alt="PC build" />
-          <figcaption data-lang="sk">PC workstation build & cable management</figcaption>
-          <figcaption data-lang="en">PC workstation build & cable management</figcaption>
+          <img src="https://images.pexels.com/photos/704730/pexels-photo-704730.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="PC build" loading="lazy" />
+          <figcaption data-lang="sk">Výkonný PC build a čistý cable management</figcaption>
+          <figcaption data-lang="en">High-performance PC build and clean cable management</figcaption>
         </figure>
         <figure>
-          <img src="https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=1200&q=80" alt="home automation" />
-          <figcaption data-lang="sk">Smart home dashboard a automatizácie</figcaption>
-          <figcaption data-lang="en">Smart home dashboard and automations</figcaption>
+          <img src="https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=1200&q=80" alt="home automation" loading="lazy" />
+          <figcaption data-lang="sk">Home Assistant dashboard a automatizácie</figcaption>
+          <figcaption data-lang="en">Home Assistant dashboard and automations</figcaption>
         </figure>
         <figure>
-          <img src="https://images.unsplash.com/photo-1597852074816-d933c7d2b988?auto=format&fit=crop&w=1200&q=80" alt="nas" />
-          <figcaption data-lang="sk">NAS + backup infraštruktúra</figcaption>
-          <figcaption data-lang="en">NAS + backup infrastructure</figcaption>
+          <img src="https://images.pexels.com/photos/325229/pexels-photo-325229.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="network rack" loading="lazy" />
+          <figcaption data-lang="sk">Sieťová infraštruktúra a organizovaný rack</figcaption>
+          <figcaption data-lang="en">Network infrastructure and organized rack</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1597852074816-d933c7d2b988?auto=format&fit=crop&w=1200&q=80" alt="nas" loading="lazy" />
+          <figcaption data-lang="sk">NAS server + bezpečné zálohovanie dát</figcaption>
+          <figcaption data-lang="en">NAS server + secure data backup</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.pexels.com/photos/356056/pexels-photo-356056.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="office workstation" loading="lazy" />
+          <figcaption data-lang="sk">Office workstation pre produktivitu</figcaption>
+          <figcaption data-lang="en">Office workstation for productivity</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.pexels.com/photos/442576/pexels-photo-442576.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="smart home devices" loading="lazy" />
+          <figcaption data-lang="sk">Prepojené smart zariadenia v jednom ekosystéme</figcaption>
+          <figcaption data-lang="en">Connected smart devices in one ecosystem</figcaption>
         </figure>
       </div>
     </section>
