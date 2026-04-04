@@ -63,7 +63,7 @@
     .muted{color:var(--muted)}
 
     .hero-head{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-    .logo-mark{width:52px;height:52px;flex:0 0 52px}
+    .logo-mark{width:220px;max-width:58vw;height:auto;display:block}
 
     .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
     .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
@@ -111,11 +111,7 @@
   <main class="container">
     <section id="home">
       <div class="hero-head">
-        <svg class="logo-mark" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs><linearGradient id="g" x1="8" y1="6" x2="56" y2="58"><stop stop-color="#edcf8f"/><stop offset="1" stop-color="#be9142"/></linearGradient></defs>
-          <rect x="4" y="4" width="56" height="56" rx="14" fill="#121827"/>
-          <path d="M18 18h17c8 0 14 6 14 14s-6 14-14 14h-9v10h-8V18zm8 20h9a6 6 0 0 0 0-12h-9v12z" fill="url(#g)"/>
-        </svg>
+        <img class="logo-mark" src="assets/logo-protechtb-v2-emblem.svg" alt="protechtb logo" />
         <span class="tag" data-i18n="tag">LUXURY DARK • PROTECHTB</span>
       </div>
       <h1 data-i18n="heroTitle">Navrhujeme IT riešenia, ktoré sú stabilné, bezpečné a dlhodobo udržateľné.</h1>
