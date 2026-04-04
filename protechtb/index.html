@@ -67,6 +67,8 @@
 
     .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
     .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+    .price{font-size:1.35rem;font-weight:800;color:var(--gold);margin:6px 0}
+    .list{margin:0;padding-left:18px;color:var(--muted)}
 
     details.case{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin:10px 0}
     details.case summary{cursor:pointer;font-weight:700}
@@ -85,7 +87,9 @@
   <aside id="drawer" class="drawer">
     <h4 data-i18n="menu">Menu</h4>
     <a href="#home" data-route="home" data-i18n="navHome">Hlavná stránka</a>
+    <a href="#about" data-route="about" data-i18n="navAbout">O nás</a>
     <a href="#services" data-route="services" data-i18n="navServices">Služby</a>
+    <a href="#packages" data-route="packages" data-i18n="navPackages">Balíky a ceny</a>
     <a href="#gallery" data-route="gallery" data-i18n="navGallery">Galéria</a>
     <a href="#cases" data-route="cases" data-i18n="navCases">Realizácie</a>
     <a href="#contact" data-route="contact" data-i18n="navContact">Kontakt</a>
@@ -118,6 +122,28 @@
       <p class="muted" data-i18n="heroLead">Ponúkame PC buildy, Home Assistant, NAS infraštruktúru a IT správu pre domácnosti aj firmy.</p>
     </section>
 
+    <section id="about">
+      <h2 data-i18n="aboutTitle">O nás</h2>
+      <div class="grid">
+        <div class="card">
+          <b data-i18n="aboutWhoTitle">Kto sme</b>
+          <p class="muted" data-i18n="aboutWho">Sme tím orientovaný na IT infraštruktúru, automatizáciu a dlhodobú spoľahlivosť systémov.</p>
+        </div>
+        <div class="card">
+          <b data-i18n="aboutExpTitle">Skúsenosti</b>
+          <p class="muted" data-i18n="aboutExp">Máme dlhoročné praktické skúsenosti s PC zostavami, Home Assistant, NAS riešeniami a prepojením zariadení.</p>
+        </div>
+        <div class="card">
+          <b data-i18n="aboutApproachTitle">Ako pracujeme</b>
+          <p class="muted" data-i18n="aboutApproach">Každé riešenie navrhujeme individuálne podľa cieľov zákazníka, rozpočtu a budúceho rozvoja.</p>
+        </div>
+        <div class="card">
+          <b data-i18n="aboutValueTitle">Dlhodobá hodnota</b>
+          <p class="muted" data-i18n="aboutValue">Nestaviame jednorazové setupy — navrhujeme systémy, ktoré sa dajú bezpečne škálovať a servisovať.</p>
+        </div>
+      </div>
+    </section>
+
     <section id="services">
       <h2 data-i18n="servicesTitle">Služby</h2>
       <div class="grid">
@@ -125,6 +151,40 @@
         <div class="card"><b>Home Assistant & Smart Home</b><p class="muted" data-i18n="svc2">Integrujeme zariadenia, tvoríme dashboardy a automatizácie.</p></div>
         <div class="card"><b>NAS & Backup</b><p class="muted" data-i18n="svc3">Navrhujeme bezpečné úložisko a zálohovaciu stratégiu 3-2-1.</p></div>
         <div class="card"><b>IT Care</b><p class="muted" data-i18n="svc4">Dlhodobá správa, monitoring a preventívny servis.</p></div>
+      </div>
+    </section>
+
+    <section id="packages">
+      <h2 data-i18n="packagesTitle">Balíky a ceny</h2>
+      <p class="muted" data-i18n="packagesLead">Transparentné balíky pre rýchly štart. Finálna cena sa upravuje podľa rozsahu.</p>
+      <div class="grid">
+        <div class="card">
+          <b data-i18n="pkg1Title">Smart Start</b>
+          <div class="price" data-i18n="pkg1Price">od 299 €</div>
+          <ul class="list">
+            <li data-i18n="pkg1a">Audit prostredia a cieľov</li>
+            <li data-i18n="pkg1b">Setup do 5 zariadení</li>
+            <li data-i18n="pkg1c">Základný dashboard + 2 automatizácie</li>
+          </ul>
+        </div>
+        <div class="card">
+          <b data-i18n="pkg2Title">NAS Safe Home</b>
+          <div class="price" data-i18n="pkg2Price">od 349 €</div>
+          <ul class="list">
+            <li data-i18n="pkg2a">NAS deploy + používateľské účty</li>
+            <li data-i18n="pkg2b">Automatické zálohy mobil/PC</li>
+            <li data-i18n="pkg2c">Recovery test + monitoring</li>
+          </ul>
+        </div>
+        <div class="card">
+          <b data-i18n="pkg3Title">IT Care Monthly</b>
+          <div class="price" data-i18n="pkg3Price">49–99 €/mes</div>
+          <ul class="list">
+            <li data-i18n="pkg3a">Priebežná správa systému</li>
+            <li data-i18n="pkg3b">Remote podpora a zásahy</li>
+            <li data-i18n="pkg3c">Mesačný health-check a odporúčania</li>
+          </ul>
+        </div>
       </div>
     </section>
 
@@ -179,11 +239,20 @@
   <script>
     const dict = {
       sk: {
-        menu:'Menu', navHome:'Hlavná stránka', navServices:'Služby', navGallery:'Galéria', navCases:'Realizácie', navContact:'Kontakt',
+        menu:'Menu', navHome:'Hlavná stránka', navAbout:'O nás', navServices:'Služby', navPackages:'Balíky a ceny', navGallery:'Galéria', navCases:'Realizácie', navContact:'Kontakt',
         tag:'LUXURY DARK • PROTECHTB',
         heroTitle:'Navrhujeme IT riešenia, ktoré sú stabilné, bezpečné a dlhodobo udržateľné.',
         heroLead:'Ponúkame PC buildy, Home Assistant, NAS infraštruktúru a IT správu pre domácnosti aj firmy.',
+        aboutTitle:'O nás',
+        aboutWhoTitle:'Kto sme', aboutWho:'Sme tím orientovaný na IT infraštruktúru, automatizáciu a dlhodobú spoľahlivosť systémov.',
+        aboutExpTitle:'Skúsenosti', aboutExp:'Máme dlhoročné praktické skúsenosti s PC zostavami, Home Assistant, NAS riešeniami a prepojením zariadení.',
+        aboutApproachTitle:'Ako pracujeme', aboutApproach:'Každé riešenie navrhujeme individuálne podľa cieľov zákazníka, rozpočtu a budúceho rozvoja.',
+        aboutValueTitle:'Dlhodobá hodnota', aboutValue:'Nestaviame jednorazové setupy — navrhujeme systémy, ktoré sa dajú bezpečne škálovať a servisovať.',
         servicesTitle:'Služby', svc1:'Skladáme a optimalizujeme výkonné zostavy podľa rozpočtu a cieľa.', svc2:'Integrujeme zariadenia, tvoríme dashboardy a automatizácie.', svc3:'Navrhujeme bezpečné úložisko a zálohovaciu stratégiu 3-2-1.', svc4:'Dlhodobá správa, monitoring a preventívny servis.',
+        packagesTitle:'Balíky a ceny', packagesLead:'Transparentné balíky pre rýchly štart. Finálna cena sa upravuje podľa rozsahu.',
+        pkg1Title:'Smart Start', pkg1Price:'od 299 €', pkg1a:'Audit prostredia a cieľov', pkg1b:'Setup do 5 zariadení', pkg1c:'Základný dashboard + 2 automatizácie',
+        pkg2Title:'NAS Safe Home', pkg2Price:'od 349 €', pkg2a:'NAS deploy + používateľské účty', pkg2b:'Automatické zálohy mobil/PC', pkg2c:'Recovery test + monitoring',
+        pkg3Title:'IT Care Monthly', pkg3Price:'49–99 €/mes', pkg3a:'Priebežná správa systému', pkg3b:'Remote podpora a zásahy', pkg3c:'Mesačný health-check a odporúčania',
         galleryTitle:'Galéria (rozklikávacie realizácie)',
         p1t:'Realizácia A — Performance Office Setup', p1w:'zrýchliť workflow, znížiť hlučnosť a odstrániť lag.', p1p:'nové workstation buildy, airflow tuning a SSD migráciu.', p1i:'stabilnejší výkon a rýchlejšia práca tímu.', p1n:'Ďalší podpis: kvartálny performance health-check + preventívny servis.',
         p2t:'Realizácia B — Home Assistant Smart Home', p2w:'ovládať všetko z jednej appky a mať stabilné automatizácie.', p2p:'Home Assistant core, dashboardy podľa zón, notifikácie a scenáre.', p2i:'menej manuálnych zásahov a vyšší komfort.', p2n:'Ďalší podpis: mesačný update automatizácií + rozšírenie zariadení.',
@@ -192,11 +261,20 @@
         contactTitle:'Kontakt', contactLead:'Kontaktné údaje doplníme po finalizácii brandingu.'
       },
       en: {
-        menu:'Menu', navHome:'Home', navServices:'Services', navGallery:'Gallery', navCases:'Case studies', navContact:'Contact',
+        menu:'Menu', navHome:'Home', navAbout:'About us', navServices:'Services', navPackages:'Packages & pricing', navGallery:'Gallery', navCases:'Case studies', navContact:'Contact',
         tag:'LUXURY DARK • PROTECHTB',
         heroTitle:'We design IT solutions that are stable, secure, and built for long-term reliability.',
         heroLead:'We deliver PC builds, Home Assistant, NAS infrastructure and ongoing IT care for homes and businesses.',
+        aboutTitle:'About us',
+        aboutWhoTitle:'Who we are', aboutWho:'We are a team focused on IT infrastructure, automation and long-term system reliability.',
+        aboutExpTitle:'Experience', aboutExp:'We have long-term hands-on experience with PC builds, Home Assistant, NAS solutions and device integrations.',
+        aboutApproachTitle:'How we work', aboutApproach:'Every solution is designed individually based on customer goals, budget and future growth.',
+        aboutValueTitle:'Long-term value', aboutValue:'We do not build one-off setups — we design systems that scale safely and stay maintainable.',
         servicesTitle:'Services', svc1:'We build and optimize high-performance systems by budget and goal.', svc2:'We integrate devices, build dashboards and automations.', svc3:'We design secure storage and a 3-2-1 backup strategy.', svc4:'Ongoing management, monitoring and preventive service.',
+        packagesTitle:'Packages & pricing', packagesLead:'Transparent starter packages. Final pricing is adjusted by scope.',
+        pkg1Title:'Smart Start', pkg1Price:'from €299', pkg1a:'Environment and goal audit', pkg1b:'Setup for up to 5 devices', pkg1c:'Base dashboard + 2 automations',
+        pkg2Title:'NAS Safe Home', pkg2Price:'from €349', pkg2a:'NAS deploy + user accounts', pkg2b:'Automatic mobile/PC backups', pkg2c:'Recovery test + monitoring',
+        pkg3Title:'IT Care Monthly', pkg3Price:'€49–99/mo', pkg3a:'Ongoing system operations', pkg3b:'Remote support and interventions', pkg3c:'Monthly health-check and recommendations',
         galleryTitle:'Gallery (expandable projects)',
         p1t:'Project A — Performance Office Setup', p1w:'faster workflow, lower noise and no lag.', p1p:'new workstation builds, airflow tuning and SSD migration.', p1i:'more stable performance and faster team workflow.', p1n:'Next signature: quarterly performance health-check + preventive service.',
         p2t:'Project B — Home Assistant Smart Home', p2w:'control everything from one app with stable automations.', p2p:'Home Assistant core, zone dashboards, alerts and scenarios.', p2i:'fewer manual actions and higher comfort.', p2n:'Next signature: monthly automation updates + device expansion.',
