@@ -85,6 +85,10 @@
     .mini b{display:block;color:var(--gold);margin-bottom:4px}
     .next{margin-top:10px;border:1px solid var(--ok-line);background:var(--ok-bg);color:var(--ok-text);border-radius:10px;padding:10px}
 
+    .faq details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0}
+    .faq summary{cursor:pointer;font-weight:700}
+    .faq p{margin:8px 0 4px;color:var(--muted)}
+
     .hero-cta{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}
 
     .contact-form{margin-top:14px;display:grid;gap:10px;max-width:760px}
@@ -123,6 +127,7 @@
     <a href="#packages" data-route="packages" data-i18n="navPackages">Balíky a ceny</a>
     <a href="#gallery" data-route="gallery" data-i18n="navGallery">Galéria</a>
     <a href="#cases" data-route="cases" data-i18n="navCases">Realizácie</a>
+    <a href="#faq" data-route="faq" data-i18n="navFaq">FAQ</a>
     <a href="#contact" data-route="contact" data-i18n="navContact">Kontakt</a>
   </aside>
   <div id="overlay" class="overlay"></div>
@@ -297,6 +302,21 @@
       <div class="card"><b data-i18n="c6t">Kamerové a bezpečnostné systémy na mieru</b><p class="muted" data-i18n="c6">Navrhli a nasadili sme kamerový systém, alarmy a bezpečnostné scenáre s notifikáciami a vzdialeným dohľadom.</p></div>
     </section>
 
+    <section id="faq" class="faq">
+      <h2 data-i18n="faqTitle">FAQ — Často kladené otázky</h2>
+
+      <details open><summary data-i18n="faq1q">1) Robíte skôr domácnosti alebo firmy?</summary><p data-i18n="faq1a">Oboje. Návrh riešenia vždy prispôsobujeme rozsahu projektu, rozpočtu a očakávanému rastu.</p></details>
+      <details open><summary data-i18n="faq2q">2) Čo všetko viete prepojiť v smart domácnosti?</summary><p data-i18n="faq2a">Integrujeme zariadenia naprieč ekosystémami (Home Assistant, Google Home, Apple Home a ďalšie huby) do jednotného systému.</p></details>
+      <details open><summary data-i18n="faq3q">3) Robíte aj návrh hardvéru alebo len software?</summary><p data-i18n="faq3a">Robíme oboje: návrh hardvéru aj konfiguráciu softvéru, vrátane testovania stability a bezpečnosti.</p></details>
+      <details open><summary data-i18n="faq4q">4) Ako dlho trvá realizácia?</summary><p data-i18n="faq4a">Podľa rozsahu. Menšie setupy zvyčajne 1–3 dni, komplexnejšie riešenia 1–3 týždne.</p></details>
+      <details open><summary data-i18n="faq5q">5) Viete nastaviť NAS aj pre úplného začiatočníka?</summary><p data-i18n="faq5a">Áno. Všetko nastavíme, vysvetlíme a odovzdáme s jednoduchým návodom na bežné používanie.</p></details>
+      <details open><summary data-i18n="faq6q">6) Riešite aj zálohy a obnovu dát?</summary><p data-i18n="faq6a">Áno. Nastavujeme 3-2-1 zálohovanie a testujeme reálnu obnovu dát, nie len teóriu.</p></details>
+      <details open><summary data-i18n="faq7q">7) Ako riešite bezpečnosť kamier a alarmov?</summary><p data-i18n="faq7a">Navrhujeme bezpečnostné zóny, prístupy, notifikácie a pravidelnú kontrolu funkčnosti systému.</p></details>
+      <details open><summary data-i18n="faq8q">8) Ponúkate aj dlhodobú správu po nasadení?</summary><p data-i18n="faq8a">Áno. Máme mesačný model IT Care: monitoring, aktualizácie, preventívny servis a podporu.</p></details>
+      <details open><summary data-i18n="faq9q">9) Viete riešenie rozšíriť do budúcna?</summary><p data-i18n="faq9a">Áno, riešenia navrhujeme modulárne, aby sa dali bezpečne škálovať bez zbytočných migrácií.</p></details>
+      <details open><summary data-i18n="faq10q">10) Ako začneme spoluprácu?</summary><p data-i18n="faq10a">Pošlete dopyt, urobíme krátky audit, navrhneme riešenie a po odsúhlasení ideme do realizácie.</p></details>
+    </section>
+
     <section id="contact">
       <h2 data-i18n="contactTitle">Kontakt</h2>
       <p class="muted" data-i18n="contactLead">Napíšte nám, čo potrebujete vyriešiť. Odpovieme s návrhom riešenia a ďalším postupom.</p>
@@ -320,7 +340,7 @@
   <script>
     const dict = {
       sk: {
-        menu:'Menu', navHome:'Hlavná stránka', navAbout:'O nás', navServices:'Služby', navPackages:'Balíky a ceny', navGallery:'Galéria', navCases:'Realizácie', navContact:'Kontakt',
+        menu:'Menu', navHome:'Hlavná stránka', navAbout:'O nás', navServices:'Služby', navPackages:'Balíky a ceny', navGallery:'Galéria', navCases:'Realizácie', navFaq:'FAQ', navContact:'Kontakt',
         tag:'PROTECHTB • SMART IT SYSTEMS',
         heroTitle:'Navrhujeme IT riešenia, ktoré sú stabilné, bezpečné a dlhodobo udržateľné.',
         heroLead:'Ponúkame PC buildy, Home Assistant, NAS infraštruktúru, prepájanie zariadení naprieč platformami (Google Home, Apple Home a ďalšie huby) a IT správu pre domácnosti aj firmy.',
@@ -343,13 +363,24 @@
         want:'Požiadavka zákazníka', proposed:'Navrhli sme', impact:'Zlepšenie',
         casesTitle:'Vybrané úspešné realizácie', c1t:'Smart Home centralizácia', c1:'14 zariadení v 5 appkách sme zjednotili do jedného dashboardu.', c2t:'NAS bezpečnosť', c2:'Nasadili sme 3-2-1 architektúru, monitoring a recovery testy.', c3t:'Modernizácia kancelárskej infraštruktúry', c3:'Zjednotili sme zariadenia, sieť a prístupové pravidlá do jedného stabilného prostredia.', c4t:'Optimalizácia pracovných staníc', c4:'Po upgrade hardvéru a tuningu systému sa výrazne skrátil čas exportov a renderu.', c5t:'Kompletné NAS riešenie na mieru', c5:'Sprevádzkovali sme NAS presne podľa požiadaviek domácnosti/firmy: výkon, jednotná správa, bezpečné zdieľanie a automatické zálohy.', c6t:'Kamerové a bezpečnostné systémy na mieru', c6:'Navrhli a nasadili sme kamerový systém, alarmy a bezpečnostné scenáre s notifikáciami a vzdialeným dohľadom.',
         contactTitle:'Kontakt', contactLead:'Napíšte nám, čo potrebujete vyriešiť. Odpovieme s návrhom riešenia a ďalším postupom.',
+        faqTitle:'FAQ — Často kladené otázky',
+        faq1q:'1) Robíte skôr domácnosti alebo firmy?', faq1a:'Oboje. Návrh riešenia vždy prispôsobujeme rozsahu projektu, rozpočtu a očakávanému rastu.',
+        faq2q:'2) Čo všetko viete prepojiť v smart domácnosti?', faq2a:'Integrujeme zariadenia naprieč ekosystémami (Home Assistant, Google Home, Apple Home a ďalšie huby) do jednotného systému.',
+        faq3q:'3) Robíte aj návrh hardvéru alebo len software?', faq3a:'Robíme oboje: návrh hardvéru aj konfiguráciu softvéru, vrátane testovania stability a bezpečnosti.',
+        faq4q:'4) Ako dlho trvá realizácia?', faq4a:'Podľa rozsahu. Menšie setupy zvyčajne 1–3 dni, komplexnejšie riešenia 1–3 týždne.',
+        faq5q:'5) Viete nastaviť NAS aj pre úplného začiatočníka?', faq5a:'Áno. Všetko nastavíme, vysvetlíme a odovzdáme s jednoduchým návodom na bežné používanie.',
+        faq6q:'6) Riešite aj zálohy a obnovu dát?', faq6a:'Áno. Nastavujeme 3-2-1 zálohovanie a testujeme reálnu obnovu dát, nie len teóriu.',
+        faq7q:'7) Ako riešite bezpečnosť kamier a alarmov?', faq7a:'Navrhujeme bezpečnostné zóny, prístupy, notifikácie a pravidelnú kontrolu funkčnosti systému.',
+        faq8q:'8) Ponúkate aj dlhodobú správu po nasadení?', faq8a:'Áno. Máme mesačný model IT Care: monitoring, aktualizácie, preventívny servis a podporu.',
+        faq9q:'9) Viete riešenie rozšíriť do budúcna?', faq9a:'Áno, riešenia navrhujeme modulárne, aby sa dali bezpečne škálovať bez zbytočných migrácií.',
+        faq10q:'10) Ako začneme spoluprácu?', faq10a:'Pošlete dopyt, urobíme krátky audit, navrhneme riešenie a po odsúhlasení ideme do realizácie.',
         formNameLabel:'Meno', formNamePh:'Vaše meno',
         formEmailLabel:'Email', formEmailPh:'vas@email.com',
         formMsgLabel:'Dopyt', formMsgPh:'Stručne popíšte, čo potrebujete.',
         formSend:'Odoslať dopyt'
       },
       en: {
-        menu:'Menu', navHome:'Home', navAbout:'About us', navServices:'Services', navPackages:'Packages & pricing', navGallery:'Gallery', navCases:'Case studies', navContact:'Contact',
+        menu:'Menu', navHome:'Home', navAbout:'About us', navServices:'Services', navPackages:'Packages & pricing', navGallery:'Gallery', navCases:'Case studies', navFaq:'FAQ', navContact:'Contact',
         tag:'PROTECHTB • SMART IT SYSTEMS',
         heroTitle:'We design IT solutions that are stable, secure, and built for long-term reliability.',
         heroLead:'We deliver PC builds, Home Assistant, NAS infrastructure, cross-platform device integration (Google Home, Apple Home and other hubs), and ongoing IT care for homes and businesses.',
@@ -372,6 +403,17 @@
         want:'Customer requirement', proposed:'We proposed', impact:'Improvement',
         casesTitle:'Selected successful case studies', c1t:'Smart Home centralization', c1:'14 devices in 5 apps unified into one dashboard.', c2t:'NAS data safety', c2:'We deployed 3-2-1 architecture, monitoring and recovery tests.', c3t:'Office infrastructure modernization', c3:'We unified devices, network and access policy into one stable environment.', c4t:'Workstation optimization', c4:'After hardware upgrades and system tuning, export and render times dropped significantly.', c5t:'Complete NAS deployment tailored to needs', c5:'We delivered NAS setup tailored to home/business requirements: performance, unified management, secure sharing and automated backups.', c6t:'Custom CCTV and security systems', c6:'We designed and deployed CCTV, alarms and security scenarios with alerts and remote monitoring.',
         contactTitle:'Contact', contactLead:'Tell us what you need to solve. We will reply with a proposed solution and next steps.',
+        faqTitle:'FAQ — Frequently asked questions',
+        faq1q:'1) Do you work more with homes or businesses?', faq1a:'Both. We tailor every solution to project scope, budget and expected growth.',
+        faq2q:'2) What can you integrate in a smart home?', faq2a:'We integrate devices across ecosystems (Home Assistant, Google Home, Apple Home and other hubs) into one unified system.',
+        faq3q:'3) Do you design hardware too, or only software?', faq3a:'Both: hardware architecture and software configuration, including stability and security testing.',
+        faq4q:'4) How long does implementation take?', faq4a:'Depending on scope. Smaller setups usually 1–3 days, larger projects 1–3 weeks.',
+        faq5q:'5) Can you set up NAS for complete beginners?', faq5a:'Yes. We configure everything and provide a simple guide for everyday usage.',
+        faq6q:'6) Do you handle backups and data recovery?', faq6a:'Yes. We implement 3-2-1 backups and test real recovery scenarios, not just theory.',
+        faq7q:'7) How do you approach CCTV and alarm security?', faq7a:'We design security zones, access rules, alerts and recurring system checks.',
+        faq8q:'8) Do you offer ongoing support after deployment?', faq8a:'Yes. Our IT Care monthly model includes monitoring, updates, preventive service and support.',
+        faq9q:'9) Can the solution be expanded later?', faq9a:'Yes. We design modular systems that scale safely without unnecessary migrations.',
+        faq10q:'10) How do we start?', faq10a:'Send us an inquiry, we run a short audit, propose the solution and start implementation after approval.',
         formNameLabel:'Name', formNamePh:'Your name',
         formEmailLabel:'Email', formEmailPh:'your@email.com',
         formMsgLabel:'Inquiry', formMsgPh:'Briefly describe what you need.',
