@@ -3,18 +3,34 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>protechtb — Hlavná stránka</title>
+  <title>protechtb — Luxury IT Systems</title>
+  <meta name="description" content="protechtb: viacstranový obsah v jednej stránke — služby, galéria a realizácie." />
   <link rel="stylesheet" href="assets/site.css" />
 </head>
 <body>
-  <div id="sk"></div><div id="en"></div>
+  <input id="lang-sk" type="radio" name="lang" checked>
+  <input id="lang-en" type="radio" name="lang">
   <input id="menu-toggle" type="checkbox" />
+
   <aside class="drawer">
     <div class="close-row"><label class="close" for="menu-toggle">✕</label></div>
-    <h4 data-lang="sk">Menu</h4><h4 data-lang="en">Menu</h4>
-    <a href="index.html" data-lang="sk">Hlavná stránka</a><a href="index.html" data-lang="en">Home</a>
-    <a href="gallery.html" data-lang="sk">Galéria</a><a href="gallery.html" data-lang="en">Gallery</a>
-    <a href="realizacie.html" data-lang="sk">Realizácie</a><a href="realizacie.html" data-lang="en">Case Studies</a>
+    <h4 data-lang="sk">Menu</h4>
+    <h4 data-lang="en">Menu</h4>
+
+    <a href="#home" data-lang="sk">Hlavná stránka</a>
+    <a href="#home" data-lang="en">Home</a>
+
+    <a href="#services" data-lang="sk">Služby</a>
+    <a href="#services" data-lang="en">Services</a>
+
+    <a href="#gallery" data-lang="sk">Galéria</a>
+    <a href="#gallery" data-lang="en">Gallery</a>
+
+    <a href="#cases" data-lang="sk">Realizácie</a>
+    <a href="#cases" data-lang="en">Case studies</a>
+
+    <a href="#contact" data-lang="sk">Kontakt</a>
+    <a href="#contact" data-lang="en">Contact</a>
   </aside>
   <label class="overlay" for="menu-toggle"></label>
 
@@ -24,39 +40,136 @@
         <label class="burger" for="menu-toggle" aria-label="menu"><i></i></label>
         <div class="brand">pro<span>techtb</span></div>
       </div>
-      <div class="lang"><a id="skBtn" href="#sk">SK</a><a id="enBtn" href="#en">EN</a></div>
+      <div class="lang" aria-label="language switch">
+        <label for="lang-sk">SK</label>
+        <label for="lang-en">EN</label>
+      </div>
     </div>
   </header>
 
   <main class="container">
-    <section class="hero">
+    <section class="hero" id="home">
       <div class="tag" data-lang="sk">LUXURY DARK • SMART IT SYSTEMS</div>
       <div class="tag" data-lang="en">LUXURY DARK • SMART IT SYSTEMS</div>
+
       <h1 data-lang="sk">Profesionálne IT riešenia pre domácnosť aj biznis.</h1>
       <h1 data-lang="en">Professional IT solutions for home and business.</h1>
+
       <p class="lead" data-lang="sk">Staviam spoľahlivé IT systémy: výkonné PC, Home Assistant smart domácnosť, NAS a dlhodobú správu bez chaosu.</p>
       <p class="lead" data-lang="en">I build reliable IT systems: high-performance PCs, Home Assistant smart home setups, NAS and long-term operations without chaos.</p>
+
       <div class="cta">
-        <a class="btn primary" href="realizacie.html" data-lang="sk">Pozrieť realizácie</a>
-        <a class="btn primary" href="realizacie.html" data-lang="en">View case studies</a>
-        <a class="btn" href="gallery.html" data-lang="sk">Galéria</a>
-        <a class="btn" href="gallery.html" data-lang="en">Gallery</a>
+        <a class="btn primary" href="#services" data-lang="sk">Čo ponúkam</a>
+        <a class="btn primary" href="#services" data-lang="en">What I offer</a>
+        <a class="btn" href="#cases" data-lang="sk">Realizácie</a>
+        <a class="btn" href="#cases" data-lang="en">Case studies</a>
       </div>
     </section>
 
-    <section>
-      <h2 data-lang="sk">Čo ponúkam</h2><h2 data-lang="en">What I offer</h2>
-      <p class="section-lead" data-lang="sk">Podpisové služby, ktoré vieš predávať hneď: service-first model s jasným výsledkom.</p>
-      <p class="section-lead" data-lang="en">Signature services you can sell immediately: service-first model with clear deliverables.</p>
+    <section id="services">
+      <h2 data-lang="sk">Podpisové služby</h2>
+      <h2 data-lang="en">Signature services</h2>
+      <p class="section-lead" data-lang="sk">Jasný model: problém → riešenie → výsledok.</p>
+      <p class="section-lead" data-lang="en">Clear model: problem → solution → outcome.</p>
+
       <div class="grid2">
-        <article class="card"><h3>PC Build & Performance</h3><p data-lang="sk">Skladanie, upgrade, tuning výkonu a stability.</p><p data-lang="en">Custom build, upgrades, performance and stability tuning.</p></article>
-        <article class="card"><h3>Home Assistant & Smart Home</h3><p data-lang="sk">Integrácie, automatizácie, dashboardy a scenáre.</p><p data-lang="en">Integrations, automations, dashboards and scenarios.</p></article>
-        <article class="card"><h3>NAS & Backup Reliability</h3><p data-lang="sk">Návrh NAS, 3-2-1 backup, monitoring a obnova dát.</p><p data-lang="en">NAS design, 3-2-1 backup, monitoring and recovery.</p></article>
-        <article class="card"><h3>IT Care & Integrations</h3><p data-lang="sk">Mesačná správa, vzdialená podpora, prevencia výpadkov.</p><p data-lang="en">Monthly operations, remote support, downtime prevention.</p></article>
+        <article class="card">
+          <h3>PC Build & Performance</h3>
+          <p data-lang="sk">Skladanie, upgrade a tuning výkonu/stability pre office, gaming aj creator workflow.</p>
+          <p data-lang="en">Builds, upgrades and performance/stability tuning for office, gaming and creator workflows.</p>
+          <div class="meta" data-lang="sk"><b>Výstup:</b> tichý, stabilný a rýchly systém.</div>
+          <div class="meta" data-lang="en"><b>Outcome:</b> quiet, stable, high-performance system.</div>
+        </article>
+
+        <article class="card">
+          <h3>Home Assistant & Smart Home</h3>
+          <p data-lang="sk">Integrácie, automatizácie a dashboardy pre každodenný komfort.</p>
+          <p data-lang="en">Integrations, automations and dashboards for daily comfort.</p>
+          <div class="meta" data-lang="sk"><b>Výstup:</b> smart domácnosť pod jedným ovládaním.</div>
+          <div class="meta" data-lang="en"><b>Outcome:</b> unified smart-home control.</div>
+        </article>
+
+        <article class="card">
+          <h3>NAS & Backup Reliability</h3>
+          <p data-lang="sk">NAS setup, 3-2-1 backup stratégia, monitoring a recovery test.</p>
+          <p data-lang="en">NAS setup, 3-2-1 backup strategy, monitoring and recovery tests.</p>
+          <div class="meta" data-lang="sk"><b>Výstup:</b> bezpečné dáta a jasný recovery plán.</div>
+          <div class="meta" data-lang="en"><b>Outcome:</b> secure data and clear recovery plan.</div>
+        </article>
+
+        <article class="card">
+          <h3>IT Care & Integrations</h3>
+          <p data-lang="sk">Priebežná správa, vzdialená podpora, menej výpadkov a improvizácie.</p>
+          <p data-lang="en">Ongoing maintenance, remote support, less downtime and firefighting.</p>
+          <div class="meta" data-lang="sk"><b>Výstup:</b> predvídateľné fungovanie IT prostredia.</div>
+          <div class="meta" data-lang="en"><b>Outcome:</b> predictable IT operations.</div>
+        </article>
       </div>
+    </section>
+
+    <section id="gallery">
+      <h2 data-lang="sk">Galéria</h2>
+      <h2 data-lang="en">Gallery</h2>
+      <p class="section-lead" data-lang="sk">Ilustračné vizuály z prostredí, ktoré riešim.</p>
+      <p class="section-lead" data-lang="en">Illustrative visuals from environments I build and optimize.</p>
+
+      <div class="gallery">
+        <figure>
+          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80" alt="PC build" />
+          <figcaption data-lang="sk">PC workstation build & cable management</figcaption>
+          <figcaption data-lang="en">PC workstation build & cable management</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=1200&q=80" alt="home automation" />
+          <figcaption data-lang="sk">Smart home dashboard a automatizácie</figcaption>
+          <figcaption data-lang="en">Smart home dashboard and automations</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1597852074816-d933c7d2b988?auto=format&fit=crop&w=1200&q=80" alt="nas" />
+          <figcaption data-lang="sk">NAS + backup infraštruktúra</figcaption>
+          <figcaption data-lang="en">NAS + backup infrastructure</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="cases">
+      <h2 data-lang="sk">Úspešné realizácie</h2>
+      <h2 data-lang="en">Successful case studies</h2>
+      <div class="case-list">
+        <article class="case">
+          <b data-lang="sk">Realizácia #01 — Smart Home centralizácia</b>
+          <b data-lang="en">Case #01 — Smart Home centralization</b>
+          <p data-lang="sk"><strong>Problém:</strong> 14 zariadení v 5 appkách.</p>
+          <p data-lang="sk"><strong>Riešenie:</strong> Home Assistant, 11 automatizácií, jednotný dashboard.</p>
+          <p data-lang="sk"><strong>Dopad:</strong> menej ručných zásahov, vyšší komfort.</p>
+          <p data-lang="en"><strong>Problem:</strong> 14 devices across 5 apps.</p>
+          <p data-lang="en"><strong>Solution:</strong> Home Assistant, 11 automations, unified dashboard.</p>
+          <p data-lang="en"><strong>Impact:</strong> fewer manual actions, higher comfort.</p>
+        </article>
+
+        <article class="case">
+          <b data-lang="sk">Realizácia #02 — NAS + bezpečnosť dát</b>
+          <b data-lang="en">Case #02 — NAS + data safety</b>
+          <p data-lang="sk"><strong>Problém:</strong> dôležité dáta bez robustného backupu.</p>
+          <p data-lang="sk"><strong>Riešenie:</strong> 3-2-1 stratégia, automatické zálohy, recovery test.</p>
+          <p data-lang="sk"><strong>Dopad:</strong> minimálne riziko straty dát.</p>
+          <p data-lang="en"><strong>Problem:</strong> critical data without reliable backups.</p>
+          <p data-lang="en"><strong>Solution:</strong> 3-2-1 strategy, automatic backups, recovery tests.</p>
+          <p data-lang="en"><strong>Impact:</strong> minimal data-loss risk.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2 data-lang="sk">Kontakt</h2>
+      <h2 data-lang="en">Contact</h2>
+      <p class="section-lead" data-lang="sk">Kontakty doplníme po finálnom brandingu. Stránka je pripravená na nasadenie.</p>
+      <p class="section-lead" data-lang="en">Contact details will be added after final branding. The site is deployment-ready.</p>
     </section>
   </main>
 
-  <footer><div class="container">© 2026 protechtb</div></footer>
+  <footer>
+    <div class="container">© 2026 protechtb</div>
+  </footer>
 </body>
 </html>

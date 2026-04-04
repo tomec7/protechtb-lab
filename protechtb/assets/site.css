@@ -23,11 +23,22 @@ body {
 }
 .container { max-width: var(--max); margin: 0 auto; padding: 0 20px; }
 
-/* language defaults */
+html { scroll-behavior: smooth; }
+
+/* language defaults (SK) */
 [data-lang="sk"] { display: block; }
 [data-lang="en"] { display: none; }
-html:has(#en:target) [data-lang="sk"] { display: none; }
-html:has(#en:target) [data-lang="en"] { display: block; }
+
+/* language radio toggle (works without JS) */
+#lang-en:checked ~ .drawer [data-lang="sk"],
+#lang-en:checked ~ header [data-lang="sk"],
+#lang-en:checked ~ main [data-lang="sk"],
+#lang-en:checked ~ footer [data-lang="sk"] { display: none; }
+
+#lang-en:checked ~ .drawer [data-lang="en"],
+#lang-en:checked ~ header [data-lang="en"],
+#lang-en:checked ~ main [data-lang="en"],
+#lang-en:checked ~ footer [data-lang="en"] { display: block; }
 
 /* Header + burger */
 header {
@@ -41,7 +52,7 @@ header {
 .brand { font-weight: 800; letter-spacing: .08em; font-size: 1.02rem; text-transform: lowercase; }
 .brand span { color: var(--gold); }
 
-#menu-toggle { display: none; }
+#menu-toggle, #lang-sk, #lang-en { display: none; }
 .burger {
   width: 42px; height: 42px; border: 1px solid var(--line); border-radius: 10px;
   display: grid; place-items: center; cursor: pointer; background: var(--bg-soft);
@@ -75,10 +86,9 @@ header {
 #menu-toggle:checked ~ .overlay { opacity: 1; pointer-events: all; }
 
 .lang { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; background: var(--bg-soft); }
-.lang a { text-decoration:none; color:var(--muted); padding:8px 13px; font-weight:700; display:inline-block; }
-html:has(#en:target) .lang #enBtn,
-html:not(:has(#en:target)) .lang #skBtn,
-html:has(#sk:target) .lang #skBtn {
+.lang label { text-decoration:none; color:var(--muted); padding:8px 13px; font-weight:700; display:inline-block; cursor:pointer; }
+#lang-sk:checked ~ header .lang label[for="lang-sk"],
+#lang-en:checked ~ header .lang label[for="lang-en"] {
   background: linear-gradient(180deg, var(--gold), var(--gold-2)); color:#17120a;
 }
 
