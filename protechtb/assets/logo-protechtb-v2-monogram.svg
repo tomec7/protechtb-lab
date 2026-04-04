@@ -1,0 +1,13 @@
+<svg width="640" height="260" viewBox="0 0 640 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="m" x1="40" y1="20" x2="600" y2="230" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F0D290"/>
+      <stop offset="1" stop-color="#A87424"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="260" rx="30" fill="#0C121B"/>
+  <rect x="30" y="30" width="580" height="200" rx="20" fill="#101928"/>
+  <path d="M96 70H248C294 70 332 108 332 154C332 200 294 238 248 238H138V206H248C276 206 300 182 300 154C300 126 276 102 248 102H138V238H96V70Z" fill="url(#m)"/>
+  <path d="M362 70H544V102H475V238H431V102H362V70Z" fill="#E7C985"/>
+  <text x="360" y="176" fill="#9EABC2" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="20" letter-spacing="2">PROTECHTB</text>
+</svg>

@@ -1,0 +1,14 @@
+<svg width="900" height="220" viewBox="0 0 900 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g" x1="290" y1="40" x2="560" y2="190" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F1D493"/>
+      <stop offset="1" stop-color="#A87621"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="220" rx="24" fill="#0B1017"/>
+  <text x="58" y="136" fill="#EEF3FA" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="88" font-weight="650" letter-spacing="0.8">pro</text>
+  <text x="212" y="136" fill="url(#g)" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="88" font-weight="650" letter-spacing="0.8">techtb</text>
+  <circle cx="820" cy="110" r="30" stroke="url(#g)" stroke-width="2"/>
+  <path d="M805 110h18" stroke="#E4C580" stroke-width="2"/>
+  <path d="M814 101v18" stroke="#E4C580" stroke-width="2"/>
+</svg>
