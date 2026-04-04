@@ -55,11 +55,13 @@
       display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden;
       background: var(--bg-soft);
     }
-    .lang button {
+    .lang a {
+      text-decoration: none;
       border: 0; background: transparent; color: var(--muted);
       padding: 8px 13px; cursor: pointer; font-weight: 700;
+      display: inline-block;
     }
-    .lang button.active { background: linear-gradient(180deg, var(--gold), var(--gold-2)); color: #17120a; }
+    .lang a.active { background: linear-gradient(180deg, var(--gold), var(--gold-2)); color: #17120a; }
 
     .hero { padding: 92px 0 56px; }
     .tag {
@@ -197,8 +199,21 @@
 
     footer { padding: 26px 0 44px; color: #8f98ac; font-size: .92rem; }
 
-    [data-lang] { display: none; }
-    [data-lang].show { display: block; }
+    /* Default: Slovak */
+    [data-lang="sk"] { display: block; }
+    [data-lang="en"] { display: none; }
+
+    /* Pure CSS language switch via hash anchors */
+    html:has(#en:target) [data-lang="sk"] { display: none; }
+    html:has(#en:target) [data-lang="en"] { display: block; }
+
+    html:has(#en:target) .lang a { color: var(--muted); background: transparent; }
+    html:has(#en:target) .lang #enBtn { background: linear-gradient(180deg, var(--gold), var(--gold-2)); color: #17120a; }
+
+    html:has(#sk:target) .lang a,
+    html:not(:has(#en:target)) .lang a { color: var(--muted); background: transparent; }
+    html:has(#sk:target) .lang #skBtn,
+    html:not(:has(#en:target)) .lang #skBtn { background: linear-gradient(180deg, var(--gold), var(--gold-2)); color: #17120a; }
 
     @media (max-width: 980px) {
       .split, .services, .packs, .process { grid-template-columns: 1fr; }
@@ -210,11 +225,14 @@
     <div class="container nav">
       <div class="brand">pro<span>techtb</span></div>
       <div class="lang" aria-label="language switch">
-        <button id="skBtn" class="active">SK</button>
-        <button id="enBtn">EN</button>
+        <a id="skBtn" class="active" href="#sk">SK</a>
+        <a id="enBtn" href="#en">EN</a>
       </div>
     </div>
   </header>
+
+  <div id="sk" aria-hidden="true"></div>
+  <div id="en" aria-hidden="true"></div>
 
   <main class="container">
     <section class="hero" id="top">
@@ -382,29 +400,7 @@
   </main>
 
   <footer>
-    <div class="container">© <span id="year"></span> protechtb</div>
+    <div class="container">© 2026 protechtb</div>
   </footer>
-
-  <script>
-    const skBtn = document.getElementById('skBtn');
-    const enBtn = document.getElementById('enBtn');
-    const year = document.getElementById('year');
-    year.textContent = new Date().getFullYear();
-
-    function setLang(lang) {
-      document.documentElement.lang = lang;
-      document.querySelectorAll('[data-lang]').forEach(el => {
-        el.classList.toggle('show', el.getAttribute('data-lang') === lang);
-      });
-      skBtn.classList.toggle('active', lang === 'sk');
-      enBtn.classList.toggle('active', lang === 'en');
-      localStorage.setItem('protechtb-lang', lang);
-    }
-
-    skBtn.addEventListener('click', () => setLang('sk'));
-    enBtn.addEventListener('click', () => setLang('en'));
-
-    setLang(localStorage.getItem('protechtb-lang') || 'sk');
-  </script>
 </body>
 </html>
