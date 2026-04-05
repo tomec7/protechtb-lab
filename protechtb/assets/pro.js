@@ -85,21 +85,28 @@
     });
   }
 
-  // subtle interactive tilt in LAB vivid mode
+  // LAB vivid mode: intro reveal + gentle interactive tilt
   if (document.body.classList.contains('vivid-lab')) {
-    document.querySelectorAll('.offer-tile').forEach((tile) => {
-      tile.addEventListener('mousemove', (e) => {
-        const r = tile.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width;
-        const y = (e.clientY - r.top) / r.height;
-        const rx = (0.5 - y) * 5;
-        const ry = (x - 0.5) * 6;
-        tile.style.transform = `translateY(-3px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
-      });
-      tile.addEventListener('mouseleave', () => {
-        tile.style.transform = '';
-      });
+    requestAnimationFrame(() => {
+      setTimeout(() => document.body.classList.add('lab-ready'), 80);
     });
+
+    const supportsHover = window.matchMedia('(hover:hover)').matches;
+    if (supportsHover) {
+      document.querySelectorAll('.offer-tile').forEach((tile) => {
+        tile.addEventListener('mousemove', (e) => {
+          const r = tile.getBoundingClientRect();
+          const x = (e.clientX - r.left) / r.width;
+          const y = (e.clientY - r.top) / r.height;
+          const rx = (0.5 - y) * 3.2;
+          const ry = (x - 0.5) * 3.8;
+          tile.style.transform = `translateY(-3px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+        });
+        tile.addEventListener('mouseleave', () => {
+          tile.style.transform = '';
+        });
+      });
+    }
   }
 
   // contact form success notice (?sent=1)

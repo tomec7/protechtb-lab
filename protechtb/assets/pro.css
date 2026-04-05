@@ -328,3 +328,37 @@ footer{padding:22px 0;color:var(--muted)}
 @keyframes orbMoveA{0%,100%{transform:translate(0,0)}50%{transform:translate(-16px,12px)}}
 @keyframes orbMoveB{0%,100%{transform:translate(0,0)}50%{transform:translate(12px,-14px)}}
 @keyframes orbMoveC{0%,100%{transform:translate(0,0)}50%{transform:translate(-10px,10px)}}
+
+/* LAB v6: tone down intensity, keep premium motion + wow intro */
+.vivid-lab .hero-live::after{
+  opacity:.48;
+  filter:blur(22px);
+  animation-duration:18s;
+}
+.vivid-lab .hero-orb{opacity:.36;filter:blur(5px)}
+.vivid-lab .hero-orb.orb-a{width:200px;height:200px}
+.vivid-lab .hero-orb.orb-b{width:210px;height:210px}
+.vivid-lab .hero-orb.orb-c{width:140px;height:140px}
+
+.vivid-lab .offer-tile{box-shadow:0 12px 24px rgba(0,0,0,.15)}
+.vivid-lab .offer-tile:hover{box-shadow:0 20px 34px rgba(0,0,0,.22)}
+.vivid-lab .offer-tile:nth-child(1) .offer-overlay{background:linear-gradient(180deg, rgba(10,14,22,.10) 12%, rgba(35,86,145,.62) 76%)}
+.vivid-lab .offer-tile:nth-child(2) .offer-overlay{background:linear-gradient(180deg, rgba(10,14,22,.10) 12%, rgba(100,62,140,.64) 76%)}
+.vivid-lab .offer-tile:nth-child(3) .offer-overlay{background:linear-gradient(180deg, rgba(10,14,22,.10) 12%, rgba(36,110,104,.64) 76%)}
+.vivid-lab .offer-tile:nth-child(4) .offer-overlay{background:linear-gradient(180deg, rgba(10,14,22,.10) 12%, rgba(125,80,38,.64) 76%)}
+
+.vivid-lab .hero-live .tag,
+.vivid-lab .hero-live h1,
+.vivid-lab .hero-live .lead{
+  opacity:0;
+  transform:translateY(12px) scale(.99);
+  transition:opacity .55s ease, transform .55s ease;
+}
+.vivid-lab .hero-live h1{transition-delay:.12s}
+.vivid-lab .hero-live .lead{transition-delay:.22s}
+.vivid-lab.lab-ready .hero-live .tag,
+.vivid-lab.lab-ready .hero-live h1,
+.vivid-lab.lab-ready .hero-live .lead{
+  opacity:1;
+  transform:none;
+}
