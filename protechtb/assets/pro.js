@@ -4,6 +4,11 @@
   const mobileBtn = document.getElementById('mobileMenuBtn');
   const nav = document.getElementById('mainNav');
 
+  // light "wow" intro trigger
+  requestAnimationFrame(() => {
+    setTimeout(() => document.body.classList.add('lab-ready'), 80);
+  });
+
   // Google Analytics (GA4)
   const GA_ID = 'G-DX988YYFYP';
   const host = location.hostname;
@@ -47,7 +52,7 @@
     if (href === path) a.classList.add('active');
   });
 
-  const targets = document.querySelectorAll('section, .card, .project, .faq details, .visual-grid img, .service-panel, .kpi, .flow-v2 article, .hero-console');
+  const targets = document.querySelectorAll('section, .card, .project, .faq details, .visual-grid img');
   targets.forEach((el, i) => {
     el.classList.add('reveal');
     el.style.transitionDelay = `${Math.min(i * 18, 200)}ms`;
@@ -83,30 +88,6 @@
         event_label: langSwitch.textContent.trim()
       });
     });
-  }
-
-  // LAB vivid mode: intro reveal + gentle interactive tilt
-  if (document.body.classList.contains('vivid-lab')) {
-    requestAnimationFrame(() => {
-      setTimeout(() => document.body.classList.add('lab-ready'), 80);
-    });
-
-    const supportsHover = window.matchMedia('(hover:hover)').matches;
-    if (supportsHover) {
-      document.querySelectorAll('.offer-tile').forEach((tile) => {
-        tile.addEventListener('mousemove', (e) => {
-          const r = tile.getBoundingClientRect();
-          const x = (e.clientX - r.left) / r.width;
-          const y = (e.clientY - r.top) / r.height;
-          const rx = (0.5 - y) * 3.2;
-          const ry = (x - 0.5) * 3.8;
-          tile.style.transform = `translateY(-3px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
-        });
-        tile.addEventListener('mouseleave', () => {
-          tile.style.transform = '';
-        });
-      });
-    }
   }
 
   // contact form success notice (?sent=1)
