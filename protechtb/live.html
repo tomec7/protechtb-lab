@@ -107,8 +107,10 @@
   <section id="contact">
     <h2>Kontaktujte nás</h2>
     <p class="muted">Napíšte nám, čo potrebujete vyriešiť. Odpovieme s návrhom riešenia a ďalším postupom.</p>
-    <form class="contact-form" action="mailto:protechtbsupport@gmail.com" method="post" enctype="text/plain">
-      <input name="name" type="text" placeholder="Vaše meno" required />
+    <form class="contact-form" name="kontakt-live" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/live.html?sent=1">
+      <input type="hidden" name="form-name" value="kontakt-live" />
+    <p class="sr-only"><label>Nechajte prázdne: <input name="bot-field" /></label></p>
+    <input name="name" type="text" placeholder="Vaše meno" required />
       <input name="email" type="email" placeholder="vas@email.com" required />
       <textarea name="message" placeholder="Stručne popíšte, čo potrebujete." required></textarea>
       <button class="btn primary" type="submit">Odoslať dopyt</button>

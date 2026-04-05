@@ -41,8 +41,10 @@
     <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80" alt="team" />
     <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80" alt="support" />
   </div>
-  <form class="contact-form" action="mailto:protechtbsupport@gmail.com" method="post" enctype="text/plain">
+  <form class="contact-form" name="kontakt" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/kontakt.html?sent=1">
     <label>Meno</label>
+    <input type="hidden" name="form-name" value="kontakt" />
+    <p class="sr-only"><label>Nechajte prázdne: <input name="bot-field" /></label></p>
     <input name="name" type="text" placeholder="Vaše meno" required />
     <label>Email</label>
     <input name="email" type="email" placeholder="vas@email.com" required />

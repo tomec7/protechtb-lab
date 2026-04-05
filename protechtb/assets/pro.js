@@ -43,4 +43,22 @@
   }, { threshold: 0.14, rootMargin: '0px 0px -8% 0px' });
 
   targets.forEach(el => io.observe(el));
+
+  // contact form success notice (Netlify Forms redirect with ?sent=1)
+  const sent = new URLSearchParams(location.search).get('sent');
+  if (sent === '1') {
+    const form = document.querySelector('.contact-form');
+    if (form) {
+      const msg = document.createElement('div');
+      msg.className = 'form-success';
+      msg.textContent = document.documentElement.lang === 'en'
+        ? 'Thank you. Your message has been sent successfully.'
+        : 'Ďakujeme, váš dopyt bol úspešne odoslaný.';
+      form.prepend(msg);
+      try {
+        const clean = location.pathname + location.hash;
+        history.replaceState({}, '', clean);
+      } catch (e) {}
+    }
+  }
 })();
