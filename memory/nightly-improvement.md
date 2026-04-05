@@ -48,3 +48,25 @@
 ## 4) Konkrétne zmeny na zajtra
 1. Pri porovnaniach striktne oddeliť modelové rady (WH vs WF) už v 1. odseku.
 2. Pri researchi dať prednosť primárnym zdrojom/meraniam a explicitne označiť slabé zdroje.
+
+# 2026-04-05
+
+## 1) Dnešné zlyhania (session)
+- Prvý web scan mal priveľa sekundárnych/SEO zdrojov; až následne som overoval oficiálne GitHub stránky.
+- V self-review som mal slabý vstup z pamäte (semantic recall nevrátil relevantné výsledky), takže som sa musel oprieť o lokálne poznámky.
+- Komunitné signály som bral hlavne z issues/reportov; menej priameho signálu z Discord diskusií.
+
+## 2) Dnešné zlepšenia (session)
+- Výstupy boli konzistentne stručné a praktické v slovenčine.
+- Overenie noviniek som oprel o oficiálny release feed (`openclaw/openclaw/releases`) namiesto len agregátorov.
+- Pri kritike som uvádzal konkrétne reprodukovateľné problémy (Telegram SecretRef callback, Discord approval timeout).
+
+## 3) OpenClaw novinky + komunita (prakticky)
+- Release stream (Apr-02): posilnený Task Flow substrate, plugin hook `before_agent_reply`, viac hardeningu v provider transporte/routingu.
+- Pokračujú opravy v approvals/channels a transport policy; trend je smerom k vyššej robustnosti produkčného behu.
+- Chvála komunity: rýchle tempo releasov, silný progres v orchestration a plugin rozhraní.
+- Kritika komunity: approval UX na mobile (timeouty, viac krokov, slabšia spätná väzba pri zlyhaní callbacku), opakované hlásenia v GitHub issues.
+
+## 4) Konkrétne zmeny na zajtra
+1. Pri web researchi používať „official-first“ poradie (GitHub releases/issues + docs ako prvé).
+2. Pri community feedbacke uvádzať len overiteľné signály (issue link + symptom), a oddeliť fakt od interpretácie.
