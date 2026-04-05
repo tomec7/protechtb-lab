@@ -60,6 +60,20 @@ h2{margin:0 0 8px;font-size:clamp(1.4rem,2.6vw,2rem)}
 .visual-grid img{width:100%;height:170px;object-fit:cover;border-radius:12px;border:1px solid var(--line);filter:saturate(.95) contrast(1.02);transition:transform .35s ease, filter .35s ease, box-shadow .35s ease}
 .visual-grid img:hover{transform:scale(1.02);filter:saturate(1.02) contrast(1.04);box-shadow:0 18px 30px rgba(0,0,0,.2)}
 
+/* homepage offer cards with hover reveal */
+.offer-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+.offer-tile{position:relative;min-height:250px;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--card);isolation:isolate;box-shadow:0 12px 28px rgba(0,0,0,.14);transition:transform .3s ease, box-shadow .3s ease, border-color .25s ease}
+.offer-tile:hover{transform:translateY(-3px);box-shadow:0 20px 34px rgba(0,0,0,.22);border-color:color-mix(in oklab,var(--gold) 45%, var(--line))}
+.offer-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.01);transition:transform .45s ease, filter .35s ease;filter:brightness(.78) saturate(1.02)}
+.offer-tile:hover .offer-img{transform:scale(1.06);filter:brightness(.6) saturate(1.08)}
+.offer-overlay{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:16px;background:linear-gradient(180deg, rgba(12,17,27,.1) 10%, rgba(12,17,27,.78) 75%)}
+.offer-overlay h3{margin:0;font-size:clamp(1.15rem,2.4vw,1.55rem);line-height:1.2;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.45)}
+.offer-detail{max-height:0;opacity:0;transform:translateY(10px);overflow:hidden;transition:max-height .35s ease, opacity .3s ease, transform .3s ease}
+.offer-detail p{margin:10px 0 12px;color:#e8edf8}
+.offer-tile:hover .offer-detail{max-height:160px;opacity:1;transform:translateY(0)}
+.offer-detail .btn{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.35);color:#fff}
+.offer-detail .btn:hover{background:rgba(255,255,255,.18)}
+
 section{padding:36px 0;border-bottom:1px solid color-mix(in oklab,var(--line) 60%, transparent)}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
@@ -94,4 +108,9 @@ footer{padding:22px 0;color:var(--muted)}
   .main-nav{display:none;position:absolute;left:12px;right:12px;top:64px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:8px;flex-direction:column;align-items:stretch}
   .main-nav.open{display:flex}
 }
-@media (max-width:860px){.grid,.grid-3,.pics,.three,.visual-grid{grid-template-columns:1fr}}
+@media (max-width:860px){.grid,.grid-3,.pics,.three,.visual-grid,.offer-grid{grid-template-columns:1fr}}
+
+@media (hover:none){
+  .offer-img{filter:brightness(.62)}
+  .offer-detail{max-height:160px;opacity:1;transform:none}
+}
