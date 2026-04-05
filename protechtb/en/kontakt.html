@@ -41,10 +41,12 @@
     <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80" alt="team" />
     <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80" alt="support" />
   </div>
-  <form class="contact-form" name="contact-en" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/en/kontakt.html?sent=1">
+  <form class="contact-form" action="https://formsubmit.co/protechtbsupport@gmail.com" method="POST">
     <label>Name</label>
-    <input type="hidden" name="form-name" value="contact-en" />
-    <p class="sr-only"><label>Leave empty: <input name="bot-field" /></label></p>
+    <input type="hidden" name="_captcha" value="false" />
+    <input type="hidden" name="_template" value="table" />
+    <input type="hidden" name="_subject" value="New inquiry from ProTechTB website" />
+    <input type="hidden" name="_next" value="https://protechtb.sk/en/thank-you.html" />
     <input name="name" type="text" placeholder="Your name" required />
     <label>Email</label>
     <input name="email" type="email" placeholder="vas@email.com" required />

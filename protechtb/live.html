@@ -107,9 +107,11 @@
   <section id="contact">
     <h2>Kontaktujte nás</h2>
     <p class="muted">Napíšte nám, čo potrebujete vyriešiť. Odpovieme s návrhom riešenia a ďalším postupom.</p>
-    <form class="contact-form" name="kontakt-live" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/live.html?sent=1">
-      <input type="hidden" name="form-name" value="kontakt-live" />
-    <p class="sr-only"><label>Nechajte prázdne: <input name="bot-field" /></label></p>
+    <form class="contact-form" action="https://formsubmit.co/protechtbsupport@gmail.com" method="POST">
+      <input type="hidden" name="_captcha" value="false" />
+    <input type="hidden" name="_template" value="table" />
+    <input type="hidden" name="_subject" value="Nový dopyt z ProTechTB webu" />
+    <input type="hidden" name="_next" value="https://protechtb.sk/dakujeme.html" />
     <input name="name" type="text" placeholder="Vaše meno" required />
       <input name="email" type="email" placeholder="vas@email.com" required />
       <textarea name="message" placeholder="Stručne popíšte, čo potrebujete." required></textarea>
