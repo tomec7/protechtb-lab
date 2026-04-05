@@ -82,9 +82,11 @@ section{padding:36px 0;border-bottom:1px solid color-mix(in oklab,var(--line) 60
 .card:hover{transform:translateY(-2px);box-shadow:0 16px 30px rgba(0,0,0,.16);border-color:color-mix(in oklab,var(--gold) 40%, var(--line))}
 .card h3{margin:0 0 6px}
 .teaser-wrap{padding-top:18px}
-.teaser-card{position:relative;overflow:hidden;border-color:color-mix(in oklab,var(--gold) 45%, var(--line));background:linear-gradient(145deg, color-mix(in oklab,var(--card) 90%, transparent), color-mix(in oklab,var(--bg2) 86%, transparent))}
-.teaser-card::before{content:"";position:absolute;inset:-40% auto auto -20%;width:220px;height:220px;background:radial-gradient(circle, rgba(214,175,99,.18), transparent 65%);pointer-events:none}
-.teaser-chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 14px}
+.teaser-link{display:block;text-decoration:none;color:inherit}
+.teaser-card{position:relative;overflow:hidden;border-color:color-mix(in oklab,var(--gold) 45%, var(--line));background:linear-gradient(130deg, rgba(214,175,99,.14) 0%, rgba(92,122,214,.10) 40%, color-mix(in oklab,var(--card) 92%, transparent) 100%)}
+.teaser-card::before{content:"";position:absolute;inset:-40% auto auto -20%;width:260px;height:260px;background:radial-gradient(circle, rgba(214,175,99,.22), transparent 68%);pointer-events:none}
+.teaser-card::after{content:"";position:absolute;right:-30px;bottom:-40px;width:220px;height:220px;background:radial-gradient(circle, rgba(126,156,240,.18), transparent 70%);pointer-events:none}
+.teaser-hint{display:inline-block;margin-top:10px;color:var(--gold);font-weight:700;font-size:.92rem}
 .price{font-size:1.35rem;font-weight:800;color:var(--gold);margin:6px 0}
 .list{margin:0;padding-left:18px;color:var(--muted)}
 
