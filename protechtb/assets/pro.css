@@ -289,3 +289,42 @@ footer{padding:22px 0;color:var(--muted)}
 
 @keyframes auroraSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 @keyframes floatGlow{0%,100%{transform:translateY(0)}50%{transform:translateY(22px)}}
+
+/* Vivid LAB overrides for original layout */
+.vivid-lab .hero-live{overflow:hidden;position:relative;isolation:isolate}
+.vivid-lab .hero-live::after{
+  content:"";
+  position:absolute;
+  inset:-28px -20px -24px -16px;
+  border-radius:22px;
+  z-index:-2;
+  background:conic-gradient(from 20deg, rgba(99,162,255,.32), rgba(239,130,255,.22), rgba(214,175,99,.22), rgba(99,162,255,.32));
+  filter:blur(18px);
+  animation:auroraSpin 12s linear infinite;
+}
+.vivid-lab .hero-live h1{
+  background:linear-gradient(115deg, #ffffff 0%, #ffd998 26%, #9fc7ff 60%, #fff 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.vivid-lab .hero-orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(3px);opacity:.55;z-index:-1}
+.vivid-lab .hero-orb.orb-a{width:220px;height:220px;right:-40px;top:-30px;background:radial-gradient(circle, rgba(101,172,255,.55), rgba(101,172,255,0) 70%);animation:orbMoveA 9s ease-in-out infinite}
+.vivid-lab .hero-orb.orb-b{width:240px;height:240px;left:-60px;bottom:-80px;background:radial-gradient(circle, rgba(238,130,255,.5), rgba(238,130,255,0) 70%);animation:orbMoveB 11s ease-in-out infinite}
+.vivid-lab .hero-orb.orb-c{width:160px;height:160px;right:38%;bottom:-30px;background:radial-gradient(circle, rgba(239,197,113,.45), rgba(239,197,113,0) 72%);animation:orbMoveC 10s ease-in-out infinite}
+
+.vivid-lab .offer-tile{border-color:color-mix(in oklab,var(--line) 35%, #7ea9ff);box-shadow:0 14px 28px rgba(0,0,0,.18)}
+.vivid-lab .offer-tile:hover{box-shadow:0 26px 44px rgba(0,0,0,.28)}
+.vivid-lab .offer-tile:nth-child(1) .offer-overlay{background:linear-gradient(180deg, rgba(10,14,22,.08) 12%, rgba(33,92,161,.74) 76%)}
+.vivid-lab .offer-tile:nth-child(2) .offer-overlay{background:linear-gradient(180deg, rgba(10,14,22,.08) 12%, rgba(111,62,154,.76) 76%)}
+.vivid-lab .offer-tile:nth-child(3) .offer-overlay{background:linear-gradient(180deg, rgba(10,14,22,.08) 12%, rgba(33,121,112,.76) 76%)}
+.vivid-lab .offer-tile:nth-child(4) .offer-overlay{background:linear-gradient(180deg, rgba(10,14,22,.08) 12%, rgba(144,84,38,.76) 76%)}
+.vivid-lab .offer-overlay h3{font-size:clamp(1.2rem,2.6vw,1.65rem)}
+
+.vivid-lab .icon-chip{border-color:color-mix(in oklab,var(--line) 40%, #7ea9ff);background:linear-gradient(180deg, color-mix(in oklab,var(--bg2) 92%, #101a2d), color-mix(in oklab,var(--bg2) 98%, #0d1422))}
+.vivid-lab .teaser-card{border-color:color-mix(in oklab,var(--line) 35%, #d49dff);background:linear-gradient(130deg, rgba(85,137,224,.26) 0%, rgba(183,101,223,.24) 42%, rgba(214,175,99,.18) 100%)}
+.vivid-lab .teaser-hint{color:#ffd38b}
+
+@keyframes orbMoveA{0%,100%{transform:translate(0,0)}50%{transform:translate(-16px,12px)}}
+@keyframes orbMoveB{0%,100%{transform:translate(0,0)}50%{transform:translate(12px,-14px)}}
+@keyframes orbMoveC{0%,100%{transform:translate(0,0)}50%{transform:translate(-10px,10px)}}

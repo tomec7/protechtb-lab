@@ -85,6 +85,23 @@
     });
   }
 
+  // subtle interactive tilt in LAB vivid mode
+  if (document.body.classList.contains('vivid-lab')) {
+    document.querySelectorAll('.offer-tile').forEach((tile) => {
+      tile.addEventListener('mousemove', (e) => {
+        const r = tile.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width;
+        const y = (e.clientY - r.top) / r.height;
+        const rx = (0.5 - y) * 5;
+        const ry = (x - 0.5) * 6;
+        tile.style.transform = `translateY(-3px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+      });
+      tile.addEventListener('mouseleave', () => {
+        tile.style.transform = '';
+      });
+    });
+  }
+
   // contact form success notice (?sent=1)
   const sent = new URLSearchParams(location.search).get('sent');
   if (sent === '1') {
