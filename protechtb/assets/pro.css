@@ -18,6 +18,24 @@ body{
   line-height:1.62;
 }
 
+/* brighter, higher-contrast light mode */
+body.light{
+  background:
+    radial-gradient(900px 420px at 100% -8%, rgba(171,123,45,.13), transparent 58%),
+    radial-gradient(780px 380px at -8% 6%, rgba(107,146,233,.14), transparent 55%),
+    linear-gradient(180deg, #f9fbff 0%, #f4f7fe 100%);
+}
+body.light .site-header{background:color-mix(in oklab,var(--bg) 94%, #ffffff);box-shadow:0 8px 20px rgba(26,42,76,.06)}
+body.light .btn{background:#ffffff;border-color:#c8d3e7;color:#12203a}
+body.light .btn:hover{box-shadow:0 10px 22px rgba(28,48,84,.14)}
+body.light .main-nav a.active,
+body.light .main-nav a:hover{background:rgba(76,109,178,.11);border-color:#b6c6e2}
+body.light .hero-live{border-color:#c7d5ed;background:linear-gradient(145deg,#ffffff,#f7f9ff)}
+body.light .hero-live::before{background:linear-gradient(125deg, rgba(86,143,226,.09), rgba(214,175,99,.08), rgba(164,113,223,.08))}
+body.light .hero-live h1{color:#14233f;text-shadow:none}
+body.light .card{box-shadow:0 8px 20px rgba(31,53,89,.06)}
+body.light .icon-chip{background:#fff;border-color:#c7d4e8;color:#3f4f6c}
+
 /* subtle animations */
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulseGlow{0%,100%{box-shadow:0 0 0 rgba(214,175,99,0)}50%{box-shadow:0 0 28px rgba(214,175,99,.18)}}
