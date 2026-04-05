@@ -3,6 +3,26 @@
   const themeBtn = document.getElementById('themeBtn');
   const mobileBtn = document.getElementById('mobileMenuBtn');
   const nav = document.getElementById('mainNav');
+
+  // Google Analytics (GA4)
+  const GA_ID = 'G-DX988YYFYP';
+  const host = location.hostname;
+  const analyticsAllowed = host.endsWith('protechtb.sk') || host.endsWith('github.io') || host === 'localhost' || host === '127.0.0.1';
+
+  if (analyticsAllowed && GA_ID) {
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ window.dataLayer.push(arguments); }
+    window.gtag = window.gtag || gtag;
+
+    const gaScript = document.createElement('script');
+    gaScript.async = true;
+    gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+    document.head.appendChild(gaScript);
+
+    window.gtag('js', new Date());
+    window.gtag('config', GA_ID, { anonymize_ip: true });
+  }
+
   let theme = 'dark';
   try { theme = localStorage.getItem('protechtb-theme') || 'dark'; } catch(e) {}
   document.body.classList.toggle('light', theme === 'light');
@@ -44,7 +64,28 @@
 
   targets.forEach(el => io.observe(el));
 
-  // contact form success notice (Netlify Forms redirect with ?sent=1)
+  // lightweight custom events for GA
+  const contactForm = document.querySelector('.contact-form');
+  if (contactForm && typeof window.gtag === 'function') {
+    contactForm.addEventListener('submit', () => {
+      window.gtag('event', 'generate_lead', {
+        event_category: 'contact_form',
+        event_label: location.pathname
+      });
+    });
+  }
+
+  const langSwitch = document.querySelector('.controls > a.btn');
+  if (langSwitch && typeof window.gtag === 'function') {
+    langSwitch.addEventListener('click', () => {
+      window.gtag('event', 'language_switch', {
+        event_category: 'navigation',
+        event_label: langSwitch.textContent.trim()
+      });
+    });
+  }
+
+  // contact form success notice (?sent=1)
   const sent = new URLSearchParams(location.search).get('sent');
   if (sent === '1') {
     const form = document.querySelector('.contact-form');
