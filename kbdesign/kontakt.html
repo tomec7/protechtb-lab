@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KB design — Kontakt</title>
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="container nav">
+    <a class="brand" href="index.html">
+      <span class="brand-mark">KB</span>
+      <span class="brand-text">KB design<small>kbdesign.com</small></span>
+    </a>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button class="btn" id="themeBtn" type="button">🌙</button>
+      <button class="btn mobile-toggle" id="mobileToggle" type="button">☰</button>
+      <nav class="menu" id="menu"><a href="index.html" class="">Domov</a><a href="o-mne.html" class="">O mne</a><a href="co-ponukam.html" class="">Čo ponúkam</a><a href="portfolio.html" class="">Portfolio</a><a href="cennik.html" class="">Cenník</a><a href="kontakt.html" class="active">Kontakt</a></nav>
+    </div>
+  </div>
+</header>
+<main class="container">
+<section class="hero">
+<h1>Kontakt</h1>
+<p class="lead">Napíšte mi vaše predstavy a pošlite podklady. Odpoviem vám s ďalším postupom.</p>
+</section>
+<section class="section"><form class="form" name="kontakt" method="POST" data-netlify="true" netlify-honeypot="bot-field" enctype="multipart/form-data"><input type="hidden" name="form-name" value="kontakt" /><input type="text" name="bot-field" style="display:none" /><label>Vaše meno<input type="text" name="meno" placeholder="Meno a priezvisko" required /></label><label>Váš email<input type="email" name="email" placeholder="vas@email.com" required /></label><label>Príloha (fotky, podklady)<input type="file" name="priloha" multiple /></label><label>Popis predstavy<textarea name="sprava" placeholder="Sem zadajte čo najpodrobnejší opis vašej predstavy a vaše požiadavky na návrh vašej záhrady" required></textarea></label><button class="btn primary" type="submit">Odoslať dopyt</button></form></section>
+</main>
+<footer><div class="container">© 2026 KB design • realistické 3D vizualizácie exteriérov a interiérov</div></footer>
+<script src="assets/script.js"></script>
+</body>
+</html>

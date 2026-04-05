@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 140" role="img" aria-label="KB design logo">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#6e8f76"/>
+      <stop offset="100%" stop-color="#b58f6a"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="416" height="136" rx="28" fill="#fff" stroke="#dfd8ce"/>
+  <text x="44" y="88" font-family="Segoe UI, Arial" font-size="72" font-weight="800" fill="url(#g)">KB</text>
+  <text x="186" y="88" font-family="Segoe UI, Arial" font-size="52" font-weight="650" fill="#2f2c28">design</text>
+</svg>
