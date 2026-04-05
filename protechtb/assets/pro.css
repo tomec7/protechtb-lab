@@ -14,7 +14,12 @@ html,body{margin:0;padding:0;scroll-behavior:smooth}
 body{
   font-family:Segoe UI, Inter, system-ui, sans-serif;
   color:var(--text);
-  background:radial-gradient(900px 430px at 95% -10%, rgba(214,175,99,.16), transparent 58%),radial-gradient(860px 450px at -6% 8%, rgba(92,122,214,.13), transparent 55%),var(--bg);
+  background:
+    radial-gradient(900px 430px at 95% -10%, rgba(214,175,99,.16), transparent 58%),
+    radial-gradient(860px 450px at -6% 8%, rgba(92,122,214,.13), transparent 55%),
+    linear-gradient(135deg, rgba(255,255,255,.015) 25%, transparent 25%) 0 0/28px 28px,
+    linear-gradient(315deg, rgba(255,255,255,.01) 25%, transparent 25%) 0 0/28px 28px,
+    var(--bg);
   line-height:1.62;
 }
 
@@ -38,7 +43,9 @@ body.light .logo-light{display:block;filter:drop-shadow(0 6px 12px rgba(37,50,76
 
 .controls{display:flex;align-items:center;gap:8px}
 .btn{border:1px solid var(--line);background:var(--bg2);color:var(--text);padding:8px 11px;border-radius:10px;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .2s ease, box-shadow .25s ease, background .25s ease}
-.btn.primary{background:linear-gradient(180deg,#efd399,var(--gold2));border-color:#cc9d4e;color:#181108;font-weight:800;animation:pulseGlow 4.2s ease-in-out infinite}
+.btn.primary{position:relative;overflow:hidden;background:linear-gradient(180deg,#f1d79f,var(--gold2));border-color:#cc9d4e;color:#181108;font-weight:800;animation:pulseGlow 4.2s ease-in-out infinite}
+.btn.primary::after{content:"";position:absolute;inset:0;transform:translateX(-120%);background:linear-gradient(110deg, transparent 0%, rgba(255,255,255,.32) 45%, transparent 80%);transition:transform .45s ease}
+.btn.primary:hover::after{transform:translateX(120%)}
 .btn:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(0,0,0,.18)}
 
 #mobileMenuBtn{display:none}
@@ -48,10 +55,23 @@ body.light .logo-light{display:block;filter:drop-shadow(0 6px 12px rgba(37,50,76
 .main-nav a.active,.main-nav a:hover{color:var(--text);border-color:var(--line);background:rgba(255,255,255,.04)}
 .main-nav a.active::after,.main-nav a:hover::after{transform:scaleX(1)}
 
-.hero{padding:52px 0 26px;animation:fadeUp .6s ease both}
+.hero{
+  position:relative;
+  padding:58px 0 30px;
+  animation:fadeUp .6s ease both;
+}
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:-20px -12px -10px -12px;
+  border-radius:22px;
+  z-index:-1;
+  background:linear-gradient(120deg, rgba(214,175,99,.08), rgba(84,118,215,.08) 45%, rgba(214,175,99,.05));
+  border:1px solid color-mix(in oklab,var(--line) 75%, transparent);
+}
 .tag{display:inline-block;border:1px solid color-mix(in oklab,var(--gold) 60%, transparent);color:var(--gold);padding:4px 10px;border-radius:999px;font-size:.8rem;position:relative;overflow:hidden}
 .tag::after{content:"";position:absolute;inset:0;transform:translateX(-130%);background:linear-gradient(110deg,transparent 0%, rgba(255,255,255,.14) 46%, transparent 90%);animation:tagSweep 5s ease-in-out infinite}
-h1{font-size:clamp(2rem,5vw,3.25rem);line-height:1.08;margin:14px 0 12px}
+h1{font-size:clamp(2.1rem,5.4vw,3.5rem);line-height:1.04;margin:14px 0 12px;letter-spacing:.01em;text-wrap:balance}
 h2{margin:0 0 8px;font-size:clamp(1.4rem,2.6vw,2rem)}
 .lead,.muted{color:var(--muted)}
 .icon-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
@@ -62,8 +82,10 @@ h2{margin:0 0 8px;font-size:clamp(1.4rem,2.6vw,2rem)}
 
 /* homepage offer cards with hover reveal */
 .offer-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
-.offer-tile{position:relative;min-height:250px;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--card);isolation:isolate;box-shadow:0 12px 28px rgba(0,0,0,.14);transition:transform .3s ease, box-shadow .3s ease, border-color .25s ease}
-.offer-tile:hover{transform:translateY(-3px);box-shadow:0 20px 34px rgba(0,0,0,.22);border-color:color-mix(in oklab,var(--gold) 45%, var(--line))}
+.offer-tile{position:relative;min-height:260px;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--card);isolation:isolate;box-shadow:0 12px 28px rgba(0,0,0,.14);transition:transform .3s ease, box-shadow .3s ease, border-color .25s ease}
+.offer-tile::before{content:"";position:absolute;inset:0;border-radius:16px;padding:1px;background:linear-gradient(135deg, rgba(214,175,99,.45), rgba(107,141,231,.4), rgba(214,175,99,.2));-webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;opacity:.0;transition:opacity .28s ease}
+.offer-tile:hover{transform:translateY(-3px);box-shadow:0 24px 38px rgba(0,0,0,.24);border-color:color-mix(in oklab,var(--gold) 45%, var(--line))}
+.offer-tile:hover::before{opacity:1}
 .offer-image-link{position:absolute;inset:0;display:block;z-index:1}
 .offer-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.01);transition:transform .45s ease, filter .35s ease;filter:brightness(.78) saturate(1.02)}
 .offer-tile:hover .offer-img{transform:scale(1.06);filter:brightness(.6) saturate(1.08)}
