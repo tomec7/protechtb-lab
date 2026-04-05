@@ -47,7 +47,7 @@
     if (href === path) a.classList.add('active');
   });
 
-  const targets = document.querySelectorAll('section, .card, .project, .faq details, .visual-grid img');
+  const targets = document.querySelectorAll('section, .card, .project, .faq details, .visual-grid img, .service-panel, .kpi, .flow-v2 article, .hero-console');
   targets.forEach((el, i) => {
     el.classList.add('reveal');
     el.style.transitionDelay = `${Math.min(i * 18, 200)}ms`;
