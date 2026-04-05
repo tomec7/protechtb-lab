@@ -49,9 +49,9 @@ body.light .logo-light{display:block;filter:drop-shadow(0 6px 12px rgba(37,50,76
 .main-nav a.active::after,.main-nav a:hover::after{transform:scaleX(1)}
 
 .hero{padding:52px 0 26px;animation:fadeUp .6s ease both}
-.hero-live{position:relative;overflow:hidden;isolation:isolate}
-.hero-live::before{content:"";position:absolute;inset:-18px -16px -14px -12px;border-radius:20px;z-index:-2;background:linear-gradient(125deg, rgba(86,143,226,.12), rgba(214,175,99,.1), rgba(164,113,223,.12));border:1px solid color-mix(in oklab,var(--line) 72%, transparent)}
-.hero-live::after{content:"";position:absolute;inset:-28px -22px -24px -18px;border-radius:24px;z-index:-3;background:conic-gradient(from 30deg, rgba(99,162,255,.28), rgba(238,142,255,.2), rgba(214,175,99,.2), rgba(99,162,255,.28));filter:blur(18px);opacity:.45;animation:auroraSpin 20s linear infinite}
+.hero-live{position:relative;overflow:hidden;isolation:isolate;border-radius:16px;padding-inline:14px;border:1px solid color-mix(in oklab,var(--line) 78%, transparent)}
+.hero-live::before{content:"";position:absolute;inset:0;border-radius:inherit;z-index:-2;background:linear-gradient(125deg, rgba(86,143,226,.12), rgba(214,175,99,.1), rgba(164,113,223,.12));}
+.hero-live::after{content:"";position:absolute;inset:-10px;border-radius:inherit;z-index:-3;background:conic-gradient(from 30deg, rgba(99,162,255,.28), rgba(238,142,255,.2), rgba(214,175,99,.2), rgba(99,162,255,.28));filter:blur(16px);opacity:.45;animation:auroraSpin 20s linear infinite}
 .hero-live .tag,.hero-live h1,.hero-live .lead{opacity:0;transform:translateY(11px);transition:opacity .55s ease, transform .55s ease}
 .hero-live h1{transition-delay:.1s}
 .hero-live .lead{transition-delay:.2s}
