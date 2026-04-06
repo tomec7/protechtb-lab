@@ -93,7 +93,9 @@ h2{margin:0 0 8px;font-size:clamp(1.4rem,2.6vw,2rem)}
 /* homepage offer cards with hover reveal */
 .offer-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
 .offer-tile{position:relative;min-height:250px;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--card);isolation:isolate;box-shadow:0 12px 28px rgba(0,0,0,.14);transition:transform .3s ease, box-shadow .3s ease, border-color .25s ease}
+.offer-tile::after{content:"";position:absolute;inset:0;z-index:1;background:radial-gradient(220px circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,.18), transparent 62%);opacity:0;transition:opacity .28s ease;pointer-events:none}
 .offer-tile:hover{transform:translateY(-3px);box-shadow:0 20px 34px rgba(0,0,0,.22);border-color:color-mix(in oklab,var(--gold) 45%, var(--line))}
+.offer-tile:hover::after{opacity:1}
 .offer-image-link{position:absolute;inset:0;display:block;z-index:1}
 .offer-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.01);transition:transform .45s ease, filter .35s ease;filter:brightness(.78) saturate(1.02)}
 .offer-tile:hover .offer-img{transform:scale(1.06);filter:brightness(.6) saturate(1.08)}
@@ -135,6 +137,19 @@ section{padding:36px 0;border-bottom:1px solid color-mix(in oklab,var(--line) 60
 .form-success{border:1px solid var(--okline);background:var(--okbg);color:var(--ok);border-radius:10px;padding:10px}
 .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
+/* before/after proof section */
+.compare-wrap{padding-top:12px}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.compare{border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--card)}
+.compare h3{margin:0 0 8px}
+.compare.before{border-color:color-mix(in oklab,var(--line) 70%, #9aa7bf)}
+.compare.after{border-color:color-mix(in oklab,var(--line) 45%, var(--gold));background:linear-gradient(145deg, color-mix(in oklab,var(--card) 88%, transparent), color-mix(in oklab,var(--okbg) 18%, transparent))}
+
+/* progress + sticky mini CTA */
+.scroll-progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:80;background:linear-gradient(90deg,var(--gold),#74a7ff);box-shadow:0 0 12px rgba(116,167,255,.36)}
+.sticky-cta{position:fixed;right:16px;bottom:16px;z-index:70;border-radius:999px;padding:11px 15px;border:1px solid var(--line);background:linear-gradient(145deg, color-mix(in oklab,var(--bg2) 94%, transparent), color-mix(in oklab,var(--card) 92%, transparent));backdrop-filter:blur(10px);text-decoration:none;color:var(--text);font-weight:700;box-shadow:0 12px 28px rgba(0,0,0,.2);transition:transform .2s ease, box-shadow .25s ease}
+.sticky-cta:hover{transform:translateY(-2px);box-shadow:0 18px 34px rgba(0,0,0,.24)}
+
 footer{padding:22px 0;color:var(--muted)}
 
 @keyframes tagSweep{
@@ -151,7 +166,8 @@ footer{padding:22px 0;color:var(--muted)}
   .main-nav{display:none;position:absolute;left:12px;right:12px;top:64px;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:8px;flex-direction:column;align-items:stretch}
   .main-nav.open{display:flex}
 }
-@media (max-width:860px){.grid,.grid-3,.pics,.three,.visual-grid,.offer-grid{grid-template-columns:1fr}}
+@media (max-width:860px){.grid,.grid-3,.pics,.three,.visual-grid,.offer-grid,.compare-grid{grid-template-columns:1fr}}
+@media (max-width:640px){.sticky-cta{right:10px;left:10px;bottom:10px;text-align:center}}
 
 @media (hover:none){
   .offer-img{filter:brightness(.62)}
