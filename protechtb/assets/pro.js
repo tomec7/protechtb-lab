@@ -52,10 +52,10 @@
     if (href === path) a.classList.add('active');
   });
 
-  const targets = document.querySelectorAll('section, .card, .project, .faq details, .visual-grid img');
+  const targets = document.querySelectorAll('section, .card, .project, .faq details, .visual-grid img, .offer-tile, .bento, .steps-modern article, .tile');
   targets.forEach((el, i) => {
     el.classList.add('reveal');
-    el.style.transitionDelay = `${Math.min(i * 18, 200)}ms`;
+    el.style.transitionDelay = `${Math.min(i * 10, 90)}ms`;
   });
 
   const io = new IntersectionObserver((entries) => {
@@ -65,7 +65,7 @@
         io.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.14, rootMargin: '0px 0px -8% 0px' });
+  }, { threshold: 0.06, rootMargin: '0px 0px -4% 0px' });
 
   targets.forEach(el => io.observe(el));
 
