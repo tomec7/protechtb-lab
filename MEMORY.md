@@ -6,6 +6,7 @@
 - Pri práci na webe najprv upravovať iba LAB/staging verziu; produkciu meniť až po explicitnom schválení od Toma (set on 2026-04-05).
 - Pri LAB úpravách robiť checkpoint po každej významnej zmene (set on 2026-04-06).
 - Keď Tom alebo Klaudy požiada o klon z produkcie do LAB, hneď na prvý pokus spraviť kompletný hardening: prepis všetkých ciest na LAB base path, oprava navigácie (bez úniku na root), route entry stránky bez 404, dostupné assets/media a finálne overenie hlavných URL + menu klikov (set on 2026-04-06).
+- Pri každej zmene v LAB aj produkcii vždy vytvoriť backup s timestampom a tento timestamp explicitne napísať Tomovi v reporte, aby bol možný rýchly rollback (set on 2026-04-06).
 - Produkčné repozitáre: `protechtb` a `kb-design-lab3` — nemeníme ich bez explicitného potvrdenia.
 - Testovacie repozitáre na úpravy: `protechtb-lab` a `kb-design-lab2`.
 - Vlastníctvo/režim práce: Tomáš (Tomas) rieši `protechtb-lab`; Klaudy rieši `kb-design-lab2`.
