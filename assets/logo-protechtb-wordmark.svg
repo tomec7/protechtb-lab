@@ -1,0 +1,12 @@
+<svg width="1200" height="300" viewBox="0 0 1200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1200" y2="300" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E7C780"/>
+      <stop offset="1" stop-color="#B88933"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="300" rx="36" fill="#0B0D12"/>
+  <text x="70" y="192" fill="#F4F6FA" font-family="Segoe UI, Arial, sans-serif" font-size="124" font-weight="700" letter-spacing="1">pro</text>
+  <text x="285" y="192" fill="url(#gold)" font-family="Segoe UI, Arial, sans-serif" font-size="124" font-weight="700" letter-spacing="1">techtb</text>
+  <rect x="66" y="220" width="1068" height="2" fill="url(#gold)" fill-opacity="0.35"/>
+</svg>

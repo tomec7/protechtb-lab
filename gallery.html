@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>protechtb — Galéria</title>
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+  <div id="sk"></div><div id="en"></div>
+  <input id="menu-toggle" type="checkbox" />
+  <aside class="drawer">
+    <div class="close-row"><label class="close" for="menu-toggle">✕</label></div>
+    <h4 data-lang="sk">Menu</h4><h4 data-lang="en">Menu</h4>
+    <a href="index.html" data-lang="sk">Hlavná stránka</a><a href="index.html" data-lang="en">Home</a>
+    <a href="gallery.html" data-lang="sk">Galéria</a><a href="gallery.html" data-lang="en">Gallery</a>
+    <a href="realizacie.html" data-lang="sk">Realizácie</a><a href="realizacie.html" data-lang="en">Case Studies</a>
+  </aside>
+  <label class="overlay" for="menu-toggle"></label>
+
+  <header>
+    <div class="container nav">
+      <div class="nav-left">
+        <label class="burger" for="menu-toggle" aria-label="menu"><i></i></label>
+        <div class="brand">pro<span>techtb</span></div>
+      </div>
+      <div class="lang"><a id="skBtn" href="#sk">SK</a><a id="enBtn" href="#en">EN</a></div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="tag" data-lang="sk">VIZUÁLNY PREHĽAD PRÁCE</div>
+      <div class="tag" data-lang="en">VISUAL SHOWCASE</div>
+      <h1 data-lang="sk">Galéria riešení</h1>
+      <h1 data-lang="en">Solutions Gallery</h1>
+      <p class="lead" data-lang="sk">Ilustračné ukážky prostredí, na ktoré sa protechtb zameriava.</p>
+      <p class="lead" data-lang="en">Illustrative examples of environments protechtb focuses on.</p>
+    </section>
+
+    <section>
+      <div class="gallery">
+        <figure>
+          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80" alt="PC build" />
+          <figcaption data-lang="sk">PC workstation build & cable management</figcaption>
+          <figcaption data-lang="en">PC workstation build & cable management</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=1200&q=80" alt="Home assistant dashboard" />
+          <figcaption data-lang="sk">Smart home dashboard a automatizácie</figcaption>
+          <figcaption data-lang="en">Smart home dashboard and automations</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1597852074816-d933c7d2b988?auto=format&fit=crop&w=1200&q=80" alt="NAS server" />
+          <figcaption data-lang="sk">NAS + backup infraštruktúra</figcaption>
+          <figcaption data-lang="en">NAS + backup infrastructure</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80" alt="IT desk" />
+          <figcaption data-lang="sk">Diagnostika a optimalizácia systému</figcaption>
+          <figcaption data-lang="en">System diagnostics and optimization</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=1200&q=80" alt="Network rack" />
+          <figcaption data-lang="sk">Prepojenie zariadení do jedného ekosystému</figcaption>
+          <figcaption data-lang="en">Integrating devices into one ecosystem</figcaption>
+        </figure>
+        <figure>
+          <img src="https://images.unsplash.com/photo-1611174743420-3d7df880ce32?auto=format&fit=crop&w=1200&q=80" alt="Office tech" />
+          <figcaption data-lang="sk">Office setup pre výkon a stabilitu</figcaption>
+          <figcaption data-lang="en">Office setup for performance and stability</figcaption>
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="container">© 2026 protechtb</div></footer>
+</body>
+</html>

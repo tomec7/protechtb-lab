@@ -1,0 +1,15 @@
+<svg width="900" height="260" viewBox="0 0 900 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gold" x1="40" y1="20" x2="360" y2="220" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F3D89E"/>
+      <stop offset="1" stop-color="#B8842C"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="260" rx="28" fill="#0B111A"/>
+  <rect x="24" y="24" width="212" height="212" rx="28" fill="#101A27" stroke="url(#gold)" stroke-opacity="0.65" stroke-width="2"/>
+  <path d="M84 72H146C175 72 198 95 198 124C198 153 175 176 146 176H108V212H84V72ZM108 152H146C162 152 174 140 174 124C174 108 162 96 146 96H108V152Z" fill="url(#gold)"/>
+  <path d="M146 86L170 62H196L166 94L146 86Z" fill="#F1D294"/>
+  <text x="272" y="128" fill="#F3F6FB" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="68" font-weight="700" letter-spacing="1.2">ProTechTB</text>
+  <text x="274" y="168" fill="#AAB6CB" font-family="Segoe UI, Inter, Arial, sans-serif" font-size="20" letter-spacing="5.5">SMART IT SYSTEMS</text>
+  <line x1="274" y1="188" x2="860" y2="188" stroke="#B8842C" stroke-opacity="0.35"/>
+</svg>
