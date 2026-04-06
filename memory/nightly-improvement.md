@@ -70,3 +70,23 @@
 ## 4) Konkrétne zmeny na zajtra
 1. Pri web researchi používať „official-first“ poradie (GitHub releases/issues + docs ako prvé).
 2. Pri community feedbacke uvádzať len overiteľné signály (issue link + symptom), a oddeliť fakt od interpretácie.
+
+# 2026-04-06
+
+## 1) Dnešné zlyhania (session)
+- Web search narazil na anti-bot challenge, takže časť community scanu nešla cez štandardný flow.
+- „Today interactions“ boli obsahovo chudobné (hlavne cron reporty), preto je self-review menej bohatý na nové behaviorálne dáta.
+
+## 2) Dnešné zlepšenia (session)
+- Namiesto spoliehania sa na agregátory som prešiel priamo na oficiálne zdroje (`openclaw/openclaw/releases` + konkrétne GitHub issues).
+- Report držím krátky a akčný (iba praktické body, bez vaty).
+- Konzistentne mapujem kritiku na reprodukovateľné symptómy (SecretRef callback, 2-min timeout v approvals).
+
+## 3) OpenClaw novinky + komunita (prakticky)
+- Bez veľkého nového release skoku; naďalej dominuje línia z Apr-02: Task Flow hardening, plugin hooks (`before_agent_reply`), transport/routing stabilita.
+- Chvála: rýchle release tempo a silná robustnosť v orchestration vrstvách.
+- Kritika: approval UX v mobilných kanáloch (timeouty, nejasný feedback po kliknutí) je stále opakovaný pain point v issues.
+
+## 4) Konkrétne zmeny na zajtra
+1. Pri zlyhaní web search okamžite prepnúť na direct-source fallback (releases/issues/docs) bez zdržania.
+2. V každom nightly reporte explicitne oddeliť „čo je nové dnes“ vs. „čo je pokračujúci trend“.
