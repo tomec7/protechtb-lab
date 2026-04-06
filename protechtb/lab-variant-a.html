@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ProTechTB LAB A — Light Premium</title>
+  <style>
+    :root{
+      --bg:#f6f9ff;--bg2:#ffffff;--line:#dbe5f5;--text:#14233d;--muted:#4e5f80;
+      --brand:#2f6ee5;--brand2:#7a43d6;--gold:#b7862d;--ok:#26a06b;
+      --max:1180px;
+    }
+    *{box-sizing:border-box} html,body{margin:0;padding:0;font-family:Inter,Segoe UI,sans-serif}
+    body{color:var(--text);background:
+      radial-gradient(900px 500px at 100% -10%, rgba(122,67,214,.12), transparent 55%),
+      radial-gradient(900px 500px at -10% 0%, rgba(47,110,229,.14), transparent 52%),
+      linear-gradient(#f9fbff,#f5f8ff)}
+    .container{max-width:var(--max);margin:0 auto;padding:0 18px}
+    .top{position:sticky;top:0;z-index:40;background:rgba(249,252,255,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .nav{min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .logo{height:56px}
+    .menu{display:flex;gap:8px;flex-wrap:wrap}
+    .menu a{padding:8px 12px;border:1px solid transparent;border-radius:10px;text-decoration:none;color:#44587d;font-weight:600}
+    .menu a:hover{border-color:#c9d8f1;background:#fff;color:#1b2f53}
+    .btn{display:inline-block;text-decoration:none;border-radius:12px;padding:11px 16px;font-weight:700;border:1px solid var(--line)}
+    .btn.primary{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;border:none;box-shadow:0 12px 24px rgba(64,84,166,.28)}
+    .hero{padding:54px 0 30px;display:grid;grid-template-columns:1.05fr .95fr;gap:16px;align-items:center}
+    .kicker{display:inline-block;padding:6px 11px;border-radius:999px;border:1px solid #c9d8f2;color:#305baf;background:#fff;font-size:.82rem}
+    h1{font-size:clamp(2rem,5vw,3.7rem);line-height:1.02;margin:12px 0 14px;text-wrap:balance}
+    .lead{font-size:1.06rem;color:var(--muted);max-width:62ch}
+    .hero-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:0 20px 44px rgba(40,61,110,.14)}
+    .metric{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}
+    .metric div{background:#f8fbff;border:1px solid var(--line);border-radius:12px;padding:10px}
+    .metric b{display:block;color:#1e3d73;font-size:1.05rem}
+    .metric span{font-size:.88rem;color:#5a6b8b}
+    section{padding:34px 0}
+    .section-head{display:flex;justify-content:space-between;gap:12px;align-items:end}
+    .section-head p{color:var(--muted);max-width:620px}
+    .bento{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:12px;margin-top:14px}
+    .tile{display:block;color:inherit;text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;min-height:170px;position:relative;transition:transform .25s ease,box-shadow .3s ease}
+    .tile:hover{transform:translateY(-4px);box-shadow:0 16px 30px rgba(52,76,130,.18)}
+    .tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.7)}
+    .tile .ov{position:absolute;inset:0;padding:16px;display:flex;flex-direction:column;justify-content:flex-end;background:linear-gradient(180deg,transparent,rgba(9,20,38,.76));}
+    .tile h3{margin:0;color:#fff;font-size:1.35rem}
+    .tile p{margin:8px 0 0;color:#dce7ff}
+    .tile.big{grid-column:span 7}.tile.tall{grid-column:span 5}.tile.wide{grid-column:span 12;min-height:120px}
+    .steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}
+    .steps article{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
+    .steps b{display:inline-block;padding:4px 8px;border-radius:999px;background:#eef3ff;color:#2e64c9}
+    .steps p{color:#5d6f91;margin:8px 0 0}
+    .cta{border:1px solid var(--line);border-radius:20px;padding:28px 16px;text-align:center;background:linear-gradient(135deg, rgba(47,110,229,.12), rgba(122,67,214,.10), rgba(183,134,45,.1))}
+    .cta p{color:#4f6286}
+    @media (max-width:980px){.hero{grid-template-columns:1fr}.tile.big,.tile.tall{grid-column:span 12}.steps{grid-template-columns:1fr 1fr}}
+    @media (max-width:760px){.menu{display:none}.steps{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="container nav">
+      <img class="logo" src="assets/logo-protechtb-v2-emblem-light.svg?v=2" alt="ProTechTB"/>
+      <nav class="menu">
+        <a href="index.html">Domov</a><a href="sluzby.html">Služby</a><a href="realizacie.html">Realizácie</a><a href="kontakt.html">Kontakt</a>
+      </nav>
+      <a class="btn" href="lab-variant-b.html">Variant B</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <span class="kicker">LAB A • Light Premium</span>
+        <h1>Čistý, moderný web s dôrazom na dôveru a výkon.</h1>
+        <p class="lead">Tento variant stavia na svetlom prémiovom štýle: vysoká čitateľnosť, jasná hierarchia a moderné motion efekty bez vizuálneho chaosu.</p>
+        <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+          <a class="btn primary" href="kontakt.html">Nezáväzný dopyt</a>
+          <a class="btn" href="sluzby.html">Pozrieť služby</a>
+        </div>
+        <div class="metric">
+          <div><b>+40%</b><span>lepší vizuálny kontrast</span></div>
+          <div><b>4 kroky</b><span>jasný proces spolupráce</span></div>
+          <div><b>1 dashboard</b><span>prehľadný výsledok</span></div>
+        </div>
+      </div>
+      <aside class="hero-card">
+        <h3 style="margin:0 0 10px">Design Notes</h3>
+        <p style="margin:0;color:#58709a">• svetlá business estetika<br/>• vyšší trust factor<br/>• lepšia čitateľnosť na mobile<br/>• silné CTA bez kriku</p>
+      </aside>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <h2>Čo ponúkame</h2>
+        <p>Bento layout so silnými vizuálnymi kartami. Každá služba je okamžite čitateľná a klikateľná.</p>
+      </div>
+      <div class="bento">
+        <a class="tile big" href="sluzby.html#pc"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=80" alt=""><div class="ov"><h3>PC Build & Performance</h3><p>Výkon bez kompromisov.</p></div></a>
+        <a class="tile tall" href="sluzby.html#ha"><img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80" alt=""><div class="ov"><h3>Smart Home</h3><p>Automatizácie v praxi.</p></div></a>
+        <a class="tile tall" href="sluzby.html#nas"><img src="https://images.unsplash.com/photo-1597852074816-d933c7d2b988?auto=format&fit=crop&w=1200&q=80" alt=""><div class="ov"><h3>NAS & Backup</h3><p>Dáta pod kontrolou.</p></div></a>
+        <a class="tile big" href="sluzby.html#multi"><img src="https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=1400&q=80" alt=""><div class="ov"><h3>Multi‑Hub Integrácie</h3><p>Apple, Google, Alexa v jednom flow.</p></div></a>
+        <a class="tile wide" href="kontakt.html"><div class="ov"><h3>Chceš riešenie na mieru? → Kontaktuj nás</h3></div></a>
+      </div>
+    </section>
+
+    <section>
+      <h2>Ako spolupracujeme</h2>
+      <div class="steps">
+        <article><b>01 Audit</b><p>Zmapujeme potreby a priority.</p></article>
+        <article><b>02 Návrh</b><p>Konkrétny plán + rozpočet.</p></article>
+        <article><b>03 Implementácia</b><p>Nasadenie bez chaosu.</p></article>
+        <article><b>04 Podpora</b><p>Monitoring a dlhodobý servis.</p></article>
+      </div>
+    </section>
+
+    <section class="cta">
+      <h2 style="margin:0 0 8px">Toto je návrh A</h2>
+      <p>Ak sa ti páči smer, prepracujem rovnako aj podstránky do tohto štýlu.</p>
+      <a class="btn primary" href="lab-variant-b.html">Porovnať s Variant B</a>
+    </section>
+  </main>
+</body>
+</html>
