@@ -86,7 +86,7 @@
   const sticky = document.createElement('a');
   sticky.className = 'sticky-cta';
   sticky.href = 'kontakt.html';
-  sticky.textContent = document.documentElement.lang === 'en' ? 'Quick Inquiry' : 'Rýchly dopyt';
+  sticky.textContent = document.documentElement.lang === 'en' ? 'Write to us' : 'Napíšte nám';
   sticky.setAttribute('aria-label', sticky.textContent);
   document.body.appendChild(sticky);
 
