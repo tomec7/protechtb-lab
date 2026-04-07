@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>protechtb — favicon preview</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon-protechtb.svg" />
+  <style>
+    :root{--bg:#0B111A;--card:#101A27;--line:#2d3c59;--text:#eef3ff;--muted:#a8b4ce;--gold:#d6af63}
+    *{box-sizing:border-box} body{margin:0;font-family:Segoe UI,Inter,system-ui,sans-serif;background:var(--bg);color:var(--text)}
+    .wrap{max-width:900px;margin:0 auto;padding:40px 20px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px}
+    .row{display:flex;gap:24px;align-items:center;flex-wrap:wrap}.icon{width:96px;height:96px;border-radius:20px;background:#0B111A;border:1px solid var(--line);padding:12px}
+    .mini{display:flex;gap:14px;align-items:center;margin-top:18px}.mini img{width:16px;height:16px}.mini .s32{width:32px;height:32px}.muted{color:var(--muted)} a{color:var(--gold)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Compact favicon preview</h1>
+      <p class="muted">Táto stránka používa nový favicon súbor z repo <b>protechtb-lab</b>.</p>
+      <div class="row">
+        <img class="icon" src="assets/favicon-protechtb.svg" alt="protechtb favicon" />
+        <div>
+          <p>Preview veľkostí:</p>
+          <div class="mini">
+            <img src="assets/favicon-protechtb.svg" alt="16px" />
+            <img class="s32" src="assets/favicon-protechtb.svg" alt="32px" />
+            <img class="icon" style="width:64px;height:64px;padding:8px;border-radius:14px" src="assets/favicon-protechtb.svg" alt="64px" />
+          </div>
+        </div>
+      </div>
+      <p style="margin-top:22px"><a href="index.html">Späť na homepage</a></p>
+    </div>
+  </div>
+</body>
+</html>
