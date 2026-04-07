@@ -90,3 +90,25 @@
 ## 4) Konkrétne zmeny na zajtra
 1. Pri zlyhaní web search okamžite prepnúť na direct-source fallback (releases/issues/docs) bez zdržania.
 2. V každom nightly reporte explicitne oddeliť „čo je nové dnes“ vs. „čo je pokračujúci trend“.
+
+# 2026-04-07
+
+## 1) Dnešné zlyhania (session)
+- Interakcie boli opäť veľmi riedke (hlavne cron), takže self-review má nízky objem nových behaviorálnych dát.
+- Web search vrátil veľa sekundárnych/SEO stránok; bez tvrdého filtra by to zhoršilo kvalitu reportu.
+- Priamy komunitný signál z Discord/fóra bol slabý; musel som sa oprieť najmä o GitHub issues.
+
+## 2) Dnešné zlepšenia (session)
+- Držal som „official-first“: release/changelog som overil priamo cez `openclaw/openclaw/releases`.
+- Kritiku som oprel o konkrétne reprodukovateľné issues (`#59614` Telegram SecretRef callback, `#58941` Discord approval regression).
+- Výstup som udržal stručný a praktický, bez neoverených tvrdení.
+
+## 3) OpenClaw novinky + komunita (prakticky)
+- Release línia sa posunula ďalej (2026.4.x): pribudli multimodálne built-in nástroje (`video_generate`, `music_generate`) a viac provider integrácií.
+- Pokračuje hardening approvals/channels + transport/routing stability; viditeľný dôraz na produkčnú robustnosť.
+- Chvála: rýchly release cadence a široké funkčné rozšírenie bez zastavenia stability prác.
+- Kritika: approval UX zostáva citlivý bod (Telegram inline callback/SecretRef, Discord regression okolo approval flow).
+
+## 4) Konkrétne zmeny na zajtra
+1. Pri community scane budem striktne uvádzať len body s overiteľným primárnym zdrojom (release/issue URL + symptom).
+2. Každý večer doplním krátke „confidence“ označenie (vysoká/stredná/nízka) pre komunitné tvrdenia, aby bolo jasné, kde je slabší signál.
