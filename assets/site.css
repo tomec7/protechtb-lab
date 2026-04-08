@@ -7,7 +7,8 @@
   --muted: #a9b0c0;
   --gold: #d9b66c;
   --gold-2: #b78834;
-  --max: 1180px;
+  --max: 1760px;
+  --gutter: clamp(14px, 2.2vw, 44px);
   --radius: 18px;
 }
 * { box-sizing: border-box; }
@@ -21,7 +22,7 @@ body {
     var(--bg);
   line-height: 1.62;
 }
-.container { max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+.container { width: min(calc(100% - (var(--gutter) * 2)), var(--max)); margin: 0 auto; padding: 0; }
 
 html { scroll-behavior: smooth; }
 

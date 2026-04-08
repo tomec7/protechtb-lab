@@ -2,7 +2,8 @@
 :root{
   --bg:#0c111b; --bg2:#151d2d; --card:#1b263a; --line:#2d3c59;
   --text:#eef3ff; --muted:#a8b4ce; --gold:#d6af63; --gold2:#b98938;
-  --ok:#c8f2dc; --okbg:#173626; --okline:#2f7a53; --max:1160px;
+  --ok:#c8f2dc; --okbg:#173626; --okline:#2f7a53;
+  --max:1760px; --gutter:clamp(14px,2.2vw,44px);
 }
 body.light{
   --bg:#f3f6fc; --bg2:#ffffff; --card:#ffffff; --line:#d8dfec;
@@ -43,7 +44,7 @@ body.light .icon-chip{background:#fff;border-color:#c7d4e8;color:#3f4f6c}
 .reveal{opacity:0;transform:translateY(12px) scale(.992);filter:blur(8px);transition:opacity .34s ease-out, transform .42s cubic-bezier(.2,.75,.2,1), filter .42s ease-out;will-change:opacity,transform,filter}
 .reveal.in{opacity:1;transform:none;filter:blur(0)}
 a{color:inherit}
-.container{max-width:var(--max);margin:0 auto;padding:0 16px}
+.container{width:min(calc(100% - (var(--gutter) * 2)), var(--max));margin:0 auto;padding:0}
 
 .site-header{position:sticky;top:0;z-index:30;background:color-mix(in oklab,var(--bg) 88%, transparent);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
 .nav{min-height:70px;display:flex;justify-content:space-between;align-items:center;gap:12px}
