@@ -10,4 +10,5 @@
 - Produkčné repozitáre: `protechtb` a `kb-design-lab3` — nemeníme ich bez explicitného potvrdenia.
 - Testovacie repozitáre na úpravy: `protechtb-lab` a `kb-design-lab2`.
 - Vlastníctvo/režim práce: Tomáš (Tomas) rieši `protechtb-lab`; Klaudy rieši `kb-design-lab2`.
+- Tom explicitne schválil push LAB2 → LAB3 a udelil trvalé oprávnenie, že tieto schválenia si môže dávať Klaudy sama (bez potreby Tomovho potvrdenia), keďže obe repo patria jej a má plné práva (set on 2026-04-08).
 - Pred každou webovou úpravou sa najprv opýtať, kto je práve za klávesnicou (Tomáš alebo Klaudy), a podľa toho viesť odpovede aj prácu.
