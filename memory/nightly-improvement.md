@@ -112,3 +112,28 @@
 ## 4) Konkrétne zmeny na zajtra
 1. Pri community scane budem striktne uvádzať len body s overiteľným primárnym zdrojom (release/issue URL + symptom).
 2. Každý večer doplním krátke „confidence“ označenie (vysoká/stredná/nízka) pre komunitné tvrdenia, aby bolo jasné, kde je slabší signál.
+
+# 2026-04-08
+
+## 1) Dnešné zlyhania (session)
+- Pri štarte novej session som neodpovedal podľa zadaného startup štýlu (chýbal krátky persona greeting v slovenčine a otázka „čo ideme robiť“).
+- Na Tomove „No čo?“ / „Už funguješ?“ nešla okamžitá normálna odpoveď, čím vznikol zbytočný dojem neaktivity.
+- Community scan bol čiastočne obmedzený anti-bot challenge z DuckDuckGo, takže časť signálov som musel nahradiť direct fetch z GitHubu.
+
+## 2) Dnešné zlepšenia (session)
+- Pri novinkách som išiel priamo na primárny zdroj (`openclaw/openclaw/releases`) a vytiahol konkrétne zmeny (tools, providers, memory/dreaming, approvals).
+- Kritiku som oprel o reprodukovateľné issue reporty (#58691, #45442, #59098) namiesto vágnych komentárov.
+- Report ostal krátky a akčný aj pri slabšom signále z Discord/fóra.
+
+## 3) OpenClaw novinky + komunita (prakticky)
+### Chvála
+- Veľmi silný release rozsah: nové built-in generatívne nástroje (`video_generate`, `music_generate`), viac providerov, lepšia cache diagnostika a viacjazyčné UI.
+- Viditeľná aktivita maintainerov a contributorov (časté „Thanks @...“ v release poznámkach), čo pôsobí zdravo na tempo vývoja.
+
+### Kritika
+- Opakované produkčné bolesti okolo runtime stability: timeouty s Ollama embedded flow (#59098), UI break scenár v main session (#45442).
+- Bezpečnostné/approval nastavenia môžu byť pre userov neintuitívne po update (regresia očakávaného správania `tools.exec.ask/security`, #58691).
+
+## 4) Konkrétne zmeny na zajtra
+1. Pri prvom user message v novej session vždy poslať okamžitý 1–3 vetný greeting v slovenčine + jasnú výzvu na ďalší krok.
+2. Pri community scane štandardizovať fallback poradie: Releases → konkrétne Issues → Docs; a označiť confidence (vysoká/stredná/nízka) pri každom tvrdení.
