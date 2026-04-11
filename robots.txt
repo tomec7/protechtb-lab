@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tomec7.github.io/protechtb-lab/sitemap.xml
