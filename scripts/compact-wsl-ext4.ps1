@@ -43,6 +43,33 @@ function Restart-OpenClaw {
   wsl -d $DistroName -- bash -lc "openclaw gateway status | sed -n '1,18p'"
 }
 
+function Compact-VhdxWithDiskpart {
+  param([string]$Vhdx)
+
+  if (-not (Test-Path $Vhdx)) {
+    Write-Host "Diskpart fallback: ext4.vhdx sa nenasiel: $Vhdx" -ForegroundColor Yellow
+    return $false
+  }
+
+  $tmp = Join-Path $env:TEMP ("diskpart-compact-{0}.txt" -f ([guid]::NewGuid().ToString("N")))
+  @(
+    "select vdisk file=\"$Vhdx\"",
+    "compact vdisk"
+  ) | Set-Content -Path $tmp -Encoding ASCII
+
+  Write-Host "\n[4b/5] Compact cez diskpart fallback..." -ForegroundColor Green
+  $out = & diskpart /s $tmp 2>&1 | Out-String
+  Remove-Item $tmp -Force -ErrorAction SilentlyContinue
+
+  if ($LASTEXITCODE -ne 0) {
+    Write-Host $out
+    return $false
+  }
+
+  Write-Host $out
+  return $true
+}
+
 Write-Host "=== WSL ext4.vhdx compact ===" -ForegroundColor Cyan
 Write-Host "Distro: $Distro"
 
@@ -74,8 +101,11 @@ if (Supports-ManageArg "--compact") {
   wsl --manage $Distro --compact
   $didCompact = $true
 } else {
-  Write-Host "\n[4/5] --compact nepodporovany v tvojej verzii WSL, preskakujem compact." -ForegroundColor Yellow
-  Write-Host "Odporucam aktualizovat WSL: wsl --update" -ForegroundColor Yellow
+  Write-Host "\n[4/5] --compact nepodporovany v tvojej verzii WSL, skusam diskpart fallback..." -ForegroundColor Yellow
+  $didCompact = Compact-VhdxWithDiskpart -Vhdx $vhdxPath
+  if (-not $didCompact) {
+    Write-Host "Diskpart fallback zlyhal. Odporucam aktualizovat WSL: wsl --update" -ForegroundColor Yellow
+  }
 }
 
 if ($vhdxPath -and (Test-Path $vhdxPath)) {
