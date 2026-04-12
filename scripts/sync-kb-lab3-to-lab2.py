@@ -36,6 +36,30 @@ def rsync_prod_to_lab2(lab3: Path, lab2: Path):
     run(['rsync', '-a', '--delete', '--exclude', '.git', '--exclude', 'CNAME', f'{lab3}/', f'{lab2}/'])
 
 
+def patch_js_bundle_routes(lab2: Path, base_path: str):
+    js_files = list((lab2 / 'assets').glob('*.js'))
+    route_paths = ['/', '/about', '/services', '/portfolio', '/pricing', '/contact', '/404']
+
+    for js in js_files:
+        s = js.read_text(encoding='utf-8', errors='ignore')
+
+        # Patch known router path definitions (path:"...")
+        for rp in route_paths:
+            pref = base_path + ('/' if rp == '/' else rp)
+            s = s.replace(f'path:"{rp}"', f'path:"{pref}"')
+
+        # Patch common navigation/link tokens
+        for rp in route_paths:
+            pref = base_path + ('/' if rp == '/' else rp)
+            s = s.replace(f'href:"{rp}"', f'href:"{pref}"')
+            s = s.replace(f'to:"{rp}"', f'to:"{pref}"')
+
+        # Patch absolute image URLs to subpath-prefixed URLs
+        s = re.sub(r'"/([^"/]+\.(?:png|jpg|jpeg|webp))"', rf'"{base_path}/\1"', s)
+
+        js.write_text(s, encoding='utf-8')
+
+
 def patch_html_files(lab2: Path, base_path: str):
     old_map = '''function mapUrl(url){
           if (typeof url !== 'string') return url;
@@ -160,12 +184,30 @@ def git_commit_push(lab2: Path) -> str:
     return run(['git', 'rev-parse', '--short', 'HEAD'], cwd=lab2).stdout.strip()
 
 
-def wait_deploy_success(repo: str, timeout_sec=600):
+def wait_deploy_success(repo: str, commit_sha: str, timeout_sec=600):
     start = time.time()
+    # Prefer GitHub Pages builds API (works for legacy and workflow builds)
     while time.time() - start < timeout_sec:
-        p = run(['gh', 'run', 'list', '--repo', repo, '--limit', '1', '--json', 'status,conclusion,headSha', '--jq', '.[0]'], check=False)
+        p = run(['gh', 'api', f'repos/{repo}/pages/builds?per_page=10'], check=False)
         out = p.stdout.strip()
-        if out:
+        if out and out.startswith('['):
+            import json
+            builds = json.loads(out)
+            for b in builds:
+                if b.get('commit', '').startswith(commit_sha):
+                    st = b.get('status')
+                    if st == 'built':
+                        return
+                    if st in ('errored', 'canceled'):
+                        raise RuntimeError(f'Pages build failed for {commit_sha}: {st}')
+        time.sleep(5)
+
+    # Fallback to Actions run list if Pages API is unavailable
+    start2 = time.time()
+    while time.time() - start2 < timeout_sec:
+        p = run(['gh', 'run', 'list', '--repo', repo, '--limit', '5', '--json', 'status,conclusion,headSha', '--jq', '.[]'], check=False)
+        out = p.stdout.strip()
+        if out and commit_sha[:7] in out:
             if '"status":"completed"' in out and '"conclusion":"success"' in out:
                 return
             if '"status":"completed"' in out and '"conclusion":"failure"' in out:
@@ -180,7 +222,7 @@ def http_status(url: str) -> int:
         return r.status
 
 
-def live_check(lab2: Path, base_url: str):
+def live_check(lab2: Path, base_url: str, base_path: str):
     urls = []
     for html in lab2.rglob('*.html'):
         rel = html.relative_to(lab2).as_posix()
@@ -205,6 +247,34 @@ def live_check(lab2: Path, base_url: str):
     if bad:
         raise RuntimeError('Live check failed:\n' + '\n'.join([f'{u} -> {s}' for u, s in bad]))
 
+    # Runtime routing guard: deployed bundle must contain base-prefixed route paths
+    root_html = Request(base_url + '/', headers={'User-Agent': 'Mozilla/5.0'})
+    with urlopen(root_html, timeout=20) as r:
+        html = r.read().decode('utf-8', errors='ignore')
+    m = re.search(r'src="([^"]*index-[^"]+\.js)"', html)
+    if m:
+        js_url = m.group(1)
+        if js_url.startswith('/'):
+            js_url = 'https://tomec7.github.io' + js_url
+        req = Request(js_url, headers={'User-Agent': 'Mozilla/5.0'})
+        with urlopen(req, timeout=20) as r:
+            js = r.read().decode('utf-8', errors='ignore')
+        required = [
+            f'path:"{base_path}/"',
+            f'path:"{base_path}/about"',
+            f'path:"{base_path}/services"',
+            f'path:"{base_path}/portfolio"',
+            f'path:"{base_path}/pricing"',
+            f'path:"{base_path}/contact"',
+        ]
+        missing = [x for x in required if x not in js]
+        if missing:
+            raise RuntimeError('Live bundle route guard failed, missing: ' + ', '.join(missing))
+
+        bad_abs_images = re.findall(r'"/(?!kb-design-lab2|kb-design-lab2-test)([^"/]+\.(?:png|jpg|jpeg|webp))"', js)
+        if bad_abs_images:
+            raise RuntimeError('Live bundle absolute image guard failed (unprefixed assets), sample: ' + ', '.join(sorted(set(bad_abs_images))[:5]))
+
 
 def main():
     ap = argparse.ArgumentParser(description='Sync lab3 -> target lab safely with checks')
@@ -228,6 +298,7 @@ def main():
     backup = backup_lab2(lab2, memory_dir)
     rsync_prod_to_lab2(lab3, lab2)
     patch_html_files(lab2, args.base_path)
+    patch_js_bundle_routes(lab2, args.base_path)
     write_manifest(lab2, args.base_path)
 
     errors = verify_local(lab2, args.base_path)
@@ -244,8 +315,8 @@ def main():
         sha = git_commit_push(lab2)
         print(f'Pushed commit: {sha}')
         if args.live_check:
-            wait_deploy_success(args.repo)
-            live_check(lab2, args.base_url)
+            wait_deploy_success(args.repo, sha)
+            live_check(lab2, args.base_url, args.base_path)
             print('Live check: OK')
 
 
