@@ -37,10 +37,46 @@ def rsync_prod_to_lab2(lab3: Path, lab2: Path):
 
 
 def patch_html_files(lab2: Path, base_path: str):
+    old_map = '''function mapUrl(url){
+          if (typeof url !== 'string') return url;
+          if (url === '/' || url === '/index.html') return BASE + '/';
+          if (url.startsWith(BASE + '/')) return url;
+          if (url.startsWith('/')) return BASE + url;
+          return url;
+        }'''
+
+    new_map = '''function mapUrl(url){
+          if (typeof url !== 'string') return url;
+          if (url === '/' || url === '/index.html') return BASE + '/';
+          if (url.startsWith(BASE + '/')) return url;
+          if (url.startsWith('/')) {
+            var out = BASE + url;
+            if (!out.endsWith('/') && !/\.[a-z0-9]+$/i.test(out) && !out.includes('?') && !out.includes('#')) out += '/';
+            return out;
+          }
+          return url;
+        }'''
+
+    old_base_redirect = '''if (location.pathname === BASE) {
+          location.replace(BASE + '/' + location.search + location.hash);
+          return;
+        }'''
+
+    new_base_redirect = '''if (location.pathname === BASE) {
+          location.replace(BASE + '/' + location.search + location.hash);
+          return;
+        }
+        if (location.pathname.startsWith(BASE + '/') && !location.pathname.endsWith('/') && !/\.[a-z0-9]+$/i.test(location.pathname)) {
+          location.replace(location.pathname + '/' + location.search + location.hash);
+          return;
+        }'''
+
     for html in lab2.rglob('*.html'):
         s = html.read_text(encoding='utf-8', errors='ignore')
 
         s = s.replace("var BASE = '';", f"var BASE = '{base_path}';")
+        s = s.replace(old_map, new_map)
+        s = s.replace(old_base_redirect, new_base_redirect)
 
         s = re.sub(r'src="/assets/', f'src="{base_path}/assets/', s)
         s = re.sub(r'href="/assets/', f'href="{base_path}/assets/', s)
