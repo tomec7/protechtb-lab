@@ -1,24 +1,19 @@
 #!/usr/bin/env python3
 import argparse
-import os
 import re
 import subprocess
-import sys
 import tarfile
 import time
 from datetime import datetime
 from pathlib import Path
 from urllib.request import Request, urlopen
-from urllib.error import URLError, HTTPError
 
 WORKSPACE = Path('/home/lenovo/.openclaw/workspace')
-LAB2 = WORKSPACE / 'kb-design-lab2'
-LAB3 = WORKSPACE / 'kb-design-lab3'
-MEMORY = WORKSPACE / 'memory'
+DEFAULT_LAB2 = WORKSPACE / 'kb-design-lab2'
+DEFAULT_LAB3 = WORKSPACE / 'kb-design-lab3'
+DEFAULT_MEMORY = WORKSPACE / 'memory'
 
 PROD_MARKERS = ['kb-design-lab3', 'krasnyexterier.sk']
-LAB_BASE = '/kb-design-lab2'
-LAB_URL_BASE = 'https://tomec7.github.io/kb-design-lab2'
 
 
 def run(cmd, cwd=None, check=True):
@@ -28,116 +23,111 @@ def run(cmd, cwd=None, check=True):
     return p
 
 
-def backup_lab2() -> Path:
-    MEMORY.mkdir(parents=True, exist_ok=True)
+def backup_lab2(lab2: Path, memory_dir: Path) -> Path:
+    memory_dir.mkdir(parents=True, exist_ok=True)
     ts = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-    out = MEMORY / f'kb-design-lab2-backup-before-sync-script-{ts}.tar.gz'
+    out = memory_dir / f'{lab2.name}-backup-before-sync-script-{ts}.tar.gz'
     with tarfile.open(out, 'w:gz') as tar:
-        tar.add(LAB2, arcname='.')
+        tar.add(lab2, arcname='.')
     return out
 
 
-def rsync_prod_to_lab2():
-    run(['rsync', '-a', '--delete', '--exclude', '.git', '--exclude', 'CNAME', f'{LAB3}/', f'{LAB2}/'])
+def rsync_prod_to_lab2(lab3: Path, lab2: Path):
+    run(['rsync', '-a', '--delete', '--exclude', '.git', '--exclude', 'CNAME', f'{lab3}/', f'{lab2}/'])
 
 
-def patch_html_files():
-    for html in LAB2.rglob('*.html'):
+def patch_html_files(lab2: Path, base_path: str):
+    for html in lab2.rglob('*.html'):
         s = html.read_text(encoding='utf-8', errors='ignore')
 
-        s = s.replace("var BASE = '';", "var BASE = '/kb-design-lab2';")
+        s = s.replace("var BASE = '';", f"var BASE = '{base_path}';")
 
-        s = re.sub(r'src="/assets/', 'src="/kb-design-lab2/assets/', s)
-        s = re.sub(r'href="/assets/', 'href="/kb-design-lab2/assets/', s)
-        s = re.sub(r'href="/logo-ke\.png"', 'href="/kb-design-lab2/logo-ke.png"', s)
-        s = re.sub(r'src="/logo-ke\.png"', 'src="/kb-design-lab2/logo-ke.png"', s)
+        s = re.sub(r'src="/assets/', f'src="{base_path}/assets/', s)
+        s = re.sub(r'href="/assets/', f'href="{base_path}/assets/', s)
+        s = re.sub(r'href="/logo-ke\.png"', f'href="{base_path}/logo-ke.png"', s)
+        s = re.sub(r'src="/logo-ke\.png"', f'src="{base_path}/logo-ke.png"', s)
 
         if re.search(r'<link[^>]+rel="manifest"', s, flags=re.I):
-            s = re.sub(r'<link[^>]+rel="manifest"[^>]*>', '  <link rel="manifest" href="/kb-design-lab2/site.webmanifest" />', s, count=1, flags=re.I)
+            s = re.sub(r'<link[^>]+rel="manifest"[^>]*>', f'  <link rel="manifest" href="{base_path}/site.webmanifest" />', s, count=1, flags=re.I)
         else:
-            s = s.replace('</head>', '  <link rel="manifest" href="/kb-design-lab2/site.webmanifest" />\n</head>')
+            s = s.replace('</head>', f'  <link rel="manifest" href="{base_path}/site.webmanifest" />\n</head>')
 
         html.write_text(s, encoding='utf-8')
 
 
-def write_manifest():
-    manifest = LAB2 / 'site.webmanifest'
+def write_manifest(lab2: Path, base_path: str):
+    manifest = lab2 / 'site.webmanifest'
     manifest.write_text(
         '{\n'
         '  "name": "Krásny Exteriér",\n'
         '  "short_name": "Krásny Exteriér",\n'
-        '  "start_url": "/kb-design-lab2/",\n'
-        '  "scope": "/kb-design-lab2/",\n'
+        f'  "start_url": "{base_path}/",\n'
+        f'  "scope": "{base_path}/",\n'
         '  "display": "standalone",\n'
         '  "background_color": "#f8fafc",\n'
         '  "theme_color": "#0f172a",\n'
         '  "icons": [\n'
-        '    { "src": "/kb-design-lab2/logo-ke.png", "sizes": "512x512", "type": "image/png" }\n'
+        f'    {{ "src": "{base_path}/logo-ke.png", "sizes": "512x512", "type": "image/png" }}\n'
         '  ]\n'
         '}\n',
         encoding='utf-8'
     )
 
 
-def verify_local() -> list[str]:
+def verify_local(lab2: Path, base_path: str) -> list[str]:
     errors = []
 
-    # no prod markers
-    for p in LAB2.rglob('*'):
+    for p in lab2.rglob('*'):
         if p.is_file() and '.git' not in p.parts:
-            txt = None
             if p.suffix.lower() in ('.html', '.js', '.css', '.json', '.txt', '.xml'):
                 txt = p.read_text(encoding='utf-8', errors='ignore')
                 for marker in PROD_MARKERS:
                     if marker in txt:
-                        errors.append(f'Prod marker "{marker}" found in {p.relative_to(LAB2)}')
+                        errors.append(f'Prod marker "{marker}" found in {p.relative_to(lab2)}')
 
-    # html link/src resolution
-    for html in LAB2.rglob('*.html'):
+    for html in lab2.rglob('*.html'):
         s = html.read_text(encoding='utf-8', errors='ignore')
-        # ignore inline JS payloads when extracting html refs
         s_no_script = re.sub(r'<script\b[^>]*>[\s\S]*?</script>', '', s, flags=re.I)
         refs = re.findall(r'(?:href|src)="([^"]+)"', s_no_script)
         for ref in refs:
             if ref.startswith(('http://', 'https://', '//', '#', 'mailto:', 'tel:', 'javascript:', 'data:')):
                 continue
             if ref.startswith('/'):
-                if not ref.startswith('/kb-design-lab2/'):
-                    errors.append(f'Absolute ref not using /kb-design-lab2/: {ref} in {html.relative_to(LAB2)}')
+                if not ref.startswith(base_path + '/'):
+                    errors.append(f'Absolute ref not using {base_path}/: {ref} in {html.relative_to(lab2)}')
                     continue
-                target = LAB2 / ref.replace('/kb-design-lab2/', '', 1)
+                target = lab2 / ref.replace(base_path + '/', '', 1)
             else:
                 target = (html.parent / ref).resolve()
             if not target.exists():
-                errors.append(f'Missing file for ref {ref} in {html.relative_to(LAB2)}')
+                errors.append(f'Missing file for ref {ref} in {html.relative_to(lab2)}')
 
-    # image refs from bundle
-    js_files = list((LAB2 / 'assets').glob('*.js'))
+    js_files = list((lab2 / 'assets').glob('*.js'))
     for js in js_files:
         txt = js.read_text(encoding='utf-8', errors='ignore')
         imgs = sorted(set(re.findall(r'([A-Za-z0-9_\-]+\.(?:jpg|jpeg|png|webp))', txt)))
         for img in imgs:
-            if not (LAB2 / img).exists() and not (LAB2 / 'assets' / img).exists():
+            if not (lab2 / img).exists() and not (lab2 / 'assets' / img).exists():
                 errors.append(f'Missing image referenced in JS: {img}')
 
     return errors
 
 
-def git_commit_push() -> str:
-    run(['git', 'add', '-A'], cwd=LAB2)
-    status = run(['git', 'status', '--porcelain'], cwd=LAB2).stdout.strip()
+def git_commit_push(lab2: Path) -> str:
+    run(['git', 'add', '-A'], cwd=lab2)
+    status = run(['git', 'status', '--porcelain'], cwd=lab2).stdout.strip()
     if not status:
-        return run(['git', 'rev-parse', '--short', 'HEAD'], cwd=LAB2).stdout.strip()
-    msg = 'sync(lab2): one-command sync from lab3 with lab2 routing and integrity checks'
-    run(['git', 'commit', '-m', msg], cwd=LAB2)
-    run(['git', 'push', 'origin', 'main'], cwd=LAB2)
-    return run(['git', 'rev-parse', '--short', 'HEAD'], cwd=LAB2).stdout.strip()
+        return run(['git', 'rev-parse', '--short', 'HEAD'], cwd=lab2).stdout.strip()
+    msg = 'sync: one-command safe sync from lab3 with target-base routing and integrity checks'
+    run(['git', 'commit', '-m', msg], cwd=lab2)
+    run(['git', 'push', 'origin', 'main'], cwd=lab2)
+    return run(['git', 'rev-parse', '--short', 'HEAD'], cwd=lab2).stdout.strip()
 
 
-def wait_deploy_success(timeout_sec=600):
+def wait_deploy_success(repo: str, timeout_sec=600):
     start = time.time()
     while time.time() - start < timeout_sec:
-        p = run(['gh', 'run', 'list', '--repo', 'tomec7/kb-design-lab2', '--limit', '1', '--json', 'status,conclusion,headSha', '--jq', '.[0]'], check=False)
+        p = run(['gh', 'run', 'list', '--repo', repo, '--limit', '1', '--json', 'status,conclusion,headSha', '--jq', '.[0]'], check=False)
         out = p.stdout.strip()
         if out:
             if '"status":"completed"' in out and '"conclusion":"success"' in out:
@@ -154,16 +144,16 @@ def http_status(url: str) -> int:
         return r.status
 
 
-def live_check():
+def live_check(lab2: Path, base_url: str):
     urls = []
-    for html in LAB2.rglob('*.html'):
-        rel = html.relative_to(LAB2).as_posix()
+    for html in lab2.rglob('*.html'):
+        rel = html.relative_to(lab2).as_posix()
         if rel == 'index.html':
-            url = LAB_URL_BASE + '/'
+            url = base_url + '/'
         elif rel.endswith('/index.html'):
-            url = LAB_URL_BASE + '/' + rel[:-10]
+            url = base_url + '/' + rel[:-10]
         else:
-            url = LAB_URL_BASE + '/' + rel
+            url = base_url + '/' + rel
         urls.append(url)
     urls = sorted(set(urls))
 
@@ -181,20 +171,30 @@ def live_check():
 
 
 def main():
-    ap = argparse.ArgumentParser(description='Sync kb-design-lab3 -> kb-design-lab2 safely with checks')
-    ap.add_argument('--push', action='store_true', help='Commit and push to lab2 main')
+    ap = argparse.ArgumentParser(description='Sync lab3 -> target lab safely with checks')
+    ap.add_argument('--lab2-dir', default=str(DEFAULT_LAB2), help='Target lab directory')
+    ap.add_argument('--lab3-dir', default=str(DEFAULT_LAB3), help='Source prod/lab3 directory')
+    ap.add_argument('--repo', default='tomec7/kb-design-lab2', help='GitHub repo for run checks')
+    ap.add_argument('--base-path', default='/kb-design-lab2', help='Public base path (e.g. /kb-design-lab2-test)')
+    ap.add_argument('--base-url', default='https://tomec7.github.io/kb-design-lab2', help='Public base URL')
+    ap.add_argument('--memory-dir', default=str(DEFAULT_MEMORY), help='Where to store backups')
+    ap.add_argument('--push', action='store_true', help='Commit and push target lab main')
     ap.add_argument('--live-check', action='store_true', help='After push, wait for deploy and check all pages')
     args = ap.parse_args()
 
-    if not LAB2.exists() or not LAB3.exists():
-        raise SystemExit('kb-design-lab2 or kb-design-lab3 directory missing')
+    lab2 = Path(args.lab2_dir).resolve()
+    lab3 = Path(args.lab3_dir).resolve()
+    memory_dir = Path(args.memory_dir).resolve()
 
-    backup = backup_lab2()
-    rsync_prod_to_lab2()
-    patch_html_files()
-    write_manifest()
+    if not lab2.exists() or not lab3.exists():
+        raise SystemExit('Target lab or source lab3 directory missing')
 
-    errors = verify_local()
+    backup = backup_lab2(lab2, memory_dir)
+    rsync_prod_to_lab2(lab3, lab2)
+    patch_html_files(lab2, args.base_path)
+    write_manifest(lab2, args.base_path)
+
+    errors = verify_local(lab2, args.base_path)
     if errors:
         print('INTEGRITY_CHECK_FAILED')
         for e in errors:
@@ -205,11 +205,11 @@ def main():
     print('Local integrity: OK')
 
     if args.push:
-        sha = git_commit_push()
+        sha = git_commit_push(lab2)
         print(f'Pushed commit: {sha}')
         if args.live_check:
-            wait_deploy_success()
-            live_check()
+            wait_deploy_success(args.repo)
+            live_check(lab2, args.base_url)
             print('Live check: OK')
 
 
