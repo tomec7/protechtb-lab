@@ -15,10 +15,7 @@ function Get-Ext4VhdxPath {
     ForEach-Object {
       $vhdx = Join-Path $_.FullName "LocalState\ext4.vhdx"
       if (Test-Path $vhdx) {
-        [PSCustomObject]@{
-          Package = $_.Name
-          Vhdx    = $vhdx
-        }
+        [PSCustomObject]@{ Package = $_.Name; Vhdx = $vhdx }
       }
     }
 
@@ -26,13 +23,24 @@ function Get-Ext4VhdxPath {
 
   $match = $candidates | Where-Object { $_.Package -match [Regex]::Escape($DistroName) } | Select-Object -First 1
   if ($match) { return $match.Vhdx }
-
   if ($candidates.Count -eq 1) { return $candidates[0].Vhdx }
 
-  Write-Host "Nenašiel som jednoznačný ext4.vhdx pre distro '$DistroName'." -ForegroundColor Yellow
-  Write-Host "Dostupné kandidáty:" -ForegroundColor Yellow
+  Write-Host "Nenasiel som jednoznacny ext4.vhdx pre distro '$DistroName'." -ForegroundColor Yellow
   $candidates | ForEach-Object { Write-Host " - $($_.Vhdx)" }
   return $null
+}
+
+function Supports-ManageArg {
+  param([string]$Arg)
+  $help = (& wsl --manage --help 2>&1 | Out-String)
+  return $help -match [Regex]::Escape($Arg)
+}
+
+function Restart-OpenClaw {
+  param([string]$DistroName)
+  Write-Host "\n[restart] Startujem OpenClaw gateway vo WSL..." -ForegroundColor Green
+  wsl -d $DistroName -- bash -lc "openclaw gateway start >/dev/null 2>&1 || true"
+  wsl -d $DistroName -- bash -lc "openclaw gateway status | sed -n '1,18p'"
 }
 
 Write-Host "=== WSL ext4.vhdx compact ===" -ForegroundColor Cyan
@@ -45,24 +53,43 @@ if ($vhdxPath) {
 }
 
 if (-not $SkipTrim) {
-  Write-Host "\n[1/4] fstrim v distro (môže pýtať sudo heslo)..." -ForegroundColor Green
+  Write-Host "\n[1/5] fstrim v distro (moze pytat sudo heslo)..." -ForegroundColor Green
   wsl -d $Distro -- bash -lc "sudo fstrim -av && sync"
 }
 
-Write-Host "\n[2/4] WSL shutdown..." -ForegroundColor Green
+Write-Host "\n[2/5] WSL shutdown..." -ForegroundColor Green
 wsl --shutdown
 
-Write-Host "\n[3/4] Zapínam sparse režim..." -ForegroundColor Green
-wsl --manage $Distro --set-sparse true
+$didCompact = $false
 
-Write-Host "\n[4/4] Compact ext4.vhdx..." -ForegroundColor Green
-wsl --manage $Distro --compact
+if (Supports-ManageArg "--set-sparse") {
+  Write-Host "\n[3/5] Zapinam sparse rezim..." -ForegroundColor Green
+  wsl --manage $Distro --set-sparse true
+} else {
+  Write-Host "\n[3/5] --set-sparse nepodporovany v tvojej verzii WSL (preskakujem)." -ForegroundColor Yellow
+}
+
+if (Supports-ManageArg "--compact") {
+  Write-Host "\n[4/5] Compact ext4.vhdx cez wsl --manage --compact..." -ForegroundColor Green
+  wsl --manage $Distro --compact
+  $didCompact = $true
+} else {
+  Write-Host "\n[4/5] --compact nepodporovany v tvojej verzii WSL, preskakujem compact." -ForegroundColor Yellow
+  Write-Host "Odporucam aktualizovat WSL: wsl --update" -ForegroundColor Yellow
+}
 
 if ($vhdxPath -and (Test-Path $vhdxPath)) {
   $after = (Get-Item $vhdxPath).Length
   $saved = $before - $after
-  Write-Host "\nPo compact: $([math]::Round($after / 1GB, 2)) GB"
-  Write-Host "Ušetrené:   $([math]::Round($saved / 1GB, 2)) GB" -ForegroundColor Cyan
+  Write-Host "\nPo krokoch: $([math]::Round($after / 1GB, 2)) GB"
+  Write-Host "Usetrene:   $([math]::Round($saved / 1GB, 2)) GB" -ForegroundColor Cyan
 }
 
-Write-Host "\nHotovo."
+Write-Host "\n[5/5] Obnova OpenClaw po WSL shutdown..." -ForegroundColor Green
+Restart-OpenClaw -DistroName $Distro
+
+if (-not $didCompact) {
+  Write-Host "\nPoznamka: realny compact sa neprebehol (nepodporovany argument vo WSL)." -ForegroundColor Yellow
+}
+
+Write-Host "\nHotovo." -ForegroundColor Cyan
