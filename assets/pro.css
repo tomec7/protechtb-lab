@@ -251,3 +251,6 @@ body.light .service-footer{border-top-color:var(--line)}
 .form-net-warning{border:1px solid #d9a86a;background:color-mix(in oklab,#d9a86a 16%, transparent);color:#ffe2bf;border-radius:10px;padding:10px 12px;font-size:.95rem}
 .form-fallback-note{margin:4px 0 0;color:var(--muted);font-size:.92rem}
 .form-fallback-note a{color:var(--gold);text-decoration:underline}
+
+.contact-email{font-size:1.05rem;font-weight:700;color:var(--text);margin:6px 0 10px}
+.contact-email a{font-size:1.12rem;font-weight:800;color:var(--gold);text-decoration:underline;word-break:break-word}
