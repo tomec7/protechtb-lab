@@ -1,9 +1,0 @@
-name = "protechtb-contact"
-main = "worker.js"
-compatibility_date = "2026-04-13"
-
-[vars]
-MAIL_TO = "protechtbsupport@gmail.com"
-MAIL_FROM = "ProTechTB <noreply@protechtb.sk>"
-
-# Set with: wrangler secret put RESEND_API_KEY
