@@ -118,23 +118,64 @@
     }
   };
 
+  const submitToOwnEndpoint = async () => {
+    if (!contactForm) return false;
+    const endpoint = contactForm.dataset.endpoint;
+    if (!endpoint) return false;
+
+    const fd = new FormData(contactForm);
+    const body = new URLSearchParams();
+    for (const [k, v] of fd.entries()) body.append(k, v);
+
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+      body
+    });
+
+    if (!res.ok) return false;
+    return true;
+  };
+
   if (contactForm) {
     contactForm.addEventListener('submit', async (e) => {
       if (contactForm.dataset.submitting === '1') return;
       e.preventDefault();
-      const ok = await canReachFormService();
-      if (!ok) {
-        showFormNetworkWarning();
-        return;
-      }
       contactForm.dataset.submitting = '1';
-      if (typeof window.gtag === 'function') {
-        window.gtag('event', 'generate_lead', {
-          event_category: 'contact_form',
-          event_label: location.pathname
-        });
+
+      try {
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'generate_lead', {
+            event_category: 'contact_form',
+            event_label: location.pathname
+          });
+        }
+
+        const ownOk = await submitToOwnEndpoint();
+        if (ownOk) {
+          const next = contactForm.querySelector('input[name="_next"]')?.value;
+          window.location.href = next || (document.documentElement.lang === 'en' ? 'en/thank-you.html' : 'dakujeme.html');
+          return;
+        }
+
+        const legacyOk = await canReachFormService();
+        if (legacyOk) {
+          contactForm.submit();
+          return;
+        }
+
+        showFormNetworkWarning();
+      } catch (_) {
+        const legacyOk = await canReachFormService();
+        if (legacyOk) {
+          contactForm.submit();
+          return;
+        }
+        showFormNetworkWarning();
+      } finally {
+        delete contactForm.dataset.submitting;
       }
-      contactForm.submit();
     });
   }
 
