@@ -82,14 +82,6 @@
   window.addEventListener('scroll', updateProgress, { passive: true });
   updateProgress();
 
-  // sticky mini-CTA
-  const sticky = document.createElement('a');
-  sticky.className = 'sticky-cta';
-  sticky.href = 'kontakt.html';
-  sticky.textContent = document.documentElement.lang === 'en' ? 'Write to us' : 'Napíšte nám';
-  sticky.setAttribute('aria-label', sticky.textContent);
-  document.body.appendChild(sticky);
-
   // hover spotlight for offer cards
   document.querySelectorAll('.offer-tile').forEach((tile) => {
     tile.addEventListener('mousemove', (e) => {
@@ -101,14 +93,48 @@
     });
   });
 
-  // lightweight custom events for GA
+  // contact form handling + lightweight GA
   const contactForm = document.querySelector('.contact-form');
-  if (contactForm && typeof window.gtag === 'function') {
-    contactForm.addEventListener('submit', () => {
-      window.gtag('event', 'generate_lead', {
-        event_category: 'contact_form',
-        event_label: location.pathname
-      });
+
+  const showFormNetworkWarning = () => {
+    if (!contactForm) return;
+    let box = contactForm.querySelector('.form-net-warning');
+    if (!box) {
+      box = document.createElement('div');
+      box.className = 'form-net-warning';
+      contactForm.prepend(box);
+    }
+    box.textContent = document.documentElement.lang === 'en'
+      ? 'We could not reach the form service (possibly blocked by corporate network / Zscaler). Please try another network or email us at protechtbsupport@gmail.com.'
+      : 'Nepodarilo sa spojiť so službou formulára (môže ju blokovať firemná sieť / Zscaler). Skúste inú sieť alebo nám napíšte na protechtbsupport@gmail.com.';
+  };
+
+  const canReachFormService = async () => {
+    try {
+      await fetch('https://formsubmit.co/', { method: 'GET', mode: 'no-cors', cache: 'no-store' });
+      return true;
+    } catch (_) {
+      return false;
+    }
+  };
+
+  if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+      if (contactForm.dataset.submitting === '1') return;
+      e.preventDefault();
+      const ok = await canReachFormService();
+      if (!ok) {
+        showFormNetworkWarning();
+        return;
+      }
+      contactForm.dataset.submitting = '1';
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'generate_lead', {
+          event_category: 'contact_form',
+          event_label: location.pathname
+        });
+      }
+      contactForm.submit();
     });
   }
 
@@ -120,6 +146,98 @@
         event_label: langSwitch.textContent.trim()
       });
     });
+  }
+
+
+
+  // contact topic prefill via ?topic=... (default: general inquiry)
+  const topicParam = new URLSearchParams(location.search).get('topic');
+
+  let getTopicValue = () => 'general';
+  let getTopicLabel = () => (document.documentElement.lang === 'en' ? 'General inquiry' : 'Všeobecný dopyt');
+  let setTopicValue = () => {};
+  let onTopicChange = () => {};
+
+  if (contactForm) {
+    const custom = contactForm.querySelector('[data-topic-select]');
+    if (custom) {
+      const input = custom.querySelector('input[name="topic"]');
+      const trigger = custom.querySelector('.custom-select-trigger');
+      const options = Array.from(custom.querySelectorAll('.custom-select-option'));
+
+      const applyValue = (val) => {
+        const match = options.find(o => o.dataset.value === val) || options.find(o => o.dataset.value === 'general');
+        if (!match || !input || !trigger) return;
+        input.value = match.dataset.value;
+        trigger.textContent = match.textContent.trim();
+        options.forEach(o => o.classList.toggle('is-selected', o === match));
+      };
+
+      const closeMenu = () => {
+        custom.classList.remove('open');
+        if (trigger) trigger.setAttribute('aria-expanded', 'false');
+      };
+      const openMenu = () => {
+        custom.classList.add('open');
+        if (trigger) trigger.setAttribute('aria-expanded', 'true');
+      };
+
+      if (trigger) {
+        trigger.addEventListener('click', () => {
+          if (custom.classList.contains('open')) closeMenu(); else openMenu();
+        });
+      }
+
+      options.forEach(opt => {
+        opt.addEventListener('click', () => {
+          applyValue(opt.dataset.value);
+          closeMenu();
+          custom.dispatchEvent(new CustomEvent('topicchange'));
+        });
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!custom.contains(e.target)) closeMenu();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeMenu();
+      });
+
+      setTopicValue = (val) => applyValue(val);
+      getTopicValue = () => (input ? input.value : 'general');
+      getTopicLabel = () => {
+        const v = getTopicValue();
+        const m = options.find(o => o.dataset.value === v);
+        return m ? m.textContent.trim() : (document.documentElement.lang === 'en' ? 'General inquiry' : 'Všeobecný dopyt');
+      };
+      onTopicChange = (fn) => custom.addEventListener('topicchange', fn);
+    } else {
+      const topicSelect = contactForm.querySelector('select[name="topic"]');
+      if (topicSelect) {
+        setTopicValue = (val) => { topicSelect.value = val; };
+        getTopicValue = () => topicSelect.value;
+        getTopicLabel = () => {
+          const selected = topicSelect.options[topicSelect.selectedIndex];
+          return selected ? selected.text : '';
+        };
+        onTopicChange = (fn) => topicSelect.addEventListener('change', fn);
+      }
+    }
+  }
+
+  const enrichSubjectWithTopic = () => {
+    if (!contactForm) return;
+    const subjectInput = contactForm.querySelector('input[name="_subject"]');
+    if (!subjectInput) return;
+    const base = document.documentElement.lang === 'en' ? 'New inquiry from ProTechTB website (EN)' : 'Nový dopyt z ProTechTB webu';
+    subjectInput.value = `${base} — ${getTopicLabel()}`;
+  };
+
+  if (contactForm) {
+    const initial = topicParam || 'general';
+    setTopicValue(initial);
+    onTopicChange(enrichSubjectWithTopic);
+    enrichSubjectWithTopic();
   }
 
   // contact form success notice (?sent=1)
