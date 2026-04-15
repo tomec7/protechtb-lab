@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ProTechTB — Next Concept</title>
+  <style>
+    :root{
+      --bg:#070b14;
+      --bg2:#0b1220;
+      --text:#edf3ff;
+      --muted:#9fb0ca;
+      --line:rgba(255,255,255,.14);
+      --card:rgba(16,26,45,.72);
+      --accent:#66e3ff;
+      --accent2:#8b5cff;
+      --good:#65f5c0;
+      --shadow:0 20px 60px rgba(0,0,0,.45);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      color:var(--text);
+      font:500 16px/1.6 Inter,Segoe UI,Roboto,Arial,sans-serif;
+      background:
+        radial-gradient(1100px 600px at 15% -10%, rgba(102,227,255,.16), transparent 60%),
+        radial-gradient(900px 560px at 90% 0%, rgba(139,92,255,.18), transparent 65%),
+        linear-gradient(180deg,var(--bg),var(--bg2));
+      overflow-x:hidden;
+    }
+    .gridfx:before,.gridfx:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1}
+    .gridfx:before{background-image:linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);background-size:48px 48px;mask-image:radial-gradient(circle at center, #000 30%, transparent 80%);opacity:.25}
+    .gridfx:after{background:radial-gradient(circle at center, transparent 30%, rgba(0,0,0,.55) 100%)}
+
+    .wrap{max-width:1200px;margin:0 auto;padding:28px 24px 100px}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 14px;border:1px solid var(--line);background:rgba(12,18,31,.65);backdrop-filter: blur(10px);border-radius:18px;position:sticky;top:16px;z-index:30;box-shadow:var(--shadow)}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.5px}
+    .dot{width:12px;height:12px;border-radius:50%;background:linear-gradient(45deg,var(--accent),var(--accent2));box-shadow:0 0 24px var(--accent)}
+    .nav a{color:var(--muted);text-decoration:none;font-weight:600}
+    .nav a:hover{color:var(--text)}
+
+    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;padding:46px 0 26px}
+    .badge{display:inline-flex;padding:8px 12px;border:1px solid rgba(102,227,255,.45);border-radius:999px;background:rgba(102,227,255,.08);font-size:13px;color:#c8f6ff}
+    h1{font-size:clamp(2rem,5vw,4rem);line-height:1.05;margin:16px 0 12px;letter-spacing:-.02em}
+    .lead{color:var(--muted);max-width:62ch}
+    .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+    .btn{display:inline-block;padding:12px 18px;border-radius:12px;text-decoration:none;font-weight:700;border:1px solid var(--line);color:var(--text);background:rgba(255,255,255,.04)}
+    .btn.primary{border:none;background:linear-gradient(100deg,var(--accent),#8bdcff 35%,#8e7bff);color:#04111f;box-shadow:0 12px 34px rgba(102,227,255,.3)}
+
+    .hero-card{border:1px solid var(--line);border-radius:20px;background:var(--card);padding:18px;box-shadow:var(--shadow)}
+    .hero-kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .kpi{padding:14px;border:1px solid rgba(255,255,255,.1);border-radius:14px;background:rgba(255,255,255,.03)}
+    .kpi b{display:block;font-size:1.4rem}
+    .kpi span{color:var(--muted);font-size:.9rem}
+
+    section{margin-top:34px}
+    .title{font-size:1.6rem;margin:0 0 10px}
+    .muted{color:var(--muted)}
+
+    .services{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .service{position:relative;padding:18px;border-radius:18px;border:1px solid var(--line);background:linear-gradient(170deg, rgba(255,255,255,.06), rgba(255,255,255,.02));overflow:hidden;transform:translateY(12px);opacity:0;transition:.55s ease}
+    .service.show{opacity:1;transform:none}
+    .service:before{content:"";position:absolute;inset:auto -20% -40% auto;width:180px;height:180px;background:radial-gradient(circle, rgba(102,227,255,.2), transparent 70%)}
+    .service h3{margin:0 0 6px}
+
+    .flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+    .step{padding:14px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid var(--line)}
+    .step b{display:inline-flex;width:32px;height:32px;border-radius:10px;align-items:center;justify-content:center;background:rgba(102,227,255,.2);margin-bottom:8px}
+
+    .cta-band{margin-top:36px;padding:22px;border-radius:20px;border:1px solid rgba(101,245,192,.45);background:linear-gradient(130deg, rgba(101,245,192,.12), rgba(139,92,255,.12));display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+
+    footer{margin-top:34px;color:var(--muted);font-size:.9rem}
+
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr}
+      .services{grid-template-columns:1fr}
+      .flow{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width:560px){
+      .flow{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body class="gridfx">
+  <div class="wrap">
+    <header class="nav">
+      <div class="brand"><span class="dot"></span> ProTechTB / NEXT</div>
+      <nav style="display:flex;gap:14px;flex-wrap:wrap">
+        <a href="#sluzby">Služby</a>
+        <a href="#proces">Proces</a>
+        <a href="#kontakt">Kontakt</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div>
+        <span class="badge">SMART IT SYSTEMS • NOVÝ KONCEPT</span>
+        <h1>Technológie, ktoré naozaj fungujú. <br/>A vyzerajú premium.</h1>
+        <p class="lead">Úplne nový vizuál pre ProTechTB, ale so zachovanou pointou, službami a orientáciou na spoľahlivé IT riešenia pre domácnosti aj firmy.</p>
+        <div class="cta">
+          <a class="btn primary" href="#kontakt">Chcem konzultáciu</a>
+          <a class="btn" href="#sluzby">Pozrieť služby</a>
+        </div>
+      </div>
+
+      <aside class="hero-card">
+        <div class="hero-kpis">
+          <div class="kpi"><b>150+</b><span>spokojných klientov</span></div>
+          <div class="kpi"><b>8+</b><span>rokov skúseností</span></div>
+          <div class="kpi"><b>99%</b><span>úspešnosť projektov</span></div>
+          <div class="kpi"><b>24h</b><span>reakčný čas</span></div>
+        </div>
+      </aside>
+    </section>
+
+    <section id="sluzby">
+      <h2 class="title">Služby (core zostáva rovnaký)</h2>
+      <p class="muted">Obsahovo to isté ProTechTB, vizuálne komplet nový systém.</p>
+      <div class="services">
+        <article class="service"><h3>🖥️ PC Build & Performance</h3><p class="muted">Návrh a skladanie výkonných zostáv, tuning stability, dlhodobá spoľahlivosť.</p></article>
+        <article class="service"><h3>🏠 Home Assistant & Smart Home</h3><p class="muted">Automatizácie, dashboardy, scenáre a prehľadné ovládanie domácnosti.</p></article>
+        <article class="service"><h3>💾 NAS & Backup</h3><p class="muted">Bezpečné centrálne úložisko, zálohy a obnova dát po incidente.</p></article>
+        <article class="service"><h3>🌐 Multi‑Hub Integrácie</h3><p class="muted">Prepojenie Apple Home, Google Home, Alexa a ďalších smart platforiem.</p></article>
+        <article class="service"><h3>🛡️ IT Care</h3><p class="muted">Monitoring, údržba, aktualizácie a podpora pre domácnosti aj firmy.</p></article>
+        <article class="service"><h3>🤝 Konzultácia a návrh riešenia</h3><p class="muted">Jasný plán implementácie, rozpočet, priority a ďalší postup.</p></article>
+      </div>
+    </section>
+
+    <section id="proces">
+      <h2 class="title">Ako spolupráca prebieha</h2>
+      <div class="flow">
+        <article class="step"><b>1</b><div>Krátky call a zber požiadaviek.</div></article>
+        <article class="step"><b>2</b><div>Návrh riešenia + rozpočet.</div></article>
+        <article class="step"><b>3</b><div>Implementácia bez chaosu.</div></article>
+        <article class="step"><b>4</b><div>Podpora a dlhodobý servis.</div></article>
+      </div>
+    </section>
+
+    <section id="kontakt" class="cta-band">
+      <div>
+        <h3 style="margin:0">Chceš, aby som z tohto spravil aj plnú SK/EN verziu?</h3>
+        <div class="muted">Vrátane podstránok, animácií a kontakt formulára.</div>
+      </div>
+      <a class="btn primary" href="mailto:protechtbsupport@gmail.com">Kontaktovať priamo</a>
+    </section>
+
+    <footer>Lokálny koncept: <code>concepts/protechtb-next/index.html</code></footer>
+  </div>
+
+  <script>
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('show'); io.unobserve(e.target);} });
+    },{threshold:.16});
+    document.querySelectorAll('.service').forEach(el=>io.observe(el));
+  </script>
+</body>
+</html>
