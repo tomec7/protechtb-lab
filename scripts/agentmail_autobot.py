@@ -94,7 +94,8 @@ def main() -> int:
             "email som prijal. Som online asistent a správu som zaevidoval. "
             "Ak je potrebné vykonať akciu, spracujem ju podľa inštrukcií.\n\n"
             "Pre prioritu môžeš do predmetu doplniť [URGENT] alebo použiť tvar 'TASK: ...'.\n\n"
-            "Ďakujem."
+            "Ďakujem.\n"
+            "Max"
         )
 
         client.inboxes.messages.reply(INBOX_ID, message_id, text=reply_text)
