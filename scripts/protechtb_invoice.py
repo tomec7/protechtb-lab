@@ -50,6 +50,23 @@ NAME_MAP = {
     "monitor": '34" Dahua LM34-E330CA',
 }
 
+SERVICE_TEMPLATES = {
+    "sk": {
+        "BUILD": ("PC Build - praca, testovanie a optimalizacia", Decimal("199.00")),
+        "HA": ("Home Assistant & Smart Home - navrh, implementacia a automatizacie", Decimal("199.00")),
+        "NAS": ("NAS & Backup - nasadenie, zalohovanie a recovery test", Decimal("249.00")),
+        "MULTI": ("Multi-Hub Integracie - prepojenie platforiem a zariadeni", Decimal("199.00")),
+        "ITCARE": ("IT Care Monthly - monitoring, podpora a pravidelny health-check", Decimal("49.00")),
+    },
+    "en": {
+        "BUILD": ("PC Build - assembly, testing and optimization", Decimal("199.00")),
+        "HA": ("Home Assistant & Smart Home - design, implementation and automations", Decimal("199.00")),
+        "NAS": ("NAS & Backup - deployment, backups and recovery test", Decimal("249.00")),
+        "MULTI": ("Multi-Hub Integrations - platform and device integration", Decimal("199.00")),
+        "ITCARE": ("IT Care Monthly - monitoring, support and regular health check", Decimal("49.00")),
+    },
+}
+
 
 @dataclass
 class InvoiceItem:
@@ -82,7 +99,6 @@ def parse_items_from_email(text: str) -> List[InvoiceItem]:
         price = Decimal(m.group(2).replace(",", "."))
         parsed.append((raw_name, price))
 
-    # fallback CPU in markdown format
     if not any(n.lower() == "cpu" for n, _ in parsed):
         m = re.search(r"\*?\s*CPU\s*\*?\s*(\d+,\d{2})\s*€", text, flags=re.IGNORECASE)
         if m:
@@ -107,6 +123,43 @@ def euro(value: Decimal) -> str:
     return f"{value:.2f}".replace(".", ",") + " €"
 
 
+def t(lang: str, key: str) -> str:
+    sk = {
+        "title": "FAKTÚRA",
+        "invoice_no": "Číslo",
+        "issued": "Vystavená",
+        "due": "Splatnosť",
+        "supplier": "Dodávateľ",
+        "customer": "Odberateľ",
+        "item": "Názov položky",
+        "qty": "Množstvo",
+        "unit": "J. cena",
+        "sum": "Spolu",
+        "total": "Celkom na úhradu:",
+        "non_vat": "Dodávateľ nie je platiteľ DPH.",
+        "thanks": "Ďakujeme za objednávku. Faktúra bola vystavená elektronicky.",
+        "pcs": "1 ks",
+    }
+    en = {
+        "title": "INVOICE",
+        "invoice_no": "Number",
+        "issued": "Issue date",
+        "due": "Due date",
+        "supplier": "Supplier",
+        "customer": "Customer",
+        "item": "Item description",
+        "qty": "Quantity",
+        "unit": "Unit price",
+        "sum": "Total",
+        "total": "Amount due:",
+        "non_vat": "Supplier is not a VAT payer.",
+        "thanks": "Thank you for your order. Invoice issued electronically.",
+        "pcs": "1 pc",
+    }
+    d = en if lang == "en" else sk
+    return d[key]
+
+
 def build_invoice_pdf(
     invoice_no: str,
     customer_company: str,
@@ -116,6 +169,7 @@ def build_invoice_pdf(
     customer_dic: str,
     items: List[InvoiceItem],
     non_vat: bool = True,
+    lang: str = "sk",
 ) -> Path:
     out = OUT_DIR / f"faktura-{invoice_no}.pdf"
     c = canvas.Canvas(str(out), pagesize=A4)
@@ -129,15 +183,24 @@ def build_invoice_pdf(
     c.rect(0, H - 56 * mm, W, 2.2 * mm, fill=1, stroke=0)
 
     if LOGO_PNG_PATH.exists():
-        c.drawImage(ImageReader(str(LOGO_PNG_PATH)), 16 * mm, H - 45 * mm, width=66 * mm, height=28 * mm, mask="auto", preserveAspectRatio=True, anchor="sw")
+        c.drawImage(
+            ImageReader(str(LOGO_PNG_PATH)),
+            16 * mm,
+            H - 45 * mm,
+            width=66 * mm,
+            height=28 * mm,
+            mask="auto",
+            preserveAspectRatio=True,
+            anchor="sw",
+        )
 
     c.setFillColor(colors.HexColor(TEXT))
     c.setFont("DV-Bold", 19)
-    c.drawRightString(195 * mm, H - 20 * mm, "FAKTÚRA")
+    c.drawRightString(195 * mm, H - 20 * mm, t(lang, "title"))
     c.setFont("DV", 9.8)
-    c.drawRightString(195 * mm, H - 26.5 * mm, f"Číslo: {invoice_no}")
-    c.drawRightString(195 * mm, H - 31.5 * mm, f"Vystavená: {datetime.now().strftime('%d.%m.%Y')}")
-    c.drawRightString(195 * mm, H - 36.5 * mm, f"Splatnosť: {(datetime.now() + timedelta(days=7)).strftime('%d.%m.%Y')}")
+    c.drawRightString(195 * mm, H - 26.5 * mm, f"{t(lang, 'invoice_no')}: {invoice_no}")
+    c.drawRightString(195 * mm, H - 31.5 * mm, f"{t(lang, 'issued')}: {datetime.now().strftime('%d.%m.%Y')}")
+    c.drawRightString(195 * mm, H - 36.5 * mm, f"{t(lang, 'due')}: {(datetime.now() + timedelta(days=7)).strftime('%d.%m.%Y')}")
 
     y0 = H - 66 * mm
     c.setFillColor(colors.HexColor(CARD))
@@ -146,19 +209,20 @@ def build_invoice_pdf(
 
     c.setFillColor(colors.HexColor(TEXT))
     c.setFont("DV-Bold", 10)
-    c.drawString(20 * mm, y0 - 8 * mm, "Dodávateľ")
+    c.drawString(20 * mm, y0 - 8 * mm, t(lang, "supplier"))
     c.setFont("DV", 9.4)
     c.drawString(20 * mm, y0 - 14 * mm, "protechtb s.r.o.")
     c.drawString(20 * mm, y0 - 19 * mm, "Slavicia 42, Chorvátsky Grob 90025")
     c.drawString(20 * mm, y0 - 24 * mm, "Telefón: 0949093573")
 
     c.setFont("DV-Bold", 10)
-    c.drawString(113 * mm, y0 - 8 * mm, "Odberateľ")
+    c.drawString(113 * mm, y0 - 8 * mm, t(lang, "customer"))
     c.setFont("DV", 9.4)
     c.drawString(113 * mm, y0 - 14 * mm, customer_company)
     c.drawString(113 * mm, y0 - 19 * mm, customer_address)
     c.drawString(113 * mm, y0 - 24 * mm, customer_city)
-    c.drawString(113 * mm, y0 - 29 * mm, f"IČO: {customer_ico}   DIČ: {customer_dic}")
+    if customer_ico or customer_dic:
+        c.drawString(113 * mm, y0 - 29 * mm, f"IČO: {customer_ico}   DIČ: {customer_dic}")
 
     top = y0 - 41 * mm
     c.setFillColor(colors.HexColor(BG2))
@@ -169,27 +233,29 @@ def build_invoice_pdf(
     c.setFillColor(colors.HexColor(TEXT))
     c.setFont("DV-Bold", 9)
     c.drawString(18 * mm, top - 5.4 * mm, "#")
-    c.drawString(26 * mm, top - 5.4 * mm, "Názov položky")
-    c.drawRightString(156 * mm, top - 5.4 * mm, "Množstvo")
-    c.drawRightString(176 * mm, top - 5.4 * mm, "J. cena")
-    c.drawRightString(192 * mm, top - 5.4 * mm, "Spolu")
+    c.drawString(26 * mm, top - 5.4 * mm, t(lang, "item"))
+    c.drawRightString(156 * mm, top - 5.4 * mm, t(lang, "qty"))
+    c.drawRightString(176 * mm, top - 5.4 * mm, t(lang, "unit"))
+    c.drawRightString(192 * mm, top - 5.4 * mm, t(lang, "sum"))
 
+    # +1 mm spacing between rows vs previous design
+    row_h = 7.8 * mm
     row = top - 13 * mm
     for i, it in enumerate(items, start=1):
         if i % 2 == 0:
             c.setFillColor(colors.HexColor("#f7f9fd"))
-            c.rect(15 * mm, row - 4 * mm, 180 * mm, 6.8 * mm, fill=1, stroke=0)
+            c.rect(15 * mm, row - 4.6 * mm, 180 * mm, row_h, fill=1, stroke=0)
         c.setFillColor(colors.HexColor("#111827"))
         c.setFont("DV", 8.8)
         c.drawString(18 * mm, row, str(i))
         n = it.name if len(it.name) <= 67 else it.name[:64] + "..."
         c.drawString(26 * mm, row, n)
-        c.drawRightString(156 * mm, row, "1 ks")
+        c.drawRightString(156 * mm, row, t(lang, "pcs"))
         c.drawRightString(176 * mm, row, euro(it.price))
         c.drawRightString(192 * mm, row, euro(it.price))
         c.setStrokeColor(colors.HexColor("#e5e7eb"))
-        c.line(15 * mm, row - 4.5 * mm, 195 * mm, row - 4.5 * mm)
-        row -= 6.8 * mm
+        c.line(15 * mm, row - 5.2 * mm, 195 * mm, row - 5.2 * mm)
+        row -= row_h
 
     sy = row - 4 * mm
     c.setFillColor(colors.HexColor(BG2))
@@ -199,31 +265,41 @@ def build_invoice_pdf(
 
     c.setFillColor(colors.HexColor(GOLD))
     c.setFont("DV-Bold", 10)
-    c.drawString(122 * mm, sy - 12.5 * mm, "Celkom na úhradu:")
+    c.drawString(122 * mm, sy - 12.5 * mm, t(lang, "total"))
     c.drawRightString(191 * mm, sy - 12.5 * mm, euro(subtotal))
 
     c.setFillColor(colors.HexColor(MUTED))
     c.setFont("DV", 8.4)
     if non_vat:
-        c.drawString(15 * mm, 16 * mm, "Dodávateľ nie je platiteľ DPH.")
-    c.drawString(15 * mm, 11 * mm, "Ďakujeme za objednávku. Faktúra bola vystavená elektronicky.")
+        c.drawString(15 * mm, 16 * mm, t(lang, "non_vat"))
+    c.drawString(15 * mm, 11 * mm, t(lang, "thanks"))
 
     c.showPage()
     c.save()
     return out
 
 
+def service_template(section: str, lang: str) -> Tuple[str, Decimal]:
+    section = section.upper()
+    pool = SERVICE_TEMPLATES.get(lang, SERVICE_TEMPLATES["sk"])
+    if section in pool:
+        return pool[section]
+    return ("Služba", Decimal("0.00")) if lang == "sk" else ("Service", Decimal("0.00"))
+
+
 def main() -> int:
     p = argparse.ArgumentParser(description="Generate ProTechTB branded invoice PDF and optionally send by email reply.")
     p.add_argument("--message-id", required=True, help="Source email message-id to parse and reply to")
-    p.add_argument("--section", default="BUILD", help="Invoice section code in invoice number, e.g. BUILD")
-    p.add_argument("--customer-company", default="Michal Mitter")
+    p.add_argument("--section", default="BUILD", help="Invoice section code, e.g. BUILD, NAS, HA, MULTI, ITCARE")
+    p.add_argument("--lang", choices=["sk", "en"], default="sk", help="Invoice language")
+    p.add_argument("--customer-company", default="")
     p.add_argument("--customer-address", default="")
     p.add_argument("--customer-city", default="")
     p.add_argument("--customer-ico", default="")
     p.add_argument("--customer-dic", default="")
-    p.add_argument("--service-name", default="PC Build - praca, testovanie a optimalizacia")
-    p.add_argument("--service-price", type=Decimal, default=Decimal("199.00"))
+    p.add_argument("--service-name", default="", help="Override template service name")
+    p.add_argument("--service-price", default="", help="Override template service price, e.g. 199.00")
+    p.add_argument("--only-service", action="store_true", help="Do not parse component items from email; invoice only service template")
     p.add_argument("--send", action="store_true", help="Send invoice as email reply")
     args = p.parse_args()
 
@@ -232,8 +308,12 @@ def main() -> int:
     full = client.inboxes.messages.get(INBOX_ID, args.message_id)
     text = (getattr(full, "text", "") or "")
 
-    items = parse_items_from_email(text)
-    items.append(InvoiceItem(name=args.service_name, price=args.service_price))
+    items: List[InvoiceItem] = [] if args.only_service else parse_items_from_email(text)
+
+    tpl_name, tpl_price = service_template(args.section, args.lang)
+    final_service_name = args.service_name.strip() if args.service_name.strip() else tpl_name
+    final_service_price = Decimal(args.service_price) if args.service_price.strip() else tpl_price
+    items.append(InvoiceItem(name=final_service_name, price=final_service_price))
 
     ts = datetime.now().strftime("%Y%m%d-%H%M")
     invoice_no = f"PTB-{args.section.upper()}-{ts}"
@@ -246,16 +326,23 @@ def main() -> int:
         customer_dic=args.customer_dic,
         items=items,
         non_vat=True,
+        lang=args.lang,
     )
 
     if args.send:
         b64 = base64.b64encode(pdf.read_bytes()).decode("ascii")
-        msg = (
-            "Ahoj,\n\n"
-            f"posielam upravenú faktúru (sekcia {args.section.upper()}) so správnym logom/farbami brandu a bez DPH riadkov.\n"
-            "V prílohe je finálna PDF verzia.\n\n"
-            "Max"
-        )
+        if args.lang == "en":
+            msg = (
+                f"Hi,\n\nI’m sending the updated invoice (section {args.section.upper()}) in the requested style.\n"
+                "The PDF attachment is final.\n\n"
+                "Max"
+            )
+        else:
+            msg = (
+                f"Ahoj,\n\nposielam upravenú faktúru (sekcia {args.section.upper()}) s profi layoutom a väčším rozostupom riadkov položiek.\n"
+                "V prílohe je finálna PDF verzia.\n\n"
+                "Max"
+            )
         client.inboxes.messages.reply(
             INBOX_ID,
             args.message_id,
