@@ -52,7 +52,7 @@ NAME_MAP = {
 
 SERVICE_TEMPLATES = {
     "sk": {
-        "BUILD": ("PC Build - praca, testovanie a optimalizacia", Decimal("199.00")),
+        "BUILD": ("PC Build – zostavenie, testovanie a optimalizácia", Decimal("199.00")),
         "HA": ("Home Assistant & Smart Home - navrh, implementacia a automatizacie", Decimal("199.00")),
         "NAS": ("NAS & Backup - nasadenie, zalohovanie a recovery test", Decimal("249.00")),
         "MULTI": ("Multi-Hub Integracie - prepojenie platforiem a zariadeni", Decimal("199.00")),
