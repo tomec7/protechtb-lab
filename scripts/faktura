@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Quick alias wrapper for ProTechTB invoices
+# Usage:
+#   scripts/faktura <section> <lang> <message-id> [extra args...]
+# Examples:
+#   scripts/faktura build sk "<MSG_ID>" --send
+#   scripts/faktura nas en "<MSG_ID>" --only-service --send
+
+section_raw="${1:-}"
+lang_raw="${2:-sk}"
+message_id="${3:-}"
+
+if [[ -z "$section_raw" || -z "$message_id" ]]; then
+  echo "Usage: scripts/faktura <section> <lang> <message-id> [extra args...]"
+  echo "Sections: build|ha|nas|multi|itcare (aliases: b,h,n,m,it)"
+  echo "Lang: sk|en"
+  exit 1
+fi
+
+case "${section_raw,,}" in
+  build|b) section="BUILD" ;;
+  ha|h) section="HA" ;;
+  nas|n) section="NAS" ;;
+  multi|m) section="MULTI" ;;
+  itcare|it) section="ITCARE" ;;
+  *) section="${section_raw^^}" ;;
+esac
+
+case "${lang_raw,,}" in
+  sk|slovak|slovensky) lang="sk" ;;
+  en|english) lang="en" ;;
+  *)
+    echo "Unsupported lang: $lang_raw (use sk|en)"
+    exit 1
+    ;;
+esac
+
+shift 3
+
+exec uv run python /home/lenovo/.openclaw/workspace/scripts/protechtb_invoice.py \
+  --section "$section" \
+  --lang "$lang" \
+  --message-id "$message_id" \
+  "$@"

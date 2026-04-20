@@ -238,14 +238,13 @@ def build_invoice_pdf(
     c.drawRightString(176 * mm, top - 5.4 * mm, t(lang, "unit"))
     c.drawRightString(192 * mm, top - 5.4 * mm, t(lang, "sum"))
 
-    # +1 mm spacing between rows vs previous design
-    row_h = 7.8 * mm
+    # Increased spacing + neutral row colors for better readability
+    row_h = 8.6 * mm
     row = top - 13 * mm
     for i, it in enumerate(items, start=1):
-        if i % 2 == 0:
-            c.setFillColor(colors.HexColor("#f7f9fd"))
-            c.rect(15 * mm, row - 4.6 * mm, 180 * mm, row_h, fill=1, stroke=0)
-        c.setFillColor(colors.HexColor("#111827"))
+        c.setFillColor(colors.HexColor("#ffffff" if i % 2 else "#f8fafc"))
+        c.rect(15 * mm, row - 5.0 * mm, 180 * mm, 8.0 * mm, fill=1, stroke=0)
+        c.setFillColor(colors.HexColor("#0f172a"))
         c.setFont("DV", 8.8)
         c.drawString(18 * mm, row, str(i))
         n = it.name if len(it.name) <= 67 else it.name[:64] + "..."
@@ -253,7 +252,7 @@ def build_invoice_pdf(
         c.drawRightString(156 * mm, row, t(lang, "pcs"))
         c.drawRightString(176 * mm, row, euro(it.price))
         c.drawRightString(192 * mm, row, euro(it.price))
-        c.setStrokeColor(colors.HexColor("#e5e7eb"))
+        c.setStrokeColor(colors.HexColor("#e2e8f0"))
         c.line(15 * mm, row - 5.2 * mm, 195 * mm, row - 5.2 * mm)
         row -= row_h
 
