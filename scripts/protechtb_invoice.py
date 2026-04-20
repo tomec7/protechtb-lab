@@ -211,7 +211,7 @@ def build_invoice_pdf(
     c.setFont("DV-Bold", 10)
     c.drawString(20 * mm, y0 - 8 * mm, t(lang, "supplier"))
     c.setFont("DV", 9.4)
-    c.drawString(20 * mm, y0 - 14 * mm, "protechtb s.r.o.")
+    c.drawString(20 * mm, y0 - 14 * mm, "ProTechTB s.r.o.")
     c.drawString(20 * mm, y0 - 19 * mm, "Slavicia 42, Chorvátsky Grob 90025")
     c.drawString(20 * mm, y0 - 24 * mm, "Telefón: 0949093573")
 
