@@ -109,7 +109,11 @@ def euro(value: Decimal) -> str:
 
 def build_invoice_pdf(
     invoice_no: str,
-    customer_name: str,
+    customer_company: str,
+    customer_address: str,
+    customer_city: str,
+    customer_ico: str,
+    customer_dic: str,
     items: List[InvoiceItem],
     non_vat: bool = True,
 ) -> Path:
@@ -151,8 +155,10 @@ def build_invoice_pdf(
     c.setFont("DV-Bold", 10)
     c.drawString(113 * mm, y0 - 8 * mm, "Odberateľ")
     c.setFont("DV", 9.4)
-    c.drawString(113 * mm, y0 - 14 * mm, customer_name)
-    c.drawString(113 * mm, y0 - 19 * mm, "Podľa dopytu e-mailom")
+    c.drawString(113 * mm, y0 - 14 * mm, customer_company)
+    c.drawString(113 * mm, y0 - 19 * mm, customer_address)
+    c.drawString(113 * mm, y0 - 24 * mm, customer_city)
+    c.drawString(113 * mm, y0 - 29 * mm, f"IČO: {customer_ico}   DIČ: {customer_dic}")
 
     top = y0 - 41 * mm
     c.setFillColor(colors.HexColor(BG2))
@@ -211,7 +217,11 @@ def main() -> int:
     p = argparse.ArgumentParser(description="Generate ProTechTB branded invoice PDF and optionally send by email reply.")
     p.add_argument("--message-id", required=True, help="Source email message-id to parse and reply to")
     p.add_argument("--section", default="BUILD", help="Invoice section code in invoice number, e.g. BUILD")
-    p.add_argument("--customer", default="Michal Mitter")
+    p.add_argument("--customer-company", default="Michal Mitter")
+    p.add_argument("--customer-address", default="")
+    p.add_argument("--customer-city", default="")
+    p.add_argument("--customer-ico", default="")
+    p.add_argument("--customer-dic", default="")
     p.add_argument("--service-name", default="PC Build - praca, testovanie a optimalizacia")
     p.add_argument("--service-price", type=Decimal, default=Decimal("199.00"))
     p.add_argument("--send", action="store_true", help="Send invoice as email reply")
@@ -227,7 +237,16 @@ def main() -> int:
 
     ts = datetime.now().strftime("%Y%m%d-%H%M")
     invoice_no = f"PTB-{args.section.upper()}-{ts}"
-    pdf = build_invoice_pdf(invoice_no=invoice_no, customer_name=args.customer, items=items, non_vat=True)
+    pdf = build_invoice_pdf(
+        invoice_no=invoice_no,
+        customer_company=args.customer_company,
+        customer_address=args.customer_address,
+        customer_city=args.customer_city,
+        customer_ico=args.customer_ico,
+        customer_dic=args.customer_dic,
+        items=items,
+        non_vat=True,
+    )
 
     if args.send:
         b64 = base64.b64encode(pdf.read_bytes()).decode("ascii")
