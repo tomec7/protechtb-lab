@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Usage:
+#   scripts/video_gen "prompt text" [--duration 5|10] [--aspect 16:9|9:16|1:1]
+
+if [[ $# -lt 1 ]]; then
+  echo "Usage: scripts/video_gen \"prompt\" [extra args]"
+  exit 1
+fi
+
+PROMPT="$1"
+shift || true
+
+exec uv run python /home/lenovo/.openclaw/workspace/scripts/gen_ai_video.py \
+  --prompt "$PROMPT" "$@"
