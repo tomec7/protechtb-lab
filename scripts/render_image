@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+COMFY_DIR="/home/lenovo/.openclaw/workspace/tools/ComfyUI"
+SCRIPT="/home/lenovo/.openclaw/workspace/scripts/render_img2img.py"
+
+if [[ $# -lt 1 ]]; then
+  echo "Usage: scripts/render_image --input <path> [--prompt \"...\"] [other options]"
+  exit 1
+fi
+
+cd "$COMFY_DIR"
+. .venv/bin/activate
+exec python "$SCRIPT" "$@"
