@@ -6,7 +6,7 @@ _Learn about the person you're helping. Update this as you go._
 - **What to call them:** Tom
 - **Pronouns:** _(optional)_
 - **Timezone:** Europe/Warsaw _(predpoklad, potvrdiť)_
-- **Notes:** Preferuje komunikáciu v slovenčine. Chce, aby som pracoval presne a samostatne; informovať ho len o dôležitých veciach a zmenách.
+- **Notes:** Preferuje komunikáciu v slovenčine. Chce, aby som pracoval presne a samostatne; informovať ho len o dôležitých veciach a zmenách. Nechce vidieť priebežné technické command logy.
 
 ## Context
 
