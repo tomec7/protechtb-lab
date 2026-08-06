@@ -46,24 +46,60 @@
     nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('open')));
   }
 
+  const BOT_EMAIL_ENDPOINT = 'https://formsubmit.co/protechtbsupport@gmail.com';
+  const BOT_VISITOR_KEY = 'protechtb-bot-visitor-id';
+  const BOT_SESSION_KEY = 'protechtb-bot-session-id';
+  const BOT_TRANSCRIPT_KEY = 'protechtb-bot-transcript';
+  const BOT_OPEN_KEY = 'protechtb-bot-open';
+  const BOT_LAST_EMAIL_KEY = 'protechtb-bot-last-email';
+
+  const readStorage = (key, fallback = '') => {
+    try { return localStorage.getItem(key) || fallback; } catch (e) { return fallback; }
+  };
+
+  const writeStorage = (key, value) => {
+    try { localStorage.setItem(key, value); } catch (e) {}
+  };
+
+  const makeId = (prefix) => {
+    const rand = Math.random().toString(36).slice(2, 10);
+    return `${prefix}-${Date.now().toString(36)}-${rand}`;
+  };
+
+  const visitorId = readStorage(BOT_VISITOR_KEY) || makeId('visitor');
+  writeStorage(BOT_VISITOR_KEY, visitorId);
+
+  const sessionId = readStorage(BOT_SESSION_KEY) || makeId('chat');
+  writeStorage(BOT_SESSION_KEY, sessionId);
+
   const buildBotWidget = () => {
     const widget = document.createElement('div');
-    widget.className = 'probot-float';
+    widget.className = 'probot-float is-collapsed';
     widget.dataset.probotWidget = 'true';
     widget.innerHTML = `
-      <div class="bot-shell card" data-bot-shell>
+      <button class="probot-launch" type="button" data-bot-launch aria-expanded="false" aria-label="Otvoriť ProBot">
+        <span class="probot-launch-dot" aria-hidden="true"></span>
+        <span class="probot-launch-copy">
+          <strong>ProBot</strong>
+          <small>rýchly asistent</small>
+        </span>
+      </button>
+      <div class="bot-shell card" data-bot-shell hidden>
         <div class="bot-top">
           <div class="bot-brand">
             <div class="bot-avatar" aria-hidden="true">PB</div>
             <div>
               <strong>ProBot</strong>
-              <div class="bot-status">online • lab preview</div>
+              <div class="bot-status">online • lab preview • e-mail prepisu</div>
             </div>
           </div>
-          <button class="btn" type="button" data-bot-toggle aria-label="Zbaliť ProBot">−</button>
+          <div class="bot-actions">
+            <button class="btn" type="button" data-bot-reset title="Vymazať konverzáciu">Nový chat</button>
+            <button class="btn" type="button" data-bot-toggle aria-label="Zbaliť ProBot">−</button>
+          </div>
         </div>
         <div class="bot-copy">
-          <p class="muted" style="margin:0">Chatbot pre rýchlu orientáciu v službách, cenách a kontakte. Skús rýchle otázky alebo napíš vlastný dopyt.</p>
+          <p class="muted" style="margin:0">Rýchly prehľad služieb, ceny a kontakt. Každý prepis chatu posielam tímu na e-mail s časom, stránkou a celou konverzáciou.</p>
         </div>
         <div class="bot-log" data-bot-log aria-live="polite" aria-label="Rozhovor s chatbotom"></div>
         <form class="bot-form" data-bot-form>
@@ -72,11 +108,12 @@
           <button class="btn primary" type="submit">Poslať</button>
         </form>
         <div class="bot-quick" aria-label="Rýchle otázky">
-          <button class="bot-pill" type="button" data-bot-query="Koľko stojí Smart Start?">Koľko stojí Smart Start?</button>
-          <button class="bot-pill" type="button" data-bot-query="Čo viete o Home Assistante?">Home Assistant</button>
+          <button class="bot-pill" type="button" data-bot-query="Koľko stojí Smart Start?">Ceny</button>
+          <button class="bot-pill" type="button" data-bot-query="Čo viete o Home Assistante?">Smart Home</button>
           <button class="bot-pill" type="button" data-bot-query="Potrebujem NAS backup">NAS backup</button>
           <button class="bot-pill" type="button" data-bot-query="Ako vás kontaktujem?">Kontakt</button>
         </div>
+        <p class="bot-footnote">Prepis sa priebežne posiela tímu na e-mail s časom, stránkou a celou konverzáciou.</p>
       </div>
     `;
     return widget;
@@ -90,13 +127,30 @@
 
   const botShell = botWidget.querySelector('[data-bot-shell]');
   if (botShell) {
+    const botLaunch = botWidget.querySelector('[data-bot-launch]');
     const botLog = botShell.querySelector('[data-bot-log]');
     const botForm = botShell.querySelector('[data-bot-form]');
     const botInput = botShell.querySelector('input[name="botQuestion"]');
-    const botReset = botShell.querySelector('[data-bot-reset]');
     const botToggle = botShell.querySelector('[data-bot-toggle]');
+    const botReset = botShell.querySelector('[data-bot-reset]');
     const quickButtons = botShell.querySelectorAll('[data-bot-query]');
     const isEnglish = document.documentElement.lang === 'en';
+    const initialTranscript = (() => {
+      try {
+        const raw = localStorage.getItem(BOT_TRANSCRIPT_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        return [];
+      }
+    })();
+    const transcript = Array.isArray(initialTranscript) ? initialTranscript : [];
+    const botState = {
+      lastIntent: 'general',
+      pendingEmailTimer: null,
+      emailBusy: false,
+      profileName: '',
+      profileEmail: ''
+    };
 
     const copy = {
       greeting: isEnglish
@@ -109,8 +163,8 @@
         ? 'The fastest next step is the contact form. Send me a short request and I will help you define the scope.'
         : 'Najrýchlejší ďalší krok je kontakt formulár. Pošli stručný dopyt a pomôžem ti spresniť zadanie.',
       smartHome: isEnglish
-        ? 'Home Assistant and smart home setups are best when they are simple to use. I can help with dashboards, automations, lights, heating and multi-hub integration.'
-        : 'Home Assistant a smart home dávajú najväčší zmysel, keď sú jednoduché na používanie. Pomôžem s dashboardmi, automatizáciami, svetlami, kúrením aj multi-hub integráciou.',
+        ? 'Home Assistant and smart home setups work best when they stay simple. I can help with dashboards, automations, lights, heating, Zigbee and multi-hub integration.'
+        : 'Home Assistant a smart home dávajú najväčší zmysel, keď zostanú jednoduché. Pomôžem s dashboardmi, automatizáciami, svetlami, kúrením, Zigbee aj multi-hub integráciou.',
       nas: isEnglish
         ? 'NAS & Backup starts with architecture, automatic backups and a recovery test. That is the safest path for family photos, work files and shared data.'
         : 'NAS & Backup začína architektúrou, automatickými zálohami a recovery testom. Je to najistejšia cesta pre fotky, pracovné súbory aj zdieľané dáta.',
@@ -125,17 +179,20 @@
         : 'Pri PC zostavách riešime výkon, hluk, airflow a stabilitu. Je to vhodné pre pracovné aj domáce zostavy, ktoré majú zostať rýchle.',
       about: isEnglish
         ? 'The site is built to explain IT in human language. The live lab page is the best place to test the chatbot behavior before a real launch.'
-        : 'Web je postavený tak, aby IT vysvetľoval ľudskou rečou. Live lab stránka je najlepšie miesto na testovanie chatbota pred ostrým nasadením.'
+        : 'Web je postavený tak, aby IT vysvetľoval ľudskou rečou. Live lab stránka je najlepšie miesto na testovanie chatbota pred ostrým nasadením.',
+      help: isEnglish
+        ? 'Try one of these: services, price, smart home, NAS, PC build or contact.'
+        : 'Skús jednu z tém: služby, cena, smart home, NAS, PC build alebo kontakt.'
     };
 
-    const keywords = [
-      { test: ['cena', 'cen', 'price', 'pricing', 'kolko', 'koľko', 'sum'], reply: copy.pricing },
-      { test: ['kontakt', 'formular', 'form', 'email', 'dopyt', 'kontaktovat', 'contact'], reply: copy.contact },
-      { test: ['smart home', 'home assistant', 'automatiz', 'svetl', 'heating', 'zigbee', 'matter', 'integrac', 'integraciu', 'integracie'], reply: copy.smartHome },
-      { test: ['nas', 'backup', 'zalo', 'zálo', 'disk', 'raid', 'recovery'], reply: copy.nas },
-      { test: ['pc', 'build', 'performance', 'workstation', 'hardware', 'tichy', 'výkon', 'vykon'], reply: copy.performance },
-      { test: ['sluzby', 'services', 'co robite', 'co ponukate', 'what do you do', 'service'], reply: copy.services },
-      { test: ['o vas', 'o nás', 'about', 'kto ste', 'kto si', 'about us'], reply: copy.about }
+    const intents = [
+      { id: 'pricing', label: 'Cenník', test: ['cena', 'cen', 'price', 'pricing', 'kolko', 'koľko', 'sum'], reply: copy.pricing },
+      { id: 'contact', label: 'Kontakt', test: ['kontakt', 'formular', 'form', 'email', 'dopyt', 'kontaktovat', 'contact'], reply: copy.contact },
+      { id: 'smart-home', label: 'Smart Home', test: ['smart home', 'home assistant', 'automatiz', 'svetl', 'heating', 'zigbee', 'matter', 'integrac', 'integraciu', 'integracie'], reply: copy.smartHome },
+      { id: 'nas', label: 'NAS & Backup', test: ['nas', 'backup', 'zalo', 'zálo', 'disk', 'raid', 'recovery'], reply: copy.nas },
+      { id: 'pc', label: 'PC Build', test: ['pc', 'build', 'performance', 'workstation', 'hardware', 'tichy', 'výkon', 'vykon'], reply: copy.performance },
+      { id: 'services', label: 'Služby', test: ['sluzby', 'services', 'co robite', 'co ponukate', 'what do you do', 'service'], reply: copy.services },
+      { id: 'about', label: 'O nás', test: ['o vas', 'o nás', 'about', 'kto ste', 'kto si', 'about us'], reply: copy.about }
     ];
 
     const formatTime = () => new Intl.DateTimeFormat(isEnglish ? 'en-GB' : 'sk-SK', {
@@ -155,7 +212,20 @@
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '');
 
-    const addMessage = (role, text) => {
+    const saveTranscript = () => {
+      try { localStorage.setItem(BOT_TRANSCRIPT_KEY, JSON.stringify(transcript)); } catch (e) {}
+    };
+
+    const addMessage = (role, text, meta = {}) => {
+      const record = {
+        role,
+        text,
+        at: new Date().toISOString(),
+        ...meta
+      };
+      transcript.push(record);
+      saveTranscript();
+
       const item = document.createElement('div');
       item.className = `bot-message ${role}`;
       item.innerHTML = `<p>${escapeText(text)}</p><div class="bot-meta">${role === 'user' ? (isEnglish ? 'You' : 'Ty') : 'ProBot'} · ${formatTime()}</div>`;
@@ -163,33 +233,180 @@
       botLog.scrollTop = botLog.scrollHeight;
     };
 
-    const chooseReply = (input) => {
+    const detectIntent = (input) => {
       const normalized = normalize(input);
-      for (const rule of keywords) {
-        if (rule.test.some(term => normalized.includes(normalize(term)))) {
-          return rule.reply;
+      if (/^(a|and)\s+(cena|price|kolko|koľko)/.test(normalized) && botState.lastIntent) {
+        return intents.find(intent => intent.id === botState.lastIntent) || null;
+      }
+      for (const intent of intents) {
+        if (intent.test.some(term => normalized.includes(normalize(term)))) {
+          return intent;
+        }
+      }
+      return null;
+    };
+
+    const captureProfile = (input) => {
+      const emailMatch = input.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i);
+      if (emailMatch) botState.profileEmail = emailMatch[0];
+
+      const nameMatch = input.match(/(?:som|ja som|volám sa|volam sa|moje meno je|i am|my name is)\s+([A-Za-zÀ-ž.'-]{2,}(?:\s+[A-Za-zÀ-ž.'-]{2,}){0,2})/i);
+      if (nameMatch && nameMatch[1]) botState.profileName = nameMatch[1].trim();
+    };
+
+    const topicLabelForIntent = (intent) => {
+      if (!intent) return isEnglish ? 'General inquiry' : 'Všeobecný dopyt';
+      return intent.label;
+    };
+
+    const buildReply = (input) => {
+      const normalized = normalize(input);
+
+      if (normalized.includes('dak') || normalized.includes('thank') || normalized.includes('vdaka')) {
+        return isEnglish
+          ? 'You are welcome. If you want, I can also explain pricing or route you to the contact form.'
+          : 'Rado sa stalo. Ak chceš, môžem vysvetliť ceny alebo ťa hneď poslať na formulár.';
+      }
+
+      const intent = detectIntent(input);
+      if (intent) {
+        botState.lastIntent = intent.id;
+        if (intent.id === 'pricing') {
+          return `${copy.pricing}\n\nAk chceš presnú cenu, napíš rozsah projektu, počet zariadení alebo preferovaný termín.`;
+        }
+        if (intent.id === 'contact') {
+          return `${copy.contact}\n\nMôžeš sem hneď napísať meno, email a krátky popis. Ja to pošlem tímu aj s prepisom chatu.`;
+        }
+        if (intent.id === 'smart-home') {
+          return `${copy.smartHome}\n\nNajsilnejšie výsledky sú, keď je návrh jednoduchý, má dobré názvoslovie a jasné scenáre pre každodenné používanie.`;
+        }
+        if (intent.id === 'nas') {
+          return `${copy.nas}\n\nDôležité je oddeliť zálohu od synchronizácie. Ak chceš, môžem ti navrhnúť aj minimálnu 3-2-1 stratégiu.`;
+        }
+        if (intent.id === 'pc') {
+          return `${copy.performance}\n\nAk chceš, môžem odporučiť aj rozpočet podľa toho, či ide o prácu, hranie alebo tichú domácu zostavu.`;
+        }
+        if (intent.id === 'services') {
+          return `${copy.services}\n\nAk chceš, rozdelím ti to na tri konkrétne balíky podľa rozpočtu.`;
+        }
+        if (intent.id === 'about') {
+          return `${copy.about}\n\nToto je LAB verzia, kde testujeme lepšie odpovede, UI a automatický prepis konverzácie na e-mail.`;
         }
       }
 
-      if (normalized.includes('dak') || normalized.includes('thank') || normalized.includes('vdaka')) {
-        return isEnglish ? 'You are welcome. If you want, I can also explain pricing or route you to the contact form.' : 'Rado sa stalo. Ak chceš, môžem vysvetliť ceny alebo ťa hneď poslať na formulár.';
+      if (normalized.includes('help') || normalized.includes('pomoc') || normalized.includes('co vies')) {
+        return copy.help;
       }
 
-      return copy.fallback;
+      return `${copy.fallback}\n\n${copy.help}`;
+    };
+
+    const renderTranscript = () => {
+      botLog.innerHTML = '';
+      transcript.forEach(item => {
+        const entry = document.createElement('div');
+        entry.className = `bot-message ${item.role}`;
+        entry.innerHTML = `<p>${escapeText(item.text)}</p><div class="bot-meta">${item.role === 'user' ? (isEnglish ? 'You' : 'Ty') : 'ProBot'} · ${formatTime()}</div>`;
+        botLog.appendChild(entry);
+      });
+      botLog.scrollTop = botLog.scrollHeight;
+    };
+
+    const emailSignature = () => transcript.map(item => `${item.role}:${item.text}`).join('||');
+
+    const buildEmailPayload = () => {
+      const latestUser = [...transcript].reverse().find(item => item.role === 'user');
+      const latestIntent = topicLabelForIntent(intents.find(intent => intent.id === botState.lastIntent));
+      const payload = new URLSearchParams();
+      payload.set('_captcha', 'false');
+      payload.set('_template', 'table');
+      payload.set('_subject', `${isEnglish ? 'ProBot chat transcript' : 'Prepis ProBot chatu'} — ${latestIntent}`);
+      payload.set('visitor_id', visitorId);
+      payload.set('session_id', sessionId);
+      payload.set('page_title', document.title);
+      payload.set('page_url', location.href);
+      payload.set('language', document.documentElement.lang || 'sk');
+      payload.set('visitor_name', botState.profileName || (isEnglish ? 'anonymous' : 'anonymný'));
+      payload.set('visitor_email', botState.profileEmail || 'unknown');
+      payload.set('topic', latestIntent);
+      payload.set('last_question', latestUser ? latestUser.text : '');
+      payload.set('conversation', transcript.map(item => {
+        const label = item.role === 'user' ? (isEnglish ? 'User' : 'Používateľ') : 'ProBot';
+        return `[${item.at}] ${label}: ${item.text}`;
+      }).join('\n'));
+      return payload;
+    };
+
+    const sendTranscriptEmail = async () => {
+      const signature = emailSignature();
+      if (!signature || signature === readStorage(BOT_LAST_EMAIL_KEY)) return;
+      botState.emailBusy = true;
+      try {
+        const body = buildEmailPayload().toString();
+        if (navigator.sendBeacon) {
+          const blob = new Blob([body], { type: 'application/x-www-form-urlencoded;charset=UTF-8' });
+          navigator.sendBeacon(BOT_EMAIL_ENDPOINT, blob);
+        } else {
+          await fetch(BOT_EMAIL_ENDPOINT, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+            body
+          });
+        }
+        writeStorage(BOT_LAST_EMAIL_KEY, signature);
+      } catch (e) {
+        const fallbackMail = `mailto:protechtbsupport@gmail.com?subject=${encodeURIComponent(isEnglish ? 'ProBot chat transcript' : 'Prepis ProBot chatu')}&body=${encodeURIComponent(buildEmailPayload().toString())}`;
+        window.open(fallbackMail, '_blank', 'noopener,noreferrer');
+      } finally {
+        botState.emailBusy = false;
+      }
+    };
+
+    const scheduleTranscriptEmail = () => {
+      clearTimeout(botState.pendingEmailTimer);
+      botState.pendingEmailTimer = window.setTimeout(() => {
+        sendTranscriptEmail();
+      }, 1200);
+    };
+
+    const setCollapsed = (collapsed) => {
+      widget.classList.toggle('is-collapsed', collapsed);
+      botShell.hidden = collapsed;
+      if (botLaunch) botLaunch.hidden = !collapsed;
+      if (botToggle) {
+        botToggle.textContent = collapsed ? '+' : '−';
+        botToggle.setAttribute('aria-label', collapsed ? 'Otvoriť ProBot' : 'Zbaliť ProBot');
+      }
+      writeStorage(BOT_OPEN_KEY, collapsed ? '0' : '1');
     };
 
     const ask = (value) => {
       const trimmed = value.trim();
       if (!trimmed) return;
+      captureProfile(trimmed);
       addMessage('user', trimmed);
       if (botInput) botInput.value = '';
 
       window.setTimeout(() => {
-        addMessage('bot', chooseReply(trimmed));
+        const reply = buildReply(trimmed);
+        addMessage('bot', reply);
+        scheduleTranscriptEmail();
       }, 220);
     };
 
-    addMessage('bot', copy.greeting);
+    if (!transcript.length) {
+      addMessage('bot', copy.greeting, { system: true });
+    } else {
+      renderTranscript();
+    }
+
+    const openPref = readStorage(BOT_OPEN_KEY, '0') === '1';
+    setCollapsed(!openPref);
+
+    if (botLaunch) {
+      botLaunch.addEventListener('click', () => setCollapsed(false));
+    }
 
     if (botForm) {
       botForm.addEventListener('submit', (event) => {
@@ -208,17 +425,18 @@
 
     if (botReset) {
       botReset.addEventListener('click', () => {
-        botLog.innerHTML = '';
+        transcript.length = 0;
+        saveTranscript();
+        renderTranscript();
         addMessage('bot', copy.greeting);
+        writeStorage(BOT_LAST_EMAIL_KEY, '');
         botInput?.focus();
       });
     }
 
     if (botToggle) {
       botToggle.addEventListener('click', () => {
-        botWidget.classList.toggle('is-collapsed');
-        botToggle.textContent = botWidget.classList.contains('is-collapsed') ? '+' : '−';
-        botToggle.setAttribute('aria-label', botWidget.classList.contains('is-collapsed') ? 'Otvoriť ProBot' : 'Zbaliť ProBot');
+        setCollapsed(!botWidget.classList.contains('is-collapsed'));
       });
     }
   }
