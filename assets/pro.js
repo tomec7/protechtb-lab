@@ -46,12 +46,55 @@
     nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('open')));
   }
 
-  const botShell = document.querySelector('[data-bot-shell]');
+  const buildBotWidget = () => {
+    const widget = document.createElement('div');
+    widget.className = 'probot-float';
+    widget.dataset.probotWidget = 'true';
+    widget.innerHTML = `
+      <div class="bot-shell card" data-bot-shell>
+        <div class="bot-top">
+          <div class="bot-brand">
+            <div class="bot-avatar" aria-hidden="true">PB</div>
+            <div>
+              <strong>ProBot</strong>
+              <div class="bot-status">online • lab preview</div>
+            </div>
+          </div>
+          <button class="btn" type="button" data-bot-toggle aria-label="Zbaliť ProBot">−</button>
+        </div>
+        <div class="bot-copy">
+          <p class="muted" style="margin:0">Chatbot pre rýchlu orientáciu v službách, cenách a kontakte. Skús rýchle otázky alebo napíš vlastný dopyt.</p>
+        </div>
+        <div class="bot-log" data-bot-log aria-live="polite" aria-label="Rozhovor s chatbotom"></div>
+        <form class="bot-form" data-bot-form>
+          <label class="sr-only" for="botQuestion">Napíš otázku pre ProBot</label>
+          <input id="botQuestion" name="botQuestion" type="text" placeholder="Skús napríklad: Koľko stojí NAS?" autocomplete="off" />
+          <button class="btn primary" type="submit">Poslať</button>
+        </form>
+        <div class="bot-quick" aria-label="Rýchle otázky">
+          <button class="bot-pill" type="button" data-bot-query="Koľko stojí Smart Start?">Koľko stojí Smart Start?</button>
+          <button class="bot-pill" type="button" data-bot-query="Čo viete o Home Assistante?">Home Assistant</button>
+          <button class="bot-pill" type="button" data-bot-query="Potrebujem NAS backup">NAS backup</button>
+          <button class="bot-pill" type="button" data-bot-query="Ako vás kontaktujem?">Kontakt</button>
+        </div>
+      </div>
+    `;
+    return widget;
+  };
+
+  let botWidget = document.querySelector('[data-probot-widget]');
+  if (!botWidget) {
+    botWidget = buildBotWidget();
+    document.body.appendChild(botWidget);
+  }
+
+  const botShell = botWidget.querySelector('[data-bot-shell]');
   if (botShell) {
     const botLog = botShell.querySelector('[data-bot-log]');
     const botForm = botShell.querySelector('[data-bot-form]');
     const botInput = botShell.querySelector('input[name="botQuestion"]');
     const botReset = botShell.querySelector('[data-bot-reset]');
+    const botToggle = botShell.querySelector('[data-bot-toggle]');
     const quickButtons = botShell.querySelectorAll('[data-bot-query]');
     const isEnglish = document.documentElement.lang === 'en';
 
@@ -168,6 +211,14 @@
         botLog.innerHTML = '';
         addMessage('bot', copy.greeting);
         botInput?.focus();
+      });
+    }
+
+    if (botToggle) {
+      botToggle.addEventListener('click', () => {
+        botWidget.classList.toggle('is-collapsed');
+        botToggle.textContent = botWidget.classList.contains('is-collapsed') ? '+' : '−';
+        botToggle.setAttribute('aria-label', botWidget.classList.contains('is-collapsed') ? 'Otvoriť ProBot' : 'Zbaliť ProBot');
       });
     }
   }

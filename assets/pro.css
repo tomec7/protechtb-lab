@@ -229,6 +229,36 @@ section{padding:36px 0;border-bottom:1px solid color-mix(in oklab,var(--line) 60
 }
 .bot-pill:hover{transform:translateY(-1px);border-color:color-mix(in oklab,var(--gold) 38%, var(--line));box-shadow:0 10px 20px rgba(0,0,0,.12)}
 
+.probot-float{
+  position:fixed;
+  right:16px;
+  bottom:16px;
+  width:min(420px, calc(100vw - 32px));
+  z-index:90;
+  border-radius:18px;
+  box-shadow:0 22px 48px rgba(0,0,0,.28);
+  border:1px solid color-mix(in oklab,var(--gold) 36%, var(--line));
+}
+.probot-float .bot-log{max-height:240px}
+.probot-float .bot-shell{border:0;border-radius:inherit}
+.probot-float .bot-shell::before{inset:auto -40px -70px auto}
+.probot-float .bot-top{margin-bottom:10px}
+.probot-float .bot-form{margin-top:10px}
+.probot-float .bot-quick{margin-top:10px}
+.probot-float.is-collapsed .bot-log,
+.probot-float.is-collapsed .bot-form,
+.probot-float.is-collapsed .bot-quick,
+.probot-float.is-collapsed .bot-copy,
+.probot-float.is-collapsed .bot-top .bot-status{display:none}
+.probot-float.is-collapsed{
+  width:180px;
+  border-radius:999px;
+}
+.probot-float.is-collapsed .bot-shell{padding-bottom:10px}
+.probot-launch{
+  display:none;
+}
+
 .contact-form{display:grid;gap:10px;max-width:760px}
 .contact-form input,.contact-form textarea{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font:inherit}
 .contact-form textarea{min-height:120px;resize:vertical}
@@ -255,7 +285,11 @@ footer{padding:22px 0;color:var(--muted)}
   .main-nav.open{display:flex}
 }
 @media (max-width:860px){.grid,.grid-3,.pics,.three,.visual-grid,.offer-grid,.assistant-section{grid-template-columns:1fr}}
-@media (max-width:640px){.sticky-cta{right:10px;left:10px;bottom:10px;text-align:center}}
+@media (max-width:640px){
+  .sticky-cta{right:10px;left:10px;bottom:10px;text-align:center}
+  .probot-float{right:10px;left:10px;bottom:12px;width:auto}
+  .probot-float.is-collapsed{width:auto;border-radius:18px}
+}
 
 @media (hover:none){
   .offer-img{filter:brightness(.62)}
