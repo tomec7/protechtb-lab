@@ -46,6 +46,132 @@
     nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('open')));
   }
 
+  const botShell = document.querySelector('[data-bot-shell]');
+  if (botShell) {
+    const botLog = botShell.querySelector('[data-bot-log]');
+    const botForm = botShell.querySelector('[data-bot-form]');
+    const botInput = botShell.querySelector('input[name="botQuestion"]');
+    const botReset = botShell.querySelector('[data-bot-reset]');
+    const quickButtons = botShell.querySelectorAll('[data-bot-query]');
+    const isEnglish = document.documentElement.lang === 'en';
+
+    const copy = {
+      greeting: isEnglish
+        ? 'Hi, I am ProBot. Ask me about services, pricing, smart home or NAS, and I will point you in the right direction.'
+        : 'Ahoj, som ProBot. Spýtaj sa ma na služby, ceny, smart home alebo NAS a navediem ťa ďalej.',
+      fallback: isEnglish
+        ? 'I can help with services, pricing, smart home, NAS or contact. If you want, I will also pass you to the contact form.'
+        : 'Viem pomôcť so službami, cenami, smart home, NAS alebo kontaktom. Ak chceš, pošlem ťa aj priamo na formulár.',
+      contact: isEnglish
+        ? 'The fastest next step is the contact form. Send me a short request and I will help you define the scope.'
+        : 'Najrýchlejší ďalší krok je kontakt formulár. Pošli stručný dopyt a pomôžem ti spresniť zadanie.',
+      smartHome: isEnglish
+        ? 'Home Assistant and smart home setups are best when they are simple to use. I can help with dashboards, automations, lights, heating and multi-hub integration.'
+        : 'Home Assistant a smart home dávajú najväčší zmysel, keď sú jednoduché na používanie. Pomôžem s dashboardmi, automatizáciami, svetlami, kúrením aj multi-hub integráciou.',
+      nas: isEnglish
+        ? 'NAS & Backup starts with architecture, automatic backups and a recovery test. That is the safest path for family photos, work files and shared data.'
+        : 'NAS & Backup začína architektúrou, automatickými zálohami a recovery testom. Je to najistejšia cesta pre fotky, pracovné súbory aj zdieľané dáta.',
+      pricing: isEnglish
+        ? 'The main packages are Smart Start from 299 €, NAS Safe Home from 349 €, and IT Care Monthly at 49–99 € per month.'
+        : 'Hlavné balíky sú Smart Start od 299 €, NAS Safe Home od 349 € a IT Care Monthly za 49–99 € mesačne.',
+      services: isEnglish
+        ? 'ProTechTB covers PC build & performance, Home Assistant & smart home, NAS & backup, and multi-hub integrations.'
+        : 'ProTechTB pokrýva PC build & performance, Home Assistant & smart home, NAS & backup a multi-hub integrácie.',
+      performance: isEnglish
+        ? 'For PC builds we focus on performance, noise, airflow and stability. Good for workstations and home setups that need to stay fast.'
+        : 'Pri PC zostavách riešime výkon, hluk, airflow a stabilitu. Je to vhodné pre pracovné aj domáce zostavy, ktoré majú zostať rýchle.',
+      about: isEnglish
+        ? 'The site is built to explain IT in human language. The live lab page is the best place to test the chatbot behavior before a real launch.'
+        : 'Web je postavený tak, aby IT vysvetľoval ľudskou rečou. Live lab stránka je najlepšie miesto na testovanie chatbota pred ostrým nasadením.'
+    };
+
+    const keywords = [
+      { test: ['cena', 'cen', 'price', 'pricing', 'kolko', 'koľko', 'sum'], reply: copy.pricing },
+      { test: ['kontakt', 'formular', 'form', 'email', 'dopyt', 'kontaktovat', 'contact'], reply: copy.contact },
+      { test: ['smart home', 'home assistant', 'automatiz', 'svetl', 'heating', 'zigbee', 'matter', 'integrac', 'integraciu', 'integracie'], reply: copy.smartHome },
+      { test: ['nas', 'backup', 'zalo', 'zálo', 'disk', 'raid', 'recovery'], reply: copy.nas },
+      { test: ['pc', 'build', 'performance', 'workstation', 'hardware', 'tichy', 'výkon', 'vykon'], reply: copy.performance },
+      { test: ['sluzby', 'services', 'co robite', 'co ponukate', 'what do you do', 'service'], reply: copy.services },
+      { test: ['o vas', 'o nás', 'about', 'kto ste', 'kto si', 'about us'], reply: copy.about }
+    ];
+
+    const formatTime = () => new Intl.DateTimeFormat(isEnglish ? 'en-GB' : 'sk-SK', {
+      hour: '2-digit',
+      minute: '2-digit'
+    }).format(new Date());
+
+    const escapeText = (value) => value
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+
+    const normalize = (value) => value
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+
+    const addMessage = (role, text) => {
+      const item = document.createElement('div');
+      item.className = `bot-message ${role}`;
+      item.innerHTML = `<p>${escapeText(text)}</p><div class="bot-meta">${role === 'user' ? (isEnglish ? 'You' : 'Ty') : 'ProBot'} · ${formatTime()}</div>`;
+      botLog.appendChild(item);
+      botLog.scrollTop = botLog.scrollHeight;
+    };
+
+    const chooseReply = (input) => {
+      const normalized = normalize(input);
+      for (const rule of keywords) {
+        if (rule.test.some(term => normalized.includes(normalize(term)))) {
+          return rule.reply;
+        }
+      }
+
+      if (normalized.includes('dak') || normalized.includes('thank') || normalized.includes('vdaka')) {
+        return isEnglish ? 'You are welcome. If you want, I can also explain pricing or route you to the contact form.' : 'Rado sa stalo. Ak chceš, môžem vysvetliť ceny alebo ťa hneď poslať na formulár.';
+      }
+
+      return copy.fallback;
+    };
+
+    const ask = (value) => {
+      const trimmed = value.trim();
+      if (!trimmed) return;
+      addMessage('user', trimmed);
+      if (botInput) botInput.value = '';
+
+      window.setTimeout(() => {
+        addMessage('bot', chooseReply(trimmed));
+      }, 220);
+    };
+
+    addMessage('bot', copy.greeting);
+
+    if (botForm) {
+      botForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        ask(botInput ? botInput.value : '');
+      });
+    }
+
+    quickButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const query = button.getAttribute('data-bot-query') || '';
+        if (botInput) botInput.value = query;
+        ask(query);
+      });
+    });
+
+    if (botReset) {
+      botReset.addEventListener('click', () => {
+        botLog.innerHTML = '';
+        addMessage('bot', copy.greeting);
+        botInput?.focus();
+      });
+    }
+  }
+
   const path = location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('#mainNav a').forEach(a => {
     const href = a.getAttribute('href');

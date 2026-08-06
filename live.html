@@ -64,7 +64,7 @@
       <button id="themeBtn" class="btn" type="button">🌙</button>
       <button id="mobileBtn" class="btn" type="button">☰</button>
       <nav id="menu" class="menu">
-        <a href="#home">Domov</a><a href="#about">O nás</a><a href="#services">Služby</a><a href="#cases">Realizácie</a><a href="#pricing">Cenník</a><a href="#faq">FAQ</a><a href="#contact">Kontakt</a>
+        <a href="#home">Domov</a><a href="#about">O nás</a><a href="#services">Služby</a><a href="#cases">Realizácie</a><a href="#pricing">Cenník</a><a href="#faq">FAQ</a><a href="#assistant">ProBot</a><a href="#contact">Kontakt</a>
       </nav>
     </div>
   </div>
@@ -112,6 +112,53 @@
     <h2>FAQ</h2>
     <details open><summary>Ako dlho trvá realizácia?</summary><p class="muted">Závisí to od komplexity projektu. Presný časový plán vystavíme po analýze požiadavky.</p></details>
     <details open><summary>Viete to vysvetliť netechnickému klientovi?</summary><p class="muted">Áno, všetko odovzdávame zrozumiteľne a s jednoduchými postupmi.</p></details>
+  </section>
+
+  <section id="assistant" class="assistant-section">
+    <div class="assistant-copy">
+      <span class="tag">PROBOT • CHATBOT PRE RÝCHLU ORIENTÁCIU</span>
+      <h2>Chatbot, ktorý prekladá IT do normálnej reči.</h2>
+      <p class="muted">ProBot je testovací sprievodca pre lab verziu ProTechTB. Vie vysvetliť služby, orientačné ceny, odporučiť ďalší krok a v prípade potreby ťa hneď presmeruje na kontakt.</p>
+      <div class="icon-row">
+        <span class="chip">🏠 Home Assistant</span>
+        <span class="chip">💾 NAS & backup</span>
+        <span class="chip">🖥️ PC build</span>
+        <span class="chip">🔗 Integrácie</span>
+        <span class="chip">🧭 Kontakt a cenník</span>
+      </div>
+      <div class="mini assistant-note">
+        <b>Navrhnuté správanie</b>
+        <span>Krátke odpovede, tlačidlá na rýchle otázky a fallback na živý kontakt, keď je požiadavka nejasná.</span>
+      </div>
+    </div>
+
+    <div class="bot-shell card" data-bot-shell>
+      <div class="bot-top">
+        <div class="bot-brand">
+          <div class="bot-avatar" aria-hidden="true">PB</div>
+          <div>
+            <strong>ProBot</strong>
+            <div class="bot-status">online • lab preview</div>
+          </div>
+        </div>
+        <button class="btn" type="button" data-bot-reset>Reset</button>
+      </div>
+
+      <div class="bot-log" data-bot-log aria-live="polite" aria-label="Rozhovor s chatbotom"></div>
+
+      <form class="bot-form" data-bot-form>
+        <label class="sr-only" for="botQuestion">Napíš otázku pre ProBot</label>
+        <input id="botQuestion" name="botQuestion" type="text" placeholder="Skús napríklad: Koľko stojí NAS?" autocomplete="off" />
+        <button class="btn primary" type="submit">Poslať</button>
+      </form>
+
+      <div class="bot-quick" aria-label="Rýchle otázky">
+        <button class="bot-pill" type="button" data-bot-query="Koľko stojí Smart Start?">Koľko stojí Smart Start?</button>
+        <button class="bot-pill" type="button" data-bot-query="Čo viete o Home Assistante?">Home Assistant</button>
+        <button class="bot-pill" type="button" data-bot-query="Potrebujem NAS backup">NAS backup</button>
+        <button class="bot-pill" type="button" data-bot-query="Ako vás kontaktujem?">Kontakt</button>
+      </div>
+    </div>
   </section>
 
   <section id="contact">
